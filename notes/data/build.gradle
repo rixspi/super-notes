@@ -1,0 +1,18 @@
+import com.rixspi.dependencies.*
+
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'dependencies'
+}
+
+dependencies {
+    implementation Deps.Kotlin.stdlib
+    implementation Deps.Kotlin.serialization
+
+    implementation(project(Modules.Notes.domain))
+    implementation(project(Modules.Common.data))
+    implementation(project(Modules.Common.domain))
+
+    implementation(Deps.Kotlin.coroutines)
+}

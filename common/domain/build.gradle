@@ -1,0 +1,17 @@
+import com.rixspi.dependencies.Deps
+
+plugins {
+    id 'java-library'
+    id 'kotlin'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'kotlin-kapt'
+    id 'dependencies'
+}
+
+
+dependencies {
+    implementation Deps.Kotlin.stdlib
+    implementation Deps.Kotlin.serialization
+    implementation Deps.Kotlin.coroutines
+
+}
