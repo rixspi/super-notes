@@ -5,7 +5,7 @@ object Versions {
     const val kotlinSerialization = "1.0.1"
     const val coroutines = "1.4.0"
 
-    const val mvrx = "2.0.3-beta"
+    const val mvrx = "2.0.0"
 
     object Android {
         const val compileSdk = 30
@@ -26,7 +26,7 @@ object Versions {
     }
 
     object Hilt {
-        const val hilt = "2.28-alpha"
+        const val hilt = "2.31.1-alpha"
     }
 
     object Test {

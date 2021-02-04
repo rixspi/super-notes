@@ -2,7 +2,7 @@ package com.rixspi.dependencies
 
 object Deps {
 
-    val mvrx = "com.airbnb.android:mvrx:${Versions.mvrx}"
+    val mvrx = "com.airbnb.android:mavericks:${Versions.mvrx}"
 
     object Kotlin {
         val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"

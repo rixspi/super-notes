@@ -23,6 +23,39 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildFeatures {
+        // Enables Jetpack Compose for this module
+        compose = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        useIR = true
+    }
+
+    composeOptions {
+        @Suppress("DEPRECATION")
+        kotlinCompilerVersion = "1.4.21"
+        kotlinCompilerExtensionVersion = Android.compose
+    }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/license.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/notice.txt")
+        exclude("META-INF/ASL2.0")
+        exclude("META-INF/*.kotlin_module")
+    }
 }
 
 dependencies {
@@ -31,6 +64,17 @@ dependencies {
 
     android()
     firebase()
+    compose()
+    hilt()
+
+    implementation(project(Modules.Common.framework))
+    implementation(project(Modules.Common.data))
+    implementation(project(Modules.Common.domain))
+
+    implementation(project(Modules.Notes.domain))
+    implementation(project(Modules.Notes.data))
+
+    implementation(Deps.mvrx)
 
     implementation(Deps.Kotlin.coroutines)
     implementation(Deps.Kotlin.coroutinesAndroid)

@@ -10,8 +10,8 @@ pluginManagement {
 }
 
 include(":app")
-include(":framework")
 
+include(":common:framework")
 include(":common:data")
 include(":common:domain")
 include(":common:presentation")
@@ -19,4 +19,3 @@ include(":common:presentation")
 include(":notes:data")
 include(":notes:domain")
 include(":notes:presentation")
-

@@ -1,9 +1,10 @@
-package com.rixspi.framework.storage
+package com.rixspi.notes.framework.storage
 
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.rixspi.data.storage.NoteStorage
+import com.rixspi.data.dataSource.NoteFirestore
+import com.rixspi.data.model.NoteDto
 import com.rixspi.domain.Error
 import com.rixspi.domain.Result
 import com.rixspi.domain.model.Note
@@ -15,10 +16,10 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
 @ExperimentalCoroutinesApi
-class FirestoreNoteStorage(
+class NoteFirestoreImpl(
     private val notes: CollectionReference
-) : NoteStorage {
-    override fun getNotes(): Flow<Result<List<Note>>> = callbackFlow {
+) : NoteFirestore {
+    override fun getNotes(): Flow<Result<List<NoteDto>>> = callbackFlow {
 
         val subscription = notes.addSnapshotListener { value, e ->
             e?.let {
@@ -28,11 +29,11 @@ class FirestoreNoteStorage(
             }
             if (value?.isEmpty == false) {
                 val notes = value.documents.mapNotNull {
-                    it.toObject(Note::class.java)?.copy(id = it.id)
+                    it.toObject(NoteDto::class.java)?.copy(id = it.id)
                 }
                 offer(Result.Success(notes))
             } else {
-                offer(Result.Success(emptyList<Note>()))
+                offer(Result.Success(emptyList<NoteDto>()))
             }
         }
         awaitClose { subscription.remove() }

@@ -2,14 +2,12 @@ import com.rixspi.dependencies.*
 import com.rixspi.dependencies.Versions.Android
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    id("com.google.gms.google-services")  // Google Services plugin
 
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
     id("dependencies")
 }
 
@@ -18,23 +16,12 @@ android {
     buildToolsVersion(Android.buildTools)
     buildFeatures.viewBinding = true
     defaultConfig {
-        applicationId = Android.applicationId
         minSdkVersion(Android.minSdk)
         targetSdkVersion(Android.targetSdk)
         versionCode(Android.versionCode)
         versionName(Android.versionName)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        maybeCreate("release").apply {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
 
     buildFeatures {
@@ -54,7 +41,7 @@ android {
 
     composeOptions {
         @Suppress("DEPRECATION")
-        kotlinCompilerVersion = "1.4.21"
+                kotlinCompilerVersion = "1.4.21"
         kotlinCompilerExtensionVersion = Android.compose
     }
 
@@ -74,9 +61,15 @@ android {
 dependencies {
     implementation(Deps.Kotlin.stdlib)
     implementation(Deps.Kotlin.serialization)
-    hilt()
-    android()
-    compose()
 
+    android()
+    firebase()
+    compose()
+    implementation(Deps.mvrx)
+
+    implementation(Deps.Kotlin.coroutines)
+    implementation(Deps.Kotlin.coroutinesAndroid)
+
+    unitTest()
     androidTest()
 }

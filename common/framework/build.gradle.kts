@@ -28,14 +28,6 @@ dependencies {
     implementation(Deps.Kotlin.coroutines)
     implementation(Deps.Kotlin.coroutinesAndroid)
     hilt()
-
-    api(project(Modules.Common.domain))
-    api(project(Modules.Common.data))
-    api(project(Modules.Notes.domain))
-    api(project(Modules.Notes.data))
-
-    android()
     firebase()
-    unitTest()
-    androidTest()
+    implementation(Deps.mvrx)
 }
