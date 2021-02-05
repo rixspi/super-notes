@@ -1,7 +1,7 @@
 package com.rixspi.dependencies
 
 object Versions {
-    const val kotlin = "1.4.21"
+    const val kotlin = "1.4.21-2"
     const val kotlinSerialization = "1.0.1"
     const val coroutines = "1.4.0"
 
@@ -21,7 +21,7 @@ object Versions {
 
         const val constraint = "2.0.4"
 
-        const val compose = "1.0.0-alpha10"
+        const val compose = "1.0.0-alpha11"
         const val composeNavigation = "1.0.0-alpha06"
     }
 
@@ -40,6 +40,6 @@ object Versions {
         }
     }
 
-    const val firebase = "25.12.0"
+    const val firebase = "26.4.0"
     const val firebaseCoroutines = "1.4.2"
 }

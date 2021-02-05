@@ -4,17 +4,13 @@ import com.rixspi.dependencies.Versions.Android
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
-
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("kotlin-kapt")
+    kotlin("kapt")
     id("dependencies")
 }
 
 android {
     compileSdkVersion(Android.compileSdk)
     buildToolsVersion(Android.buildTools)
-    buildFeatures.viewBinding = true
     defaultConfig {
         minSdkVersion(Android.minSdk)
         targetSdkVersion(Android.targetSdk)
@@ -29,10 +25,6 @@ android {
         compose = true
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
 
     kotlinOptions {
         jvmTarget = "1.8"
@@ -40,8 +32,6 @@ android {
     }
 
     composeOptions {
-        @Suppress("DEPRECATION")
-                kotlinCompilerVersion = "1.4.21"
         kotlinCompilerExtensionVersion = Android.compose
     }
 
@@ -60,16 +50,9 @@ android {
 
 dependencies {
     implementation(Deps.Kotlin.stdlib)
-    implementation(Deps.Kotlin.serialization)
 
+    hilt()
     android()
-    firebase()
     compose()
     implementation(Deps.mvrx)
-
-    implementation(Deps.Kotlin.coroutines)
-    implementation(Deps.Kotlin.coroutinesAndroid)
-
-    unitTest()
-    androidTest()
 }

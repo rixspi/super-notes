@@ -1,4 +1,4 @@
-package com.rixspi
+package com.rixspi.supernotes
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

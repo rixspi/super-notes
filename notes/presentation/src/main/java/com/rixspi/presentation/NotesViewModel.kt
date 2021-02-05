@@ -1,8 +1,11 @@
 package com.rixspi.presentation
 
+import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.MavericksViewModel
 import com.airbnb.mvrx.MavericksViewModelFactory
+import com.rixspi.domain.Result
+import com.rixspi.domain.model.Note
 import com.rixspi.framework.di.AssistedViewModelFactory
 import com.rixspi.framework.di.hiltMavericksViewModelFactory
 import com.rixspi.notes.domain.interactors.CreateNote
@@ -11,9 +14,10 @@ import com.rixspi.notes.domain.repository.NoteRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.onEach
 
 data class NotesViewState(
-    val test: Int = 1
+    val notes: Async<Result<List<Note>>>
 ) : MavericksState
 
 class NotesViewModel @AssistedInject constructor(
@@ -23,7 +27,7 @@ class NotesViewModel @AssistedInject constructor(
 ) : MavericksViewModel<NotesViewState>(state) {
 
     init {
-
+        getNotes().execute { copy(notes = it) }
     }
 
     @AssistedFactory

@@ -17,7 +17,6 @@ fun <VM : MavericksViewModel<S>, S : MavericksState> VM.collectState(): S {
     return state
 }
 
-
 @InternalMavericksApi
 @Composable
 inline fun <reified VM : MavericksViewModel<S>, reified S : MavericksState> mavericksViewModel(): VM {

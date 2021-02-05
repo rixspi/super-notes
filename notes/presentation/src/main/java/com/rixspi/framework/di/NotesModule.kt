@@ -11,7 +11,7 @@ import com.rixspi.domain.model.Note
 import com.rixspi.notes.domain.interactors.CreateNote
 import com.rixspi.notes.domain.interactors.GetNotes
 import com.rixspi.notes.domain.repository.NoteRepository
-import com.rixspi.notes.framework.storage.NoteFirestoreImpl
+import com.rixspi.framework.storage.NoteFirestoreImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -4,7 +4,6 @@ import com.rixspi.dependencies.Versions.Android
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("com.google.gms.google-services")  // Google Services plugin
 
     id("org.jetbrains.kotlin.plugin.serialization")
@@ -53,8 +52,6 @@ android {
     }
 
     composeOptions {
-        @Suppress("DEPRECATION")
-        kotlinCompilerVersion = "1.4.21"
         kotlinCompilerExtensionVersion = Android.compose
     }
 
@@ -69,14 +66,18 @@ android {
         exclude("META-INF/ASL2.0")
         exclude("META-INF/*.kotlin_module")
     }
+
 }
 
 dependencies {
     implementation(Deps.Kotlin.stdlib)
-    implementation(Deps.Kotlin.serialization)
+   // implementation(Deps.Kotlin.serialization)
     hilt()
     android()
     compose()
+
+    implementation(project(Modules.Notes.presentation))
+    implementation(project(Modules.Common.presentation))
 
     androidTest()
 }
