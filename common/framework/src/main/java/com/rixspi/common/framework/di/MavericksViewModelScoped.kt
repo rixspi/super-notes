@@ -1,4 +1,4 @@
-package com.rixspi.framework.di
+package com.rixspi.common.framework.di
 
 import javax.inject.Scope
 

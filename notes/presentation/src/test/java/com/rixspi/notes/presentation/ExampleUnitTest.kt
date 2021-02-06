@@ -1,4 +1,4 @@
-package com.rixspi.presentation
+package com.rixspi.notes.presentation
 
 import org.junit.Test
 

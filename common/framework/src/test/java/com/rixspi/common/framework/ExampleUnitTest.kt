@@ -1,4 +1,4 @@
-package com.rixspi.framework
+package com.rixspi.notes.framework
 
 import org.junit.Test
 

@@ -51,6 +51,10 @@ android {
         useIR = true
     }
 
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = Android.compose
     }
@@ -75,6 +79,8 @@ dependencies {
     hilt()
     android()
     compose()
+
+    implementation(Deps.mvrx)
 
     implementation(project(Modules.Notes.presentation))
     implementation(project(Modules.Common.presentation))

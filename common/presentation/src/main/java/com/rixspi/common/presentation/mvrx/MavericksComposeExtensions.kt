@@ -1,4 +1,4 @@
-package com.rixspi.presentation.mvrx
+package com.rixspi.common.presentation.mvrx
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

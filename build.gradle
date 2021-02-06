@@ -22,6 +22,14 @@ allprojects {
         google()
         jcenter()
     }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            freeCompilerArgs += [
+                    "-XXLanguage:+InlineClasses",
+                    "-Xopt-in=org.mylibrary.OptInAnnotation"
+            ]
+        }
+    }
 }
 
 task clean(type: Delete) {

@@ -1,4 +1,4 @@
-package com.rixspi.framework.storage
+package com.rixspi.notes.framework.storage
 
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
