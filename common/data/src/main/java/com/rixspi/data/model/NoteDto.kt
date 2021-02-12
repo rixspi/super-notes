@@ -11,6 +11,7 @@ data class NoteDto(
     val backgroundColor: Long = 0,
     @SerialName(value = "bgImage")
     val backgroundImage: String = "",
+    val title: String = "",
     val childrenNotes: List<NoteDto> = emptyList(),
     val contentInfos: List<ContentInfoDto> = emptyList()
 )

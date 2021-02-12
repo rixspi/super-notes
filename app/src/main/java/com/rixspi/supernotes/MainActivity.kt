@@ -3,7 +3,12 @@ package com.rixspi.supernotes
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.setContent
-import com.rixspi.notes.presentation.MyComposable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
+import com.rixspi.notes.presentation.AddNote
+import com.rixspi.notes.presentation.NotesScreen
 import com.rixspi.supernotes.ui.styling.SuperNoteTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,9 +19,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent{
+        setContent {
+            val navController = rememberNavController()
             SuperNoteTheme {
-                MyComposable()
+
+                NavHost(navController = navController, startDestination = "notes") {
+                    composable("notes") {
+                        NotesScreen { navController.navigate("addNote") }
+                    }
+                    composable("addNote") {
+                        AddNote()
+                    }
+                }
             }
         }
     }

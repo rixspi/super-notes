@@ -6,8 +6,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.platform.AmbientLifecycleOwner
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavBackStackEntry
 import com.airbnb.mvrx.*
 
 
@@ -21,7 +24,7 @@ fun <VM : MavericksViewModel<S>, S : MavericksState> VM.collectState(): S {
 @Composable
 inline fun <reified VM : MavericksViewModel<S>, reified S : MavericksState> mavericksViewModel(): VM {
     val viewModelClass = VM::class
-    val viewModelContext = when (val lifecycleOwner = AmbientLifecycleOwner.current) {
+    val viewModelContext = when (val lifecycleOwner = LocalLifecycleOwner.current) {
         is Fragment -> {
             val activity = lifecycleOwner.requireActivity()
             val args = lifecycleOwner.arguments?.get(Mavericks.KEY_ARG)
@@ -31,9 +34,16 @@ inline fun <reified VM : MavericksViewModel<S>, reified S : MavericksState> mave
             val args = lifecycleOwner.intent.extras?.get(Mavericks.KEY_ARG)
             ActivityViewModelContext(lifecycleOwner, args)
         }
+        // TODO This for sure breaks scopes
+        is NavBackStackEntry -> {
+            val activity = LocalContext.current as FragmentActivity
+            val args = lifecycleOwner.arguments?.get(Mavericks.KEY_ARG)
+            ActivityViewModelContext(activity, args)
+        }
         else -> error("Unknown LifecycleOwner ${lifecycleOwner::class.simpleName}. Must be Fragment or Activity for now.")
     }
-    val activity = AmbientContext.current as? FragmentActivity ?: error("Composable is not hosted in a FragmentActivity")
+    // TODO This for sure breaks scopes
+    val activity = LocalLifecycleOwner.current as? FragmentActivity ?: LocalContext.current as? FragmentActivity ?: error("Composable is not hosted in a FragmentActivity")
     return remember(viewModelClass, activity) {
         val keyFactory = { viewModelClass.java.name }
         MavericksViewModelProvider.get(

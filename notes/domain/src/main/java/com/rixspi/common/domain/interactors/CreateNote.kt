@@ -1,4 +1,4 @@
-package com.rixspi.notes.domain.interactors
+package com.rixspi.common.domain.interactors
 
 import com.rixspi.domain.Result
 import com.rixspi.domain.interactor.SuspendUseCase

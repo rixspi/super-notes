@@ -62,4 +62,6 @@ fun DependencyHandlerScope.compose(){
     implementation(Deps.Android.Compose.material)
     implementation(Deps.Android.Compose.materialIcons)
     implementation(Deps.Android.Compose.materialIconsExtended)
+    implementation(Deps.Android.Compose.activity)
+    implementation(Deps.Android.Compose.activityKtx)
 }

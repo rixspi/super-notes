@@ -1,7 +1,7 @@
 package com.rixspi.dependencies
 
 object Versions {
-    const val kotlin = "1.4.21-2"
+    const val kotlin = "1.4.30"
     const val kotlinSerialization = "1.0.1"
     const val coroutines = "1.4.0"
 
@@ -18,11 +18,12 @@ object Versions {
 
         const val kore = "1.3.2"
         const val appCompat = "1.2.0"
+        const val androidxActivity = "1.3.0-alpha02"
 
         const val constraint = "2.0.4"
 
-        const val compose = "1.0.0-alpha11"
-        const val composeNavigation = "1.0.0-alpha06"
+        const val compose = "1.0.0-alpha12"
+        const val composeNavigation = "1.0.0-alpha07"
     }
 
     object Hilt {

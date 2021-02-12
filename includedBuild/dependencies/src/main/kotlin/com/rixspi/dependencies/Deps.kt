@@ -23,17 +23,26 @@ object Deps {
 
         object Compose {
             val ui = "androidx.compose.ui:ui:${Versions.Android.compose}"
+
             // Tooling support (Previews, etc.)
             val tooling = "androidx.compose.ui:ui-tooling:${Versions.Android.compose}"
+
             // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
             val foundation = "androidx.compose.foundation:foundation:${Versions.Android.compose}"
+
             // Material Design
             val material = "androidx.compose.material:material:${Versions.Android.compose}"
-            // Material design icons
-            val materialIcons = "androidx.compose.material:material-icons-core:${Versions.Android.compose}"
-            val materialIconsExtended = "androidx.compose.material:material-icons-extended:${Versions.Android.compose}"
 
-            val navigation = "androidx.navigation:navigation-compose:${Versions.Android.compose}"
+            // Material design icons
+            val materialIcons =
+                "androidx.compose.material:material-icons-core:${Versions.Android.compose}"
+            val materialIconsExtended =
+                "androidx.compose.material:material-icons-extended:${Versions.Android.compose}"
+
+            val activity = "androidx.activity:activity-compose:${Versions.Android.androidxActivity}"
+            val activityKtx = "androidx.activity:activity-ktx:${Versions.Android.androidxActivity}"
+            val navigation =
+                "androidx.navigation:navigation-compose:${Versions.Android.composeNavigation}"
 
         }
     }
@@ -44,11 +53,12 @@ object Deps {
 
         val auth = "com.google.firebase:firebase-auth-ktx"
         val firestore = "com.google.firebase:firebase-firestore-ktx"
-        val playServicesCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.firebaseCoroutines}"
+        val playServicesCoroutines =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.firebaseCoroutines}"
     }
 
-    object Hilt{
-        val hilt =  "com.google.dagger:hilt-android:${Versions.Hilt.hilt}"
+    object Hilt {
+        val hilt = "com.google.dagger:hilt-android:${Versions.Hilt.hilt}"
         val hiltProcessor = "com.google.dagger:hilt-android-compiler:${Versions.Hilt.hilt}"
     }
 

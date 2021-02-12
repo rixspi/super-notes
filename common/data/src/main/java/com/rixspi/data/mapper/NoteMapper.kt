@@ -13,7 +13,7 @@ fun mapNoteDto(
         id = id,
         backgroundColor = backgroundColor,
         backgroundImage = backgroundImage,
-        title = "",
+        title = title,
         childrenNotes = childrenNotes.map { mapNoteDto(it, contentInfoMapper) },
         contentInfos = contentInfoMapper(contentInfos)
     )

@@ -79,7 +79,7 @@ dependencies {
     hilt()
     android()
     compose()
-
+    implementation(Deps.Android.Compose.navigation)
     implementation(Deps.mvrx)
 
     implementation(project(Modules.Notes.presentation))
