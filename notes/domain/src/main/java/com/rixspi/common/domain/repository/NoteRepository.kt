@@ -1,4 +1,4 @@
-package com.rixspi.notes.domain.repository
+package com.rixspi.common.domain.repository
 
 import com.rixspi.domain.Result
 import com.rixspi.domain.model.Note
