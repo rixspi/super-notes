@@ -49,7 +49,6 @@ android {
 }
 
 dependencies {
-    implementation(Deps.Kotlin.stdlib)
     implementation(Deps.Kotlin.serialization)
 
    // android()

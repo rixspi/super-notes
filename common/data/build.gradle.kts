@@ -12,6 +12,5 @@ plugins {
 dependencies {
     implementation(project(Modules.Common.domain))
 
-    implementation(Deps.Kotlin.stdlib)
     implementation(Deps.Kotlin.serialization)
 }

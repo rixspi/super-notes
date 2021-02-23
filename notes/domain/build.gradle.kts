@@ -9,7 +9,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.Kotlin.stdlib)
     implementation(Deps.Kotlin.serialization)
 
     implementation(Deps.Kotlin.coroutines)

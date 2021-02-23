@@ -49,7 +49,6 @@ android {
 }
 
 dependencies {
-    implementation(Deps.Kotlin.stdlib)
 
     hilt()
     android()

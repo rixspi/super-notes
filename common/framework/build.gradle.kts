@@ -22,7 +22,6 @@ android {
 }
 
 dependencies {
-    implementation(Deps.Kotlin.stdlib)
     implementation(Deps.Kotlin.coroutinesAndroid)
     hilt()
     firebase()
