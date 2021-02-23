@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
-import com.rixspi.notes.presentation.AddNote
+import com.rixspi.notes.presentation.AddNoteScreen
 import com.rixspi.notes.presentation.NotesScreen
 import com.rixspi.supernotes.ui.styling.SuperNoteTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                         NotesScreen { navController.navigate("addNote") }
                     }
                     composable("addNote") {
-                        AddNote()
+                        AddNoteScreen { navController.navigateUp() }
                     }
                 }
             }

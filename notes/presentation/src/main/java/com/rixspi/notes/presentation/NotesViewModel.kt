@@ -18,21 +18,11 @@ data class NotesViewState(
 
 class NotesViewModel @AssistedInject constructor(
     @Assisted state: NotesViewState,
-    private val getNotes: GetNotes,
-    private val createNote: CreateNote
+    getNotes: GetNotes,
 ) : MavericksViewModel<NotesViewState>(state) {
 
     init {
         getNotes().execute { copy(notes = it) }
-    }
-
-
-    fun createNote(note: Note){
-        viewModelScope.launch {
-            createNote(CreateNote.Params(
-                note
-            ))
-        }
     }
 
     @AssistedFactory
