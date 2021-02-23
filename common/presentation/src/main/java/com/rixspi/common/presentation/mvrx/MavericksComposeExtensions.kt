@@ -20,7 +20,7 @@ fun <VM : MavericksViewModel<S>, S : MavericksState> VM.collectState(): S {
     return state
 }
 
-@InternalMavericksApi
+@OptIn(InternalMavericksApi::class)
 @Composable
 inline fun <reified VM : MavericksViewModel<S>, reified S : MavericksState> mavericksViewModel(): VM {
     val viewModelClass = VM::class
