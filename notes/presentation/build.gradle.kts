@@ -51,7 +51,7 @@ android {
 dependencies {
     implementation(Deps.Kotlin.serialization)
 
-   // android()
+    // android()
     firebase()
     compose()
     hilt()
