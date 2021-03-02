@@ -9,7 +9,7 @@ import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.rixspi.notes.presentation.AddNoteScreen
 import com.rixspi.notes.presentation.NotesScreen
-import com.rixspi.supernotes.ui.styling.SuperNoteTheme
+import com.rixspi.common.presentation.ui.styling.SuperNoteTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 

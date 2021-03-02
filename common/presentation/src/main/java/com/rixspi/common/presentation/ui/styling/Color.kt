@@ -1,4 +1,4 @@
-package com.rixspi.supernotes.ui.styling
+package com.rixspi.common.presentation.ui.styling
 
 import androidx.compose.ui.graphics.Color
 

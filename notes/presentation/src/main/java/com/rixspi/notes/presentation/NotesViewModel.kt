@@ -25,6 +25,12 @@ class NotesViewModel @AssistedInject constructor(
         getNotes().execute { copy(notes = it) }
     }
 
+    fun removeNote(note: Note) = setState {
+        val notes =
+            this.notes()?.invoke()?.toMutableList()?.apply { remove(note) }?.toList() ?: emptyList()
+        copy(notes = Success(Result.Success(notes)))
+    }
+
     @AssistedFactory
     interface Factory : AssistedViewModelFactory<NotesViewModel, NotesViewState> {
         override fun create(state: NotesViewState): NotesViewModel
