@@ -20,10 +20,6 @@ fun AddNoteScreen(
     val viewModel: AddNoteViewModel = mavericksViewModel()
     val state = viewModel.collectState()
 
-    // TODO I need highly mutable ui state store for unfinished notes or I can create a "temp" structure with data not yet confirmed
-    //  I prefer the first option, changes will be state driven, so adding an element to the list will update the view, same with
-    //  removing
-
     val note = state.note
 
     Scaffold(
