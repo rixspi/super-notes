@@ -3,9 +3,7 @@ package com.rixspi.notes.presentation
 
 import android.content.Context
 import android.widget.Toast
-import androidx.activity.contextaware.ContextAware
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,15 +16,14 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 
 import com.rixspi.common.presentation.mvrx.collectState
 import com.rixspi.common.presentation.mvrx.mavericksViewModel
-import com.rixspi.domain.model.ContentInfo
-import com.rixspi.domain.model.Note
+import com.rixspi.common.domain.model.ContentInfo
+import com.rixspi.common.domain.model.Note
 
 
 val padding = 4.dp

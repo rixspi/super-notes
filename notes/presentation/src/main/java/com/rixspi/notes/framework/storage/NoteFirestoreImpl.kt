@@ -7,7 +7,7 @@ import com.rixspi.data.dataSource.NoteFirestore
 import com.rixspi.data.model.NoteDto
 import com.rixspi.domain.Error
 import com.rixspi.domain.Result
-import com.rixspi.domain.model.Note
+import com.rixspi.common.domain.model.Note
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -15,10 +15,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 class NoteFirestoreImpl(
     private val notes: CollectionReference
 ) : NoteFirestore {
+
     override fun getNotes(): Flow<Result<List<NoteDto>>> = callbackFlow {
 
         val subscription = notes.addSnapshotListener { value, e ->

@@ -1,4 +1,4 @@
-package com.rixspi.domain.model
+package com.rixspi.common.domain.model
 
 
 import kotlinx.serialization.SerialName

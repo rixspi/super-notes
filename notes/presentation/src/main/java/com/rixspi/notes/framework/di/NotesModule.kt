@@ -7,7 +7,7 @@ import com.rixspi.data.mapper.mapList
 import com.rixspi.data.mapper.mapNoteDto
 import com.rixspi.data.model.NoteDto
 import com.rixspi.data.notes.NoteRepositoryImpl
-import com.rixspi.domain.model.Note
+import com.rixspi.common.domain.model.Note
 import com.rixspi.common.domain.interactors.CreateNote
 import com.rixspi.notes.domain.interactors.GetNotes
 import com.rixspi.common.domain.repository.NoteRepository

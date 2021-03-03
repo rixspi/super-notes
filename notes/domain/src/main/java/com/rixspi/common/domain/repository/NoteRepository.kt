@@ -1,7 +1,7 @@
 package com.rixspi.common.domain.repository
 
 import com.rixspi.domain.Result
-import com.rixspi.domain.model.Note
+import com.rixspi.common.domain.model.Note
 import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
