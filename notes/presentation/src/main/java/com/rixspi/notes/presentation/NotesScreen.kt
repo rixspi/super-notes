@@ -36,17 +36,17 @@ fun NotesScreen(
     val state = viewModel.collectState()
 
     Scaffold(
-        floatingActionButton = { Fab(goToAddNote) }
+        floatingActionButton = { FabButtonView(goToAddNote) }
     ) {
         // TODO Display no notes view
         state.notes()?.invoke()?.let {
-            NotesList(notes = it, onNoteClick = { viewModel.removeNote(it) })
+            NotesListView(notes = it, onNoteClick = { viewModel.removeNote(it) })
         }
     }
 }
 
 @Composable
-fun Fab(onClick: () -> Unit) {
+fun FabButtonView(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick
     ) {
@@ -57,7 +57,7 @@ fun Fab(onClick: () -> Unit) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Note(
+fun NoteView(
     note: Note,
     onNoteClick: (Note) -> Unit = {}
 ) {
@@ -79,10 +79,10 @@ fun Note(
             modifier = Modifier.padding(padding)
         ) {
             Text(note.title, modifier = Modifier.padding(vertical = padding))
-            ContentInfosList(contentInfos = note.contentInfos)
+            ContentInfosListView(contentInfos = note.contentInfos)
             Column {
                 note.childrenNotes.forEach {
-                    Note(note = it, onNoteClick = {})
+                    NoteView(note = it, onNoteClick = {})
                 }
             }
         }
@@ -93,19 +93,19 @@ fun showMessage(context: Context, message:String){
 }
 
 @Composable
-fun NotesList(
+fun NotesListView(
     notes: List<Note>,
     onNoteClick: (Note) -> Unit = {}
 ) {
     LazyColumn {
         items(notes.count(), itemContent = { index ->
-            Note(notes[index], onNoteClick)
+            NoteView(notes[index], onNoteClick)
         })
     }
 }
 
 @Composable
-fun ContentInfo(content: ContentInfo) {
+fun ContentInfoView(content: ContentInfo) {
     Card(
         shape = RoundedCornerShape(padding)
     ) {
@@ -120,10 +120,10 @@ fun ContentInfo(content: ContentInfo) {
 }
 
 @Composable
-fun ContentInfosList(contentInfos: List<ContentInfo>) {
+fun ContentInfosListView(contentInfos: List<ContentInfo>) {
     Column() {
         contentInfos.forEach { content ->
-            ContentInfo(content = content)
+            ContentInfoView(content = content)
         }
     }
 }
@@ -138,7 +138,7 @@ fun NotePreview() {
         ContentInfo(text = "Content info 2"),
         ContentInfo(text = "Content info 3"),
     )
-    Note(
+    NoteView(
         note = Note(
             title = "Testsass",
             backgroundColor = 0x989a82,
@@ -176,5 +176,5 @@ fun NotesListPreview() {
         childrenNotes = listOf(note1, note2)
     )
 
-    NotesList(notes = listOf(note1, note2, note3))
+    NotesListView(notes = listOf(note1, note2, note3))
 }

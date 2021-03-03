@@ -23,7 +23,7 @@ fun AddNoteScreen(
     val note = state.note
 
     Scaffold(
-        floatingActionButton = { Fab {
+        floatingActionButton = { FabButtonView {
             viewModel.createNote()
             noteAdded()
         } }
