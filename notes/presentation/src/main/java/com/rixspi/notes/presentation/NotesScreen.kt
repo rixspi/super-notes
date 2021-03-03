@@ -24,6 +24,8 @@ import com.rixspi.common.presentation.mvrx.collectState
 import com.rixspi.common.presentation.mvrx.mavericksViewModel
 import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.domain.model.Note
+import com.rixspi.notes.presentation.model.ContentInfoListItem
+import com.rixspi.notes.presentation.model.NoteListItem
 
 
 val padding = 4.dp
@@ -39,7 +41,7 @@ fun NotesScreen(
         floatingActionButton = { FabButtonView(goToAddNote) }
     ) {
         // TODO Display no notes view
-        state.notes()?.invoke()?.let {
+        state.notes()?.let {
             NotesListView(notes = it, onNoteClick = { viewModel.removeNote(it) })
         }
     }
@@ -58,8 +60,8 @@ fun FabButtonView(onClick: () -> Unit) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteView(
-    note: Note,
-    onNoteClick: (Note) -> Unit = {}
+    note: NoteListItem,
+    onNoteClick: (NoteListItem) -> Unit = {}
 ) {
     Card(
         shape = RoundedCornerShape(padding),
@@ -79,7 +81,7 @@ fun NoteView(
             modifier = Modifier.padding(padding)
         ) {
             Text(note.title, modifier = Modifier.padding(vertical = padding))
-            ContentInfosListView(contentInfos = note.contentInfos)
+            ContentInfosListView(contentInfos = note.contentInfoListElement)
             Column {
                 note.childrenNotes.forEach {
                     NoteView(note = it, onNoteClick = {})
@@ -88,14 +90,15 @@ fun NoteView(
         }
     }
 }
-fun showMessage(context: Context, message:String){
+
+fun showMessage(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
 
 @Composable
 fun NotesListView(
-    notes: List<Note>,
-    onNoteClick: (Note) -> Unit = {}
+    notes: List<NoteListItem>,
+    onNoteClick: (NoteListItem) -> Unit = {}
 ) {
     LazyColumn {
         items(notes.count(), itemContent = { index ->
@@ -105,7 +108,7 @@ fun NotesListView(
 }
 
 @Composable
-fun ContentInfoView(content: ContentInfo) {
+fun ContentInfoView(content: ContentInfoListItem) {
     Card(
         shape = RoundedCornerShape(padding)
     ) {
@@ -120,7 +123,7 @@ fun ContentInfoView(content: ContentInfo) {
 }
 
 @Composable
-fun ContentInfosListView(contentInfos: List<ContentInfo>) {
+fun ContentInfosListView(contentInfos: List<ContentInfoListItem>) {
     Column() {
         contentInfos.forEach { content ->
             ContentInfoView(content = content)
@@ -134,15 +137,16 @@ fun ContentInfosListView(contentInfos: List<ContentInfo>) {
 @Composable
 fun NotePreview() {
     val contentInfos = listOf(
-        ContentInfo(text = "Content info 1"),
-        ContentInfo(text = "Content info 2"),
-        ContentInfo(text = "Content info 3"),
+        ContentInfoListItem(id = "1", text = "Content info 1"),
+        ContentInfoListItem(id = "2", text = "Content info 2"),
+        ContentInfoListItem(id = "3", text = "Content info 3"),
     )
     NoteView(
-        note = Note(
+        note = NoteListItem(
+            id = "1",
             title = "Testsass",
             backgroundColor = 0x989a82,
-            contentInfos = contentInfos
+            contentInfoListElement = contentInfos
         )
     )
 }
@@ -153,26 +157,29 @@ fun NotePreview() {
 @Composable
 fun NotesListPreview() {
     val contentInfos = listOf(
-        ContentInfo(text = "Content info 1"),
-        ContentInfo(text = "Content info 2"),
-        ContentInfo(text = "Content info 3"),
+        ContentInfoListItem(id = "1", text = "Content info 1"),
+        ContentInfoListItem(id = "2", text = "Content info 2"),
+        ContentInfoListItem(id = "3", text = "Content info 3"),
     )
-    val note1 = Note(
+    val note1 = NoteListItem(
+        id = "1",
         title = "Testsass",
         backgroundColor = 0x989a82,
-        contentInfos = contentInfos
+        contentInfoListElement= contentInfos
     )
 
-    val note2 = Note(
+    val note2 = NoteListItem(
+        id = "2",
         title = "Testsass",
         backgroundColor = 0x989a82,
-        contentInfos = contentInfos
+        contentInfoListElement = contentInfos
     )
 
-    val note3 = Note(
+    val note3 = NoteListItem(
+        id = "3",
         title = "Note with children",
         backgroundColor = 4287617663,
-        contentInfos = contentInfos,
+        contentInfoListElement = contentInfos,
         childrenNotes = listOf(note1, note2)
     )
 

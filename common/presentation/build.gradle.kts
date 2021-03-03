@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Common.domain))
 
     hilt()
     android()
