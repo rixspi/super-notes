@@ -14,7 +14,7 @@ data class AddNoteViewState(
     fun updateContentInfo(index: Int, text: String): AddNoteViewState {
         val modifiedContentList = note.contentInfos.toMutableList()
             .apply {
-                if (index < note.contentInfos.lastIndex) {
+                if (index <= note.contentInfos.lastIndex) {
                     this[index] = com.rixspi.common.domain.model.ContentInfo(text = text)
                 }
             }.toList()
