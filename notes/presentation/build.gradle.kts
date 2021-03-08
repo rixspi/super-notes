@@ -65,7 +65,7 @@ dependencies {
     implementation(project(Modules.Notes.data))
 
     implementation(Deps.mvrx)
-
+    implementation(Deps.mvrxCompose)
     //implementation(Deps.Kotlin.coroutinesAndroid)
 
     unitTest()

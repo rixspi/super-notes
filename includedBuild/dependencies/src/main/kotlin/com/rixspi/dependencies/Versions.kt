@@ -5,7 +5,8 @@ object Versions {
     const val kotlinSerialization = "1.0.1"
     const val coroutines = "1.4.0"
 
-    const val mvrx = "2.0.0"
+    const val mvrx = "2.1.0"
+    const val mvrxCompose = "2.1.0-alpha01"
 
     object Android {
         const val compileSdk = 30

@@ -19,11 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 
-import com.rixspi.common.presentation.mvrx.collectState
-import com.rixspi.common.presentation.mvrx.mavericksViewModel
-import com.rixspi.common.domain.model.ContentInfo
-import com.rixspi.common.domain.model.Note
 import com.rixspi.notes.presentation.model.ContentInfoListItem
 import com.rixspi.notes.presentation.model.NoteListItem
 
@@ -35,7 +33,7 @@ fun NotesScreen(
     goToAddNote: () -> Unit
 ) {
     val viewModel: NotesViewModel = mavericksViewModel()
-    val state = viewModel.collectState()
+    val state = viewModel.collectAsState().value
 
     Scaffold(
         floatingActionButton = { FabButtonView(goToAddNote) }

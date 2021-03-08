@@ -9,8 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.rixspi.common.presentation.mvrx.collectState
-import com.rixspi.common.presentation.mvrx.mavericksViewModel
+import com.airbnb.mvrx.compose.collectAsState
+import com.airbnb.mvrx.compose.mavericksViewModel
 
 
 @Composable
@@ -18,9 +18,9 @@ fun AddNoteScreen(
     noteAdded: () -> Unit
 ) {
     val viewModel: AddNoteViewModel = mavericksViewModel()
-    val state = viewModel.collectState()
+    val state = viewModel.collectAsState()
 
-    val note = state.note
+    val note = state.value.note
 
     Scaffold(
         floatingActionButton = { FabButtonView {
