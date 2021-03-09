@@ -4,7 +4,8 @@ import com.airbnb.mvrx.MavericksState
 import com.rixspi.common.domain.model.Note
 
 data class AddNoteViewState(
-    val note: Note = Note(contentInfos = listOf(com.rixspi.common.domain.model.ContentInfo()))
+    val note: Note = Note(contentInfos = listOf(com.rixspi.common.domain.model.ContentInfo())),
+    val added: Boolean = false
 ) : MavericksState {
     fun setTitle(title: String): AddNoteViewState = copy(note = note.copy(title = title))
 

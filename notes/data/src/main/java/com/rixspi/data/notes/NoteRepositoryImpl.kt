@@ -23,4 +23,7 @@ class NoteRepositoryImpl(
         }
 
     override suspend fun createNote(note: Note): Result<String> = noteFirestore.createNote(note)
+
+    override suspend fun deleteNote(noteId: String): Result<String> =
+        noteFirestore.deleteNote(noteId)
 }

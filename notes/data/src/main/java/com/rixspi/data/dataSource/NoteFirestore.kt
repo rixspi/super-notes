@@ -13,4 +13,6 @@ interface NoteFirestore {
     fun getNotes(): Flow<Result<List<NoteDto>>>
 
     suspend fun createNote(note: Note): Result<String>
+
+    suspend fun deleteNote(noteId: String): Result<String>
 }

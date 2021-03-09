@@ -2,6 +2,7 @@ package com.rixspi.notes.framework.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.rixspi.common.domain.interactors.CreateNote
+import com.rixspi.common.domain.interactors.DeleteNote
 import com.rixspi.common.domain.interactors.GetNotes
 import com.rixspi.common.domain.model.Note
 import com.rixspi.common.domain.repository.NoteRepository
@@ -54,4 +55,7 @@ object NotesModule {
 
     @Provides
     fun provideCreateNote(noteReader: NoteRepository): CreateNote = CreateNote(noteReader)
+
+    @Provides
+    fun provideDeleteNote(noteReader: NoteRepository): DeleteNote = DeleteNote(noteReader)
 }

@@ -22,11 +22,16 @@ fun AddNoteScreen(
 
     val note = state.value.note
 
+    if (state.value.added) {
+        noteAdded()
+    }
+
     Scaffold(
-        floatingActionButton = { FabButtonView {
-            viewModel.createNote()
-            noteAdded()
-        } }
+        floatingActionButton = {
+            FabButtonView {
+                viewModel.createNote()
+            }
+        }
     ) {
         LazyColumn {
             item {

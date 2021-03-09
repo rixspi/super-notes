@@ -30,17 +30,10 @@ class AddNoteViewModel @AssistedInject constructor(
 
     fun removeContentInfo() = setState { removeContentInfo() }
 
-    fun removeNote(note: Note) {
-//        setState {
-//            copy(notes = notes - note)
-//        }
-    }
-
     fun createNote() = withState { state ->
         createNote.execute(
-            params = CreateNote.Params(state.note),
-            mapper = {}
-        ) { this }
+            params = CreateNote.Params(state.note)
+        ) { copy(added = true) }
     }
 
     @AssistedFactory

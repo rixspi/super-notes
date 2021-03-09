@@ -1,6 +1,7 @@
 package com.rixspi.notes.presentation
 
 import com.airbnb.mvrx.*
+import com.rixspi.common.domain.interactors.DeleteNote
 import com.rixspi.common.domain.model.Note
 import com.rixspi.common.framework.di.AssistedViewModelFactory
 import com.rixspi.common.framework.di.hiltMavericksViewModelFactory
@@ -24,6 +25,7 @@ data class NotesViewState(
 class NotesViewModel @AssistedInject constructor(
     @Assisted state: NotesViewState,
     getNotes: GetNotes,
+    private val deleteNote: DeleteNote
 ) : BaseViewModel<NotesViewState>(state) {
 
 
@@ -35,10 +37,11 @@ class NotesViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeNote(note: NoteListItem) = setState {
-        val notes =
-            this.notes()?.toMutableList()?.apply { remove(note) }?.toList() ?: emptyList()
-        copy(notes = Success(notes))
+    fun removeNote(note: NoteListItem) = withState {
+        deleteNote.execute(
+            params = DeleteNote.Params(note.id),
+            mapper = {},
+        ) { this }
     }
 
     @AssistedFactory

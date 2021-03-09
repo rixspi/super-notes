@@ -18,6 +18,16 @@ open class BaseViewModel<S : MavericksState>(
     private val initialState: S
 ) : MavericksViewModel<S>(initialState) {
 
+    private fun <T> Result<T>.toAsync(): Async<T> = fold(
+        error = {
+            // TODO Change this hardcoded exception
+            Fail(IllegalStateException())
+        },
+        success = {
+            Success(it)
+        }
+    )
+
     private fun <T, A> Result<T>.toAsync(mapper: ((T) -> A)): Async<A> = fold(
         error = {
             // TODO Change this hardcoded exception
@@ -27,7 +37,6 @@ open class BaseViewModel<S : MavericksState>(
             Success(mapper(it))
         }
     )
-
 
     protected fun <A, T : Result<A>, V> Flow<T>.execute(
         dispatcher: CoroutineDispatcher? = null,
@@ -90,13 +99,43 @@ open class BaseViewModel<S : MavericksState>(
         }
     }
 
-    protected fun <A,B,V>SuspendUseCase<A,B>.execute(
+    @JvmName("executeJava")
+    protected fun <A, T : Result<A>> (suspend () -> T).execute(
+        dispatcher: CoroutineDispatcher? = null,
+        retainValue: KProperty1<S, Async<A>>? = null,
+        reducer: S.(Async<A>) -> S
+    ): Job {
+        val blockExecutions = config.onExecute(this@BaseViewModel)
+        if (blockExecutions != MavericksViewModelConfig.BlockExecutions.No) {
+            if (blockExecutions == MavericksViewModelConfig.BlockExecutions.WithLoading) {
+                setState { reducer(Loading()) }
+            }
+            // Simulate infinite loading
+            return viewModelScope.launch { delay(Long.MAX_VALUE) }
+        }
+
+        setState { reducer(Loading(value = retainValue?.get(this)?.invoke())) }
+
+        return viewModelScope.launch(dispatcher ?: EmptyCoroutineContext) {
+            try {
+                val result = invoke()
+                setState { reducer(result.toAsync()) }
+            } catch (e: CancellationException) {
+                @Suppress("RethrowCaughtException")
+                throw e
+            } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+                setState { reducer(Fail(e, value = retainValue?.get(this)?.invoke())) }
+            }
+        }
+    }
+
+    protected fun <A, B, V> SuspendUseCase<A, B>.execute(
         dispatcher: CoroutineDispatcher? = null,
         retainValue: KProperty1<S, Async<V>>? = null,
         mapper: ((B) -> V),
         params: A,
         reducer: S.(Async<V>) -> S
-    ){
+    ) {
         suspend { this(parameters = params) }.execute(
             dispatcher = dispatcher,
             retainValue = retainValue,
@@ -105,35 +144,15 @@ open class BaseViewModel<S : MavericksState>(
         )
     }
 
-    private fun <V> handleError(error: Error, stateReducer: S.(Async<V>) -> S) {
-        // TODO Hardcoded error
-        setState { stateReducer(Fail(IllegalStateException("Remember to change this"))) }
-    }
-
-    private fun <T : Any, V> handleResult(
-        result: Result<T>,
-        mapper: ((T) -> V),
-        stateReducer: S.(Async<V>) -> S
+    protected fun <A, B> SuspendUseCase<A, B>.execute(
+        dispatcher: CoroutineDispatcher? = null,
+        params: A,
+        reducer: S.(Async<B>) -> S
     ) {
-        result.fold(
-            error = { handleError(it, stateReducer) },
-            success = {
-                val success = Success(mapper(it))
-                setState { stateReducer(success) }
-            }
-        )
-    }
-
-    private fun <T : Any> handleResult(
-        result: Result<T>,
-        stateReducer: S.(Async<T>) -> S
-    ) {
-        result.fold(
-            error = { handleError(it, stateReducer) },
-            success = {
-                val success = Success(it)
-                setState { stateReducer(success) }
-            }
+        suspend { this(parameters = params) }.execute(
+            dispatcher = dispatcher,
+            retainValue = null,
+            reducer = reducer
         )
     }
 

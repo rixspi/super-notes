@@ -48,4 +48,13 @@ class NoteFirestoreImpl(
             Result.Failure(Error.UnspecifiedError)
         }
     }
+
+    override suspend fun deleteNote(noteId: String): Result<String> {
+        return try {
+            val sth = notes.document(noteId).delete()
+            Result.Success(noteId)
+        } catch (e: FirebaseFirestoreException) {
+            Result.Failure(Error.UnspecifiedError)
+        }
+    }
 }
