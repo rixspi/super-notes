@@ -32,6 +32,8 @@ object Versions {
     }
 
     object Test {
+        const val mockk = "1.10.6"
+
         object Unit {
             const val junit = "4.13.1"
         }

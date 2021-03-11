@@ -3,16 +3,13 @@ package com.rixspi.domain
 import java.lang.Exception
 
 
-sealed class Error {
-    object UnspecifiedError: Error()
-
-
+sealed class Error(open val throwable: Throwable) {
+    data class UnspecifiedError(override val throwable: Throwable) : Error(throwable)
 }
 
-fun Exception.toError(): Error{
-    return Error.UnspecifiedError
+fun Exception.toError(): Error {
+    return Error.UnspecifiedError(this)
 }
-
 
 sealed class Result<out T> {
 
@@ -98,6 +95,5 @@ inline fun <T> safeCall(call: () -> T): Result<T> =
     try {
         Result.Success(call.invoke())
     } catch (exception: Exception) {
-        // TODO Handle exceptions
-        Result.Failure(Error.UnspecifiedError)
+        Result.Failure(exception.toError())
     }

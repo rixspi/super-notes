@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.rixspi.domain.util.empty
 
 import com.rixspi.notes.presentation.model.ContentInfoListItem
 import com.rixspi.notes.presentation.model.NoteListItem
@@ -50,7 +51,8 @@ fun FabButtonView(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick
     ) {
-        Icon(Icons.Filled.Favorite, contentDescription = "")
+        // TODO Provide description
+        Icon(Icons.Filled.Favorite, contentDescription = String.empty)
     }
 }
 

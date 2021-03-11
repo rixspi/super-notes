@@ -11,6 +11,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
+import com.rixspi.domain.util.empty
 
 
 @Composable
@@ -58,7 +59,7 @@ fun AddNoteScreen(
                         }
                     }
                 } else {
-                    val contentInfo = note.contentInfos[index].text ?: ""
+                    val contentInfo = note.contentInfos[index].text ?: String.empty
                     TextInput(initText = contentInfo, label = "Note content") {
                         viewModel.updateContentInfo(index = index, text = it)
                     }
@@ -71,7 +72,7 @@ fun AddNoteScreen(
 @Composable
 fun TextInput(
     label: String,
-    initText: String = "",
+    initText: String = String.empty,
     onChange: (String) -> Unit = {}
 ) {
     val (text, setText) = remember { mutableStateOf(TextFieldValue(initText)) }

@@ -14,4 +14,8 @@ dependencies {
     implementation(Deps.Kotlin.coroutines)
 
     implementation(project(Modules.Common.domain))
+
+    implementation(Deps.Test.Unit.junit)
+    implementation(Deps.Test.Unit.coroutines)
+    implementation(Deps.Test.Unit.mockk)
 }

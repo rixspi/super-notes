@@ -8,6 +8,8 @@ import com.rixspi.data.model.NoteDto
 import com.rixspi.domain.Error
 import com.rixspi.domain.Result
 import com.rixspi.common.domain.model.Note
+import com.rixspi.domain.toError
+import com.rixspi.domain.util.empty
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -24,8 +26,8 @@ class NoteFirestoreImpl(
 
         val subscription = notes.addSnapshotListener { value, e ->
             e?.let {
-                offer(Result.Failure(Error.UnspecifiedError))
-                Log.e("Firebase error", it.localizedMessage ?: "")
+                offer(Result.Failure(it.toError()))
+                Log.e("Firebase error", it.localizedMessage ?: String.empty)
                 return@addSnapshotListener
             }
             if (value?.isEmpty == false) {
@@ -45,7 +47,7 @@ class NoteFirestoreImpl(
             val sth = notes.add(note).await()
             Result.Success(sth.id)
         } catch (e: FirebaseFirestoreException) {
-            Result.Failure(Error.UnspecifiedError)
+            Result.Failure(e.toError())
         }
     }
 
@@ -54,7 +56,7 @@ class NoteFirestoreImpl(
             val sth = notes.document(noteId).delete()
             Result.Success(noteId)
         } catch (e: FirebaseFirestoreException) {
-            Result.Failure(Error.UnspecifiedError)
+            Result.Failure(e.toError())
         }
     }
 }

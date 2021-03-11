@@ -1,6 +1,7 @@
 package com.rixspi.notes.presentation.mapper
 
 import com.rixspi.common.domain.model.ContentInfo
+import com.rixspi.domain.util.empty
 import com.rixspi.notes.presentation.model.ContentInfoListItem
 
 fun mapContentInfo(
@@ -12,7 +13,7 @@ fun mapContentInfo(
         top = top,
         start = start,
         end = end,
-        image = image ?: "",
-        text = text ?: ""
+        image = image ?: String.empty,
+        text = text ?: String.empty
     )
 }
