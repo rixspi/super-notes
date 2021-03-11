@@ -4,6 +4,7 @@ import com.rixspi.common.domain.model.Note
 import com.rixspi.common.domain.repository.NoteRepository
 import com.rixspi.domain.Error
 import com.rixspi.domain.Result
+import com.rixspi.domain.toError
 import com.rixspi.domain.util.empty
 import io.mockk.coEvery
 import io.mockk.every
@@ -18,7 +19,6 @@ import java.lang.IllegalStateException
 
 class CreateNoteTest {
     private lateinit var createNote: CreateNote
-
     private val noteRepository: NoteRepository = mockk(relaxed = true)
 
     @Before
@@ -32,11 +32,13 @@ class CreateNoteTest {
     @Test
     fun `when creation is successful return note id as a string`() {
         runBlocking {
-            coEvery { noteRepository.createNote(Note()) } returns Result.Success(String.empty)
+            val note = Note()
+            val success = Result.Success(note.id)
+            coEvery { noteRepository.createNote(note) } returns success
 
-            val result = createNote(CreateNote.Params(note = Note()))
+            val result = createNote(CreateNote.Params(note = note))
 
-            assertEquals(Result.Success(String.empty), result)
+            assertEquals(success, result)
         }
     }
 
@@ -44,11 +46,13 @@ class CreateNoteTest {
     fun `when creation is unsuccessful return meaningful error`() {
         runBlocking {
             val exception = IllegalStateException()
-            coEvery { noteRepository.createNote(Note()) } throws exception
+            val note = Note()
 
-            val result = createNote(CreateNote.Params(note = Note()))
+            coEvery { noteRepository.createNote(note) } throws exception
 
-            assertEquals(Result.Failure(Error.UnspecifiedError(exception)), result)
+            val result = createNote(CreateNote.Params(note = note))
+
+            assertEquals(Result.Failure(exception.toError()), result)
         }
     }
 }
