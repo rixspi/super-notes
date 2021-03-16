@@ -51,7 +51,6 @@ class GetNotesTest {
     @Test
     fun `when getting is unsuccessful return meaningful error`() {
         runBlocking {
-            val note = Note(id = "note")
             val failure = Result.Failure(IllegalStateException().toError())
             coEvery { noteRepository.getNotes() } returns flowOf(failure)
 
