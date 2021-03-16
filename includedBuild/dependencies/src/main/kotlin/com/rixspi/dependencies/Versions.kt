@@ -33,6 +33,7 @@ object Versions {
 
     object Test {
         const val mockk = "1.10.6"
+        const val flowTurbine = "0.4.1"
 
         object Unit {
             const val junit = "4.13.1"

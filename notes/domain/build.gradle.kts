@@ -18,4 +18,5 @@ dependencies {
     implementation(Deps.Test.Unit.junit)
     implementation(Deps.Test.Unit.coroutines)
     implementation(Deps.Test.Unit.mockk)
+    implementation(Deps.Test.Unit.flowTurbine)
 }

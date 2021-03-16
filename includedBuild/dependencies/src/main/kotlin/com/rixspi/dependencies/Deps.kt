@@ -68,7 +68,7 @@ object Deps {
             const val junit = "junit:junit:${Versions.Test.Unit.junit}"
             const val coroutines ="org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
             const val mockk = "io.mockk:mockk:${Versions.Test.mockk}"
-
+            const val flowTurbine = "app.cash.turbine:turbine:${Versions.Test.flowTurbine}"
         }
 
         object Android {
