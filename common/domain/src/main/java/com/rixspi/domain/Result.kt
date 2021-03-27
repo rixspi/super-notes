@@ -3,8 +3,10 @@ package com.rixspi.domain
 import java.lang.Exception
 
 
-sealed class Error(open val throwable: Throwable) {
-    data class UnspecifiedError(override val throwable: Throwable) : Error(throwable)
+sealed class Error(open val throwable: Throwable? = null) {
+    data class UnspecifiedError(override val throwable: Throwable? = null) : Error(throwable)
+
+    data class ElementNotFound(override val throwable: Throwable? = null): Error(throwable)
 }
 
 fun Exception.toError(): Error {

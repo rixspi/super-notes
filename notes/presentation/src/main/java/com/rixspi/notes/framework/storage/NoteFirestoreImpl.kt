@@ -23,7 +23,6 @@ class NoteFirestoreImpl(
 ) : NoteFirestore {
 
     override fun getNotes(): Flow<Result<List<NoteDto>>> = callbackFlow {
-
         val subscription = notes.addSnapshotListener { value, e ->
             e?.let {
                 offer(Result.Failure(it.toError()))
