@@ -69,7 +69,9 @@ class NoteRepositoryImplWithChannelsTest : NoteRepositoryTest() {
     )
 
     /**
-     * 
+     * Assuming that there are two consumers for the 'notesChannel' in the above impl of the
+     * 'NoteFireStore' when using this kind of channel (Conflated), when consumer will consume the event,
+     * it's no longer in that channel, so the second consumer will not receive it
      */
     override fun assertionForTwoConsumers(expected: Any?, actual: Any?) {
         assertNotEquals(expected, actual)
