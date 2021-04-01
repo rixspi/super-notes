@@ -31,6 +31,6 @@ data class AddNoteViewState(
     fun addNote(note: Note): AddNoteViewState =
         copy(note = note.copy(childrenNotes = note.childrenNotes + note))
 
-    fun remoteNote(note: Note): AddNoteViewState =
+    fun removeNote(note: Note): AddNoteViewState =
         copy(note = note.copy(childrenNotes = note.childrenNotes - note))
 }

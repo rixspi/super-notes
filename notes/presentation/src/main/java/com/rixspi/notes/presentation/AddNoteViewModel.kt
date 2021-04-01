@@ -17,6 +17,16 @@ class AddNoteViewModel @AssistedInject constructor(
     private val createNote: CreateNote
 ) : BaseViewModel<AddNoteViewState>(state) {
 
+    fun addNote(){
+        setState {
+            addNote(Note())
+        }
+    }
+
+    fun removeNote(){
+        // TODO
+    }
+
     fun updateTitle(title: String) {
         setState {
             setTitle(title = title)
