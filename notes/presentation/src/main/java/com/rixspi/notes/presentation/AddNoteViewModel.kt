@@ -5,6 +5,7 @@ import com.rixspi.common.domain.model.Note
 import com.rixspi.common.framework.di.AssistedViewModelFactory
 import com.rixspi.common.framework.di.hiltMavericksViewModelFactory
 import com.rixspi.common.domain.interactors.CreateNote
+import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.presentation.BaseViewModel
 import com.rixspi.domain.Result
 import dagger.assisted.Assisted
@@ -19,7 +20,7 @@ class AddNoteViewModel @AssistedInject constructor(
 
     fun addNote(){
         setState {
-            addNote(Note())
+            addNote(Note(contentInfos = listOf(ContentInfo())))
         }
     }
 

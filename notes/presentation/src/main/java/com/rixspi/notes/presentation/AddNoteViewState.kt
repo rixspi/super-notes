@@ -28,8 +28,8 @@ data class AddNoteViewState(
                 contentInfos = note.contentInfos.toMutableList().apply { removeLast() })
         )
 
-    fun addNote(note: Note): AddNoteViewState =
-        copy(note = note.copy(childrenNotes = note.childrenNotes + note))
+    fun addNote(newNote: Note): AddNoteViewState =
+        copy(note = note.copy(childrenNotes = note.childrenNotes + newNote))
 
     fun removeNote(note: Note): AddNoteViewState =
         copy(note = note.copy(childrenNotes = note.childrenNotes - note))
