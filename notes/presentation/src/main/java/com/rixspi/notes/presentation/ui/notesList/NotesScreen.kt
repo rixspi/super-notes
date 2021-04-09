@@ -1,4 +1,4 @@
-package com.rixspi.notes.presentation
+package com.rixspi.notes.presentation.ui.notesList
 
 
 import android.content.Context
@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.rixspi.domain.util.empty
+import com.rixspi.notes.presentation.NotesViewModel
 
 import com.rixspi.notes.presentation.model.ContentInfoListItem
 import com.rixspi.notes.presentation.model.NoteListItem
@@ -115,16 +116,14 @@ fun ContentInfoView(content: ContentInfoListItem) {
         Column(
             modifier = Modifier.padding(padding)
         ) {
-            with(content) {
-                text?.let { Text(it) }
-            }
+            with(content) { Text(text) }
         }
     }
 }
 
 @Composable
 fun ContentInfosListView(contentInfos: List<ContentInfoListItem>) {
-    Column() {
+    Column {
         contentInfos.forEach { content ->
             ContentInfoView(content = content)
         }

@@ -1,10 +1,11 @@
-package com.rixspi.notes.presentation
+package com.rixspi.notes.presentation.ui.addNote
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +21,10 @@ import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.domain.model.Note
 import com.rixspi.common.presentation.ui.styling.shapes
 import com.rixspi.domain.util.empty
+import com.rixspi.notes.presentation.ui.notesList.FabButtonView
+import com.rixspi.notes.presentation.R
+import com.rixspi.notes.presentation.model.EditableContentInfoItem
+import com.rixspi.notes.presentation.model.EditableNoteItem
 
 
 @Composable
@@ -46,9 +51,15 @@ fun AddNoteScreen(
             note = note,
             addNote = { viewModel.addNote() },
             updateTitle = { viewModel.updateTitle(it) },
-            updateContentInto = { index, content -> viewModel.updateContentInfo(index, content) },
-            addContentInfo = { viewModel.addContent() },
-            removeContentInfo = { viewModel.removeContentInfo() }
+            updateContentInto = { note, index, content ->
+                viewModel.updateContentInfo(
+                    note,
+                    index,
+                    content
+                )
+            },
+            addContentInfo = { note, index -> viewModel.addContent(note, index) },
+            removeContentInfo = { note, index -> viewModel.removeContentInfo(note, index) }
         )
     }
 }
@@ -57,10 +68,10 @@ fun AddNoteScreen(
 fun NoteEditor(
     addNote: () -> Unit,
     updateTitle: (String) -> Unit,
-    updateContentInto: (Int, String) -> Unit,
-    addContentInfo: () -> Unit,
-    removeContentInfo: (Int) -> Unit,
-    note: Note
+    updateContentInto: (EditableNoteItem, Int, String) -> Unit,
+    addContentInfo: (EditableNoteItem, Int) -> Unit,
+    removeContentInfo: (EditableNoteItem, Int) -> Unit,
+    note: EditableNoteItem
 ) {
     Column {
         LazyColumn {
@@ -69,27 +80,23 @@ fun NoteEditor(
                     TextInput(initText = note.title, label = "Note title") {
                         updateTitle(it)
                     }
-                    IconButton(
-                        onClick = { addNote() }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                            "contentDescription",
-                            tint = Color.Magenta
-                        )
-                    }
+
+                    ContentInfoButtons(
+                        showRemove = false,
+                        add = { addNote() },
+                    )
                 }
             }
             items(count = note.contentInfos.size, itemContent = { index ->
                 Row {
                     val contentInfo = note.contentInfos[index].text ?: String.empty
                     TextInput(initText = contentInfo, label = "Note content") {
-                        updateContentInto(index, it)
+                        updateContentInto(note, index, it)
                     }
 
                     ContentInfoButtons(
-                        add = { addContentInfo() },
-                        remove = { removeContentInfo(index) }
+                        add = { addContentInfo(note, index) },
+                        remove = { removeContentInfo(note, index) }
                     )
                 }
             })
@@ -100,9 +107,15 @@ fun NoteEditor(
                 note = it,
                 addNote = { addNote() },
                 updateTitle = { updateTitle(it) },
-                updateContentInto = { index, content -> updateContentInto(index, content) },
-                addContentInfo = { addContentInfo() },
-                removeContentInfo = { removeContentInfo(it) }
+                updateContentInto = { note, index, content ->
+                    updateContentInto(
+                        note,
+                        index,
+                        content
+                    )
+                },
+                addContentInfo = { note, index -> addContentInfo(note, index) },
+                removeContentInfo = { note, index -> removeContentInfo(note, index) }
             )
         }
     }
@@ -110,29 +123,32 @@ fun NoteEditor(
 
 @Composable
 fun ContentInfoButtons(
-    add: () -> Unit,
-    remove: () -> Unit
+    showAdd: Boolean = true,
+    showRemove: Boolean = true,
+    add: () -> Unit = {},
+    remove: () -> Unit = {}
 ) {
     Row {
-        Spacer(Modifier.width(2.dp))
-        IconButton(
-            onClick = { add() }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                "contentDescription",
-                tint = Color.Magenta
-            )
+
+        if (showAdd) {
+            Spacer(Modifier.width(2.dp))
+            IconButton(onClick = { add() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                    "contentDescription",
+                    tint = Color.Magenta
+                )
+            }
         }
-        Spacer(Modifier.width(2.dp))
-        IconButton(
-            onClick = { remove() }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_remove_24),
-                "contentDescription",
-                tint = Color.Magenta
-            )
+        if (showRemove) {
+            Spacer(Modifier.width(2.dp))
+            IconButton(onClick = { remove() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_remove_24),
+                    "contentDescription",
+                    tint = Color.Magenta
+                )
+            }
         }
     }
 }
@@ -167,42 +183,41 @@ fun TextInput(
 @Preview
 @Composable
 fun NotesEditorPreview() {
-    val subnoteSubnote = Note(
+    val subnoteSubnote = EditableNoteItem(
         contentInfos = listOf(
-            ContentInfo()
+            EditableContentInfoItem()
         )
     )
 
-    val subnote = Note(
+    val subnote = EditableNoteItem(
         contentInfos = listOf(
-            ContentInfo(), ContentInfo()
+            EditableContentInfoItem(), EditableContentInfoItem()
         ),
         childrenNotes = listOf(subnoteSubnote)
     )
 
 
-    val note = Note(
+    val note = EditableNoteItem(
         contentInfos = listOf(
-            ContentInfo(),
-            ContentInfo(),
+            EditableContentInfoItem(),
+            EditableContentInfoItem()
         ), childrenNotes = listOf(
-            subnote, Note()
+            subnote,
+            EditableNoteItem()
         )
     )
 
     Scaffold(
         floatingActionButton = {
-            FabButtonView {
-
-            }
+            FabButtonView {}
         }
     ) {
         NoteEditor(
             addNote = {},
             updateTitle = {},
-            updateContentInto = { _, _ -> },
-            addContentInfo = { },
-            removeContentInfo = { },
+            updateContentInto = { _, _, _ -> },
+            addContentInfo = { _, _ -> },
+            removeContentInfo = { _, _ -> },
             note = note
         )
     }
