@@ -34,8 +34,11 @@ class AddNoteViewStateTest {
 
         val childNoteContentInfos =
             addNoteViewState.note.childrenNotes[0].contentInfos
+        val childNote2ContentInfos =
+            addNoteViewState.note.childrenNotes[1].contentInfos
 
-        assertTrue(childNoteContentInfos.isNotEmpty())
+        assertTrue(childNoteContentInfos.isEmpty())
+        assertTrue(childNote2ContentInfos.isNotEmpty())
     }
 
     @Test
@@ -62,12 +65,25 @@ class AddNoteViewStateTest {
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 
-        // TODO I've added the class for Editable note and content info which autogenerates the UUID
-        //  this is not yet reflected in here ;)
+        assertTrue(
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem(),
+                masterNoteContentInfos[1]
+            )
+        )
 
-        assertEquals(EditableContentInfoItem(), masterNoteContentInfos[1])
-        assertNotEquals(EditableContentInfoItem(), masterNoteContentInfos[0])
-        assertNotEquals(EditableContentInfoItem(), masterNoteContentInfos[2])
+        assertFalse(
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem(),
+                masterNoteContentInfos[0]
+            )
+        )
+        assertFalse(
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem(),
+                masterNoteContentInfos[2]
+            )
+        )
     }
 
     @Test
@@ -85,9 +101,34 @@ class AddNoteViewStateTest {
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 
-        assertEquals(EditableContentInfoItem(), masterNoteContentInfos[0])
-        assertNotEquals(EditableContentInfoItem(), masterNoteContentInfos[1])
-        assertNotEquals(EditableContentInfoItem(), masterNoteContentInfos[2])
+        assertTrue(
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem(),
+                masterNoteContentInfos[0]
+            )
+        )
+
+        assertFalse(
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem(),
+                masterNoteContentInfos[1]
+            )
+        )
+        assertFalse(
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem(),
+                masterNoteContentInfos[2]
+            )
+        )
     }
 
+    private fun compareEditableContentInfoItemContentExceptId(
+        editableContent: EditableContentInfoItem,
+        other: EditableContentInfoItem
+    ) = editableContent.bottom == other.bottom &&
+            editableContent.top == other.top &&
+            editableContent.start == other.start &&
+            editableContent.end == other.end &&
+            editableContent.text == other.text &&
+            editableContent.image == other.image
 }
