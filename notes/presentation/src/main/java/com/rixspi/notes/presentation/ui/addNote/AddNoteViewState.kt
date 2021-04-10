@@ -1,8 +1,6 @@
 package com.rixspi.notes.presentation.ui.addNote
 
 import com.airbnb.mvrx.MavericksState
-import com.rixspi.common.domain.model.ContentInfo
-import com.rixspi.common.domain.model.Note
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
 
@@ -14,25 +12,15 @@ data class AddNoteViewState(
 
     fun addContentInfo(
         note: EditableNoteItem = this.note,
-        indexOfCurrentContentInfo: Int = 0
+        index: Int = 0
     ): AddNoteViewState {
-        val modifiedContentInfos = note.contentInfos
-            .toMutableList()
-            .apply { add(indexOfCurrentContentInfo, EditableContentInfoItem()) }
-            .toList()
+        val modifiedContentInfos = note.contentInfos.modify {
+            add(index, EditableContentInfoItem())
+        }
 
         val modifiedNote = note.copy(contentInfos = modifiedContentInfos)
 
-        return if (note == this.note) {
-            copy(note = modifiedNote)
-        } else {
-            val modifiedChildrenNotes = this.note.childrenNotes
-                .toMutableList()
-                .apply { set(indexOfFirst { it.id == note.id }, modifiedNote) }
-                .toList()
-
-            copy(note = this.note.copy(childrenNotes = modifiedChildrenNotes))
-        }
+        return prepareNewState(note, modifiedNote)
     }
 
     fun updateContentInfo(
@@ -40,41 +28,82 @@ data class AddNoteViewState(
         index: Int, text:
         String
     ): AddNoteViewState {
-        val modifiedContentInfos = note.contentInfos
-            .toMutableList()
-            .apply {
-                if (index <= note.contentInfos.lastIndex) {
-                    this[index] = EditableContentInfoItem(text = text)
-                }
+        val modifiedContentInfos = note.contentInfos.modify {
+            if (index <= note.contentInfos.lastIndex) {
+                this[index] = EditableContentInfoItem(text = text)
             }
-            .toList()
+        }
 
         val modifiedNote = note.copy(contentInfos = modifiedContentInfos)
 
+        return prepareNewState(note, modifiedNote)
+    }
+
+    fun removeContentInfo(
+        note: EditableNoteItem = this.note,
+        index: Int = 0
+    ): AddNoteViewState {
+        val modifiedContentInfos = note.contentInfos.modify {
+            if (index <= note.contentInfos.lastIndex) {
+                removeAt(index)
+            }
+        }
+
+        val modifiedNote = note.copy(contentInfos = modifiedContentInfos)
+
+        return prepareNewState(note, modifiedNote)
+    }
+
+    fun addChildrenNote(
+        note: EditableNoteItem = this.note,
+        index: Int = 0
+    ): AddNoteViewState {
+        val modifiedChildrenNotes = note.childrenNotes.modify {
+            add(index, EditableNoteItem())
+        }
+
+        val modifiedNote = note.copy(childrenNotes = modifiedChildrenNotes)
+
+        return prepareNewState(note, modifiedNote)
+    }
+
+    fun removeChildrenNote(
+        note: EditableNoteItem = this.note,
+        index: Int = 0
+    ): AddNoteViewState {
+        val modifiedChildrenNotes = note.childrenNotes.modify {
+            if (index <= note.contentInfos.lastIndex) {
+                removeAt(index)
+            }
+        }
+
+        val modifiedNote = note.copy(childrenNotes = modifiedChildrenNotes)
+
+        return prepareNewState(note, modifiedNote)
+    }
+
+    private fun <T> List<T>.modify(
+        action: MutableList<T>.() -> Unit
+    ): List<T> = this
+        .toMutableList()
+        .apply {
+            action(this)
+        }
+        .toList()
+
+
+    private fun prepareNewState(
+        note: EditableNoteItem,
+        modifiedNote: EditableNoteItem
+    ): AddNoteViewState {
         return if (note == this.note) {
             copy(note = modifiedNote)
         } else {
-            val modifiedChildrenNotes = this.note.childrenNotes
-                .toMutableList()
-                .apply { set(indexOfFirst { it.id == note.id }, modifiedNote) }
-                .toList()
+            val modifiedChildrenNotes = this.note.childrenNotes.modify {
+                set(indexOfFirst { it.id == note.id }, modifiedNote)
+            }
 
             copy(note = this.note.copy(childrenNotes = modifiedChildrenNotes))
         }
     }
-
-    fun removeContentInfo(): AddNoteViewState =
-        copy(
-            note = note.copy(
-                contentInfos = note.contentInfos
-                    .toMutableList()
-                    .apply { removeLast() })
-        )
-
-    // TODO Add empty note, this should get note where the new one will be added not a new note ;)
-    fun addChildrenNote(newNote: EditableNoteItem): AddNoteViewState =
-        copy(note = note.copy(childrenNotes = note.childrenNotes + newNote))
-
-    fun removeChildrenNote(noteToRemove: EditableNoteItem): AddNoteViewState =
-        copy(note = note.copy(childrenNotes = note.childrenNotes - noteToRemove))
 }

@@ -1,11 +1,8 @@
 package com.rixspi.notes.presentation.ui.addNote
 
-import com.rixspi.common.domain.model.ContentInfo
-import com.rixspi.common.domain.model.Note
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
 import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Test
 
@@ -61,7 +58,7 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addContentInfo(indexOfCurrentContentInfo = 1)
+        addNoteViewState = addNoteViewState.addContentInfo(index = 1)
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 
@@ -120,6 +117,116 @@ class AddNoteViewStateTest {
                 masterNoteContentInfos[2]
             )
         )
+    }
+
+    @Test
+    fun `updateContentInfo updates contentInfo at the index`() {
+        addNoteViewState = addNoteViewState.copy(
+            EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "test1"),
+                    EditableContentInfoItem(text = "test2"),
+                )
+            )
+        )
+        val newContentInfoText = "New value"
+
+        addNoteViewState = addNoteViewState.updateContentInfo(index = 3, text = newContentInfoText)
+
+        assertNotEquals("New value", addNoteViewState.note.contentInfos[0].text)
+        assertNotEquals("New value", addNoteViewState.note.contentInfos[1].text)
+    }
+
+    @Test
+    fun `updateContentInfo does not update contentInfo at the non existing index`() {
+        addNoteViewState = addNoteViewState.copy(
+            EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "test1"),
+                    EditableContentInfoItem(text = "test2"),
+                )
+            )
+        )
+        val newContentInfoText = "New value"
+
+        addNoteViewState = addNoteViewState.updateContentInfo(index = 0, text = newContentInfoText)
+
+        assertEquals("New value", addNoteViewState.note.contentInfos[0].text)
+    }
+
+    @Test
+    fun `removeContentInfo removes contentInfo at specified index`() {
+        addNoteViewState = addNoteViewState.copy(
+            EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "test1"),
+                    EditableContentInfoItem(text = "test2"),
+                    EditableContentInfoItem(text = "test3"),
+                )
+            )
+        )
+
+        addNoteViewState = addNoteViewState.removeContentInfo(index = 1)
+
+        assertTrue(addNoteViewState.note.contentInfos.size == 2)
+        assertTrue(addNoteViewState.note.contentInfos[0].text == "test1")
+        assertTrue(addNoteViewState.note.contentInfos[1].text == "test3")
+    }
+
+    @Test
+    fun `removeContentInfo does not remove contentInfo at non existing index`() {
+        addNoteViewState = addNoteViewState.copy(
+            EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "test1"),
+                    EditableContentInfoItem(text = "test2"),
+                )
+            )
+        )
+
+        addNoteViewState = addNoteViewState.removeContentInfo(index = 3)
+
+        assertTrue(addNoteViewState.note.contentInfos.size == 2)
+        assertTrue(addNoteViewState.note.contentInfos[0].text == "test1")
+        assertTrue(addNoteViewState.note.contentInfos[1].text == "test2")
+    }
+
+    @Test
+    fun `addChildrenNote adds note at specified index`() {
+        addNoteViewState = addNoteViewState.copy(
+            note = EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "test1")
+                ),
+                childrenNotes = listOf(
+                    EditableNoteItem(id = "id")
+                )
+            )
+        )
+
+        addNoteViewState = addNoteViewState.addChildrenNote(index = 0)
+
+        assertNotEquals("id", addNoteViewState.note.childrenNotes[0].id)
+        assertEquals("id", addNoteViewState.note.childrenNotes[1].id)
+    }
+
+    @Test
+    fun `removeChildrenNote removes note at specified index`() {
+        addNoteViewState = addNoteViewState.copy(
+            note = EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "test1")
+                ),
+                childrenNotes = listOf(
+                    EditableNoteItem(id = "id")
+                )
+            )
+        )
+        assertTrue(addNoteViewState.note.childrenNotes.isNotEmpty())
+
+        addNoteViewState = addNoteViewState.removeChildrenNote(index = 0)
+
+        assertTrue(addNoteViewState.note.childrenNotes.isEmpty())
     }
 
     private fun compareEditableContentInfoItemContentExceptId(

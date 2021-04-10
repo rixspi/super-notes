@@ -21,7 +21,7 @@ class AddNoteViewModel @AssistedInject constructor(
 
     fun addNote() {
         setState {
-            addChildrenNote(EditableNoteItem(contentInfos = listOf(EditableContentInfoItem())))
+            addChildrenNote()
         }
     }
 
