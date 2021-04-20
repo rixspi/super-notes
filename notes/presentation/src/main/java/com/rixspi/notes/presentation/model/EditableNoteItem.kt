@@ -1,7 +1,5 @@
 package com.rixspi.notes.presentation.model
 
-import com.rixspi.common.domain.model.ContentInfo
-import com.rixspi.common.domain.model.Note
 import com.rixspi.domain.util.empty
 import kotlinx.serialization.SerialName
 import java.util.*

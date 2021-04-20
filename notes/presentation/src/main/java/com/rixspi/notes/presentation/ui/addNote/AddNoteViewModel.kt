@@ -13,15 +13,30 @@ import com.rixspi.notes.presentation.model.EditableNoteItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import java.util.*
 
 class AddNoteViewModel @AssistedInject constructor(
     @Assisted state: AddNoteViewState,
     private val createNote: CreateNote
 ) : BaseViewModel<AddNoteViewState>(state) {
 
-    fun addNote() {
+    fun addNote(parentNote: EditableNoteItem, index: Int = 0) {
+        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
+        // the reducer will be impure, because if run twice we will get two different UUIDs
+        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
+        val id = UUID.randomUUID().toString()
         setState {
-            addChildrenNote()
+            addChildrenNote(note = parentNote, id = id)
+        }
+    }
+
+    fun addNote(index: Int = 0) {
+        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
+        // the reducer will be impure, because if run twice we will get two different UUIDs
+        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
+        val id = UUID.randomUUID().toString()
+        setState {
+            addChildrenNote(id = id)
         }
     }
 
@@ -29,6 +44,11 @@ class AddNoteViewModel @AssistedInject constructor(
         // TODO
     }
 
+    fun updateTitle(parentNote: EditableNoteItem, title: String) {
+        setState {
+            setTitle(title = title)
+        }
+    }
     fun updateTitle(title: String) {
         setState {
             setTitle(title = title)

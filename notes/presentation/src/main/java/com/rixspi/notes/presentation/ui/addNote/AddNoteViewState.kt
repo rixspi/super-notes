@@ -3,9 +3,13 @@ package com.rixspi.notes.presentation.ui.addNote
 import com.airbnb.mvrx.MavericksState
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
+import java.util.*
 
 data class AddNoteViewState(
-    val note: EditableNoteItem = EditableNoteItem(contentInfos = listOf(EditableContentInfoItem())),
+    val note: EditableNoteItem = EditableNoteItem(
+        id = UUID.randomUUID().toString(),
+        contentInfos = listOf(EditableContentInfoItem())
+    ),
     val added: Boolean = false
 ) : MavericksState {
     fun setTitle(title: String): AddNoteViewState = copy(note = note.copy(title = title))
@@ -25,12 +29,12 @@ data class AddNoteViewState(
 
     fun updateContentInfo(
         note: EditableNoteItem = this.note,
-        index: Int, text:
-        String
+        index: Int,
+        text: String,
     ): AddNoteViewState {
         val modifiedContentInfos = note.contentInfos.modify {
             if (index <= note.contentInfos.lastIndex) {
-                this[index] = EditableContentInfoItem(text = text)
+                this[index] = this[index].copy(text = text)
             }
         }
 
@@ -56,10 +60,14 @@ data class AddNoteViewState(
 
     fun addChildrenNote(
         note: EditableNoteItem = this.note,
+        id: String,
         index: Int = 0
     ): AddNoteViewState {
         val modifiedChildrenNotes = note.childrenNotes.modify {
-            add(index, EditableNoteItem())
+            add(
+                index,
+                EditableNoteItem(id = id, contentInfos = listOf(EditableContentInfoItem(id = id)))
+            )
         }
 
         val modifiedNote = note.copy(childrenNotes = modifiedChildrenNotes)

@@ -25,6 +25,7 @@ import com.rixspi.notes.presentation.ui.notesList.FabButtonView
 import com.rixspi.notes.presentation.R
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
+import java.util.*
 
 
 @Composable
@@ -184,12 +185,14 @@ fun TextInput(
 @Composable
 fun NotesEditorPreview() {
     val subnoteSubnote = EditableNoteItem(
+        id = UUID.randomUUID().toString(),
         contentInfos = listOf(
             EditableContentInfoItem()
         )
     )
 
     val subnote = EditableNoteItem(
+        id = UUID.randomUUID().toString(),
         contentInfos = listOf(
             EditableContentInfoItem(), EditableContentInfoItem()
         ),
@@ -198,12 +201,13 @@ fun NotesEditorPreview() {
 
 
     val note = EditableNoteItem(
+        id = UUID.randomUUID().toString(),
         contentInfos = listOf(
             EditableContentInfoItem(),
             EditableContentInfoItem()
         ), childrenNotes = listOf(
             subnote,
-            EditableNoteItem()
+            EditableNoteItem(id = UUID.randomUUID().toString())
         )
     )
 

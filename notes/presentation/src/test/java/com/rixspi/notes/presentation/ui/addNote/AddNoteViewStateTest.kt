@@ -5,6 +5,7 @@ import com.rixspi.notes.presentation.model.EditableNoteItem
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.util.*
 
 class AddNoteViewStateTest {
     private lateinit var addNoteViewState: AddNoteViewState
@@ -204,7 +205,7 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addChildrenNote(index = 0)
+        addNoteViewState = addNoteViewState.addChildrenNote(index = 0, id = UUID.randomUUID().toString(),)
 
         assertNotEquals("id", addNoteViewState.note.childrenNotes[0].id)
         assertEquals("id", addNoteViewState.note.childrenNotes[1].id)
