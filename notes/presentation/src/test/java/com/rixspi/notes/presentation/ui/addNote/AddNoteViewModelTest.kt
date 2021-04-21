@@ -45,8 +45,6 @@ class AddNoteViewModelTest {
 
             val state = addNoteViewModel.awaitState()
 
-            // TODO setTitle in AddNoteViewState is not prepared for passing the specific note,
-            //  create a unit test for that and follow with the implementation
             addNoteViewModel.updateTitle(state.note.childrenNotes[0], "test")
             addNoteViewModel.updateTitle(state.note.childrenNotes[1], "test")
 
@@ -54,7 +52,7 @@ class AddNoteViewModelTest {
 
             val stateAfterAddWithIndex = addNoteViewModel.awaitState()
 
-            assertTrue(stateAfterAddWithIndex.note.childrenNotes[1].title == String.empty)
+            assertEquals(stateAfterAddWithIndex.note.childrenNotes[1].title,  String.empty)
             assertEquals(stateAfterAddWithIndex.note.childrenNotes[0].title, "test")
             assertEquals(stateAfterAddWithIndex.note.childrenNotes[2].title, "test")
         }

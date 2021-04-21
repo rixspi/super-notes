@@ -16,6 +16,30 @@ class AddNoteViewStateTest {
     }
 
     @Test
+    fun `setTitle sets the title on the default note if not specified`() {
+        addNoteViewState = addNoteViewState.setTitle(title = "New title")
+
+        assertEquals("New title", addNoteViewState.note.title)
+    }
+
+    @Test
+    fun `setTitle sets the title on the specified note`() {
+        val childNote1 = EditableNoteItem()
+        val childNote2 = EditableNoteItem()
+        addNoteViewState = addNoteViewState.copy(
+            EditableNoteItem(
+                childrenNotes = listOf(
+                    childNote1,
+                    childNote2
+                )
+            )
+        )
+        addNoteViewState = addNoteViewState.setTitle(childNote1, "New title")
+
+        assertEquals("New title", addNoteViewState.note.childrenNotes[0].title)
+    }
+
+    @Test
     fun `addContentInfo adds empty contentInfo to the specified note`() {
         val childNote1 = EditableNoteItem()
         val childNote2 = EditableNoteItem()
@@ -205,7 +229,8 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addChildrenNote(index = 0, id = UUID.randomUUID().toString(),)
+        addNoteViewState =
+            addNoteViewState.addChildrenNote(index = 0, id = UUID.randomUUID().toString())
 
         assertNotEquals("id", addNoteViewState.note.childrenNotes[0].id)
         assertEquals("id", addNoteViewState.note.childrenNotes[1].id)

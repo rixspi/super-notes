@@ -12,7 +12,12 @@ data class AddNoteViewState(
     ),
     val added: Boolean = false
 ) : MavericksState {
-    fun setTitle(title: String): AddNoteViewState = copy(note = note.copy(title = title))
+
+    fun setTitle(note: EditableNoteItem = this.note, title: String): AddNoteViewState {
+        val modifiedNote = note.copy(title = title)
+
+        return prepareNewState(note, modifiedNote)
+    }
 
     fun addContentInfo(
         note: EditableNoteItem = this.note,

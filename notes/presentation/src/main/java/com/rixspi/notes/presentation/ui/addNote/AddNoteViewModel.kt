@@ -26,7 +26,7 @@ class AddNoteViewModel @AssistedInject constructor(
         // I don't want to turn off debug validation from Maverick, so this is the simplest solution
         val id = UUID.randomUUID().toString()
         setState {
-            addChildrenNote(note = parentNote, id = id)
+            addChildrenNote(note = parentNote, id = id, index = index)
         }
     }
 
@@ -36,7 +36,7 @@ class AddNoteViewModel @AssistedInject constructor(
         // I don't want to turn off debug validation from Maverick, so this is the simplest solution
         val id = UUID.randomUUID().toString()
         setState {
-            addChildrenNote(id = id)
+            addChildrenNote(id = id, index = index)
         }
     }
 
@@ -46,9 +46,10 @@ class AddNoteViewModel @AssistedInject constructor(
 
     fun updateTitle(parentNote: EditableNoteItem, title: String) {
         setState {
-            setTitle(title = title)
+            setTitle(parentNote, title = title)
         }
     }
+
     fun updateTitle(title: String) {
         setState {
             setTitle(title = title)
