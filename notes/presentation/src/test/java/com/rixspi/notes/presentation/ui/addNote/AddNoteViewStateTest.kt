@@ -52,7 +52,7 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addContentInfo(childNote2)
+        addNoteViewState = addNoteViewState.addContentInfo(childNote2, id = UUID.randomUUID().toString())
 
         val childNoteContentInfos =
             addNoteViewState.note.childrenNotes[0].contentInfos
@@ -65,7 +65,7 @@ class AddNoteViewStateTest {
 
     @Test
     fun `addContentInfo adds empty contentInfo to the master note if note not specified`() {
-        addNoteViewState = addNoteViewState.addContentInfo()
+        addNoteViewState = addNoteViewState.addContentInfo(id = UUID.randomUUID().toString())
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 
@@ -83,7 +83,7 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addContentInfo(index = 1)
+        addNoteViewState = addNoteViewState.addContentInfo(index = 1, id = UUID.randomUUID().toString())
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 
@@ -119,7 +119,7 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addContentInfo()
+        addNoteViewState = addNoteViewState.addContentInfo(id = UUID.randomUUID().toString())
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 
@@ -240,9 +240,6 @@ class AddNoteViewStateTest {
     fun `removeChildrenNote removes note at specified index`() {
         addNoteViewState = addNoteViewState.copy(
             note = EditableNoteItem(
-                contentInfos = listOf(
-                    EditableContentInfoItem(text = "test1")
-                ),
                 childrenNotes = listOf(
                     EditableNoteItem(id = "id")
                 )
@@ -254,14 +251,14 @@ class AddNoteViewStateTest {
 
         assertTrue(addNoteViewState.note.childrenNotes.isEmpty())
     }
-
-    private fun compareEditableContentInfoItemContentExceptId(
-        editableContent: EditableContentInfoItem,
-        other: EditableContentInfoItem
-    ) = editableContent.bottom == other.bottom &&
-            editableContent.top == other.top &&
-            editableContent.start == other.start &&
-            editableContent.end == other.end &&
-            editableContent.text == other.text &&
-            editableContent.image == other.image
 }
+
+fun compareEditableContentInfoItemContentExceptId(
+    editableContent: EditableContentInfoItem,
+    other: EditableContentInfoItem
+) = editableContent.bottom == other.bottom &&
+        editableContent.top == other.top &&
+        editableContent.start == other.start &&
+        editableContent.end == other.end &&
+        editableContent.text == other.text &&
+        editableContent.image == other.image

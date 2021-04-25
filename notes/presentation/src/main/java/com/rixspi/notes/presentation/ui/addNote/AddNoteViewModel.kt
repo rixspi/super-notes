@@ -1,14 +1,11 @@
 package com.rixspi.notes.presentation.ui.addNote
 
 import com.airbnb.mvrx.*
-import com.rixspi.common.domain.model.Note
 import com.rixspi.common.framework.di.AssistedViewModelFactory
 import com.rixspi.common.framework.di.hiltMavericksViewModelFactory
 import com.rixspi.common.domain.interactors.CreateNote
-import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.presentation.BaseViewModel
 import com.rixspi.notes.presentation.mapper.toNote
-import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -40,8 +37,16 @@ class AddNoteViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeNote() {
-        // TODO
+    fun removeNote(parentNote: EditableNoteItem, index: Int) {
+        setState {
+            removeChildrenNote(parentNote, index)
+        }
+    }
+
+    fun removeNote(index: Int) {
+        setState {
+            removeChildrenNote(index = index)
+        }
     }
 
     fun updateTitle(parentNote: EditableNoteItem, title: String) {
@@ -56,7 +61,21 @@ class AddNoteViewModel @AssistedInject constructor(
         }
     }
 
-    fun addContent(note: EditableNoteItem, index: Int) = setState { addContentInfo(note, index) }
+    fun addContent(note: EditableNoteItem, index: Int) {
+        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
+        // the reducer will be impure, because if run twice we will get two different UUIDs
+        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
+        val id = UUID.randomUUID().toString()
+        setState { addContentInfo(note, id, index) }
+    }
+
+    fun addContent(index: Int) {
+        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
+        // the reducer will be impure, because if run twice we will get two different UUIDs
+        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
+        val id = UUID.randomUUID().toString()
+        setState { addContentInfo(id = id, index = index) }
+    }
 
     fun updateContentInfo(note: EditableNoteItem, index: Int, text: String) =
         setState { updateContentInfo(note = note, index = index, text = text) }

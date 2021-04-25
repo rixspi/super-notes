@@ -21,10 +21,11 @@ data class AddNoteViewState(
 
     fun addContentInfo(
         note: EditableNoteItem = this.note,
+        id: String,
         index: Int = 0
     ): AddNoteViewState {
         val modifiedContentInfos = note.contentInfos.modify {
-            add(index, EditableContentInfoItem())
+            add(index, EditableContentInfoItem(id = id))
         }
 
         val modifiedNote = note.copy(contentInfos = modifiedContentInfos)
@@ -85,7 +86,7 @@ data class AddNoteViewState(
         index: Int = 0
     ): AddNoteViewState {
         val modifiedChildrenNotes = note.childrenNotes.modify {
-            if (index <= note.contentInfos.lastIndex) {
+            if (index <= note.childrenNotes.lastIndex) {
                 removeAt(index)
             }
         }
