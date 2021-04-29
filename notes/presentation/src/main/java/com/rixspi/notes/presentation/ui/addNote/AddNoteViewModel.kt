@@ -28,9 +28,6 @@ class AddNoteViewModel @AssistedInject constructor(
     }
 
     fun addNote(index: Int = 0) {
-        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
-        // the reducer will be impure, because if run twice we will get two different UUIDs
-        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
         val id = UUID.randomUUID().toString()
         setState {
             addChildrenNote(id = id, index = index)
@@ -62,17 +59,11 @@ class AddNoteViewModel @AssistedInject constructor(
     }
 
     fun addContent(note: EditableNoteItem, index: Int) {
-        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
-        // the reducer will be impure, because if run twice we will get two different UUIDs
-        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
         val id = UUID.randomUUID().toString()
         setState { addContentInfo(note, id, index) }
     }
 
     fun addContent(index: Int) {
-        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
-        // the reducer will be impure, because if run twice we will get two different UUIDs
-        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
         val id = UUID.randomUUID().toString()
         setState { addContentInfo(id = id, index = index) }
     }
@@ -80,7 +71,13 @@ class AddNoteViewModel @AssistedInject constructor(
     fun updateContentInfo(note: EditableNoteItem, index: Int, text: String) =
         setState { updateContentInfo(note = note, index = index, text = text) }
 
-    fun removeContentInfo(note: EditableNoteItem, index: Int) = setState { removeContentInfo() }
+    fun updateContentInfo(index: Int, text: String) =
+        setState { updateContentInfo(index = index, text = text) }
+
+    fun removeContentInfo(note: EditableNoteItem, index: Int) =
+        setState { removeContentInfo(note, index) }
+
+    fun removeContentInfo(index: Int) = setState { removeContentInfo(index = index) }
 
     fun createNote() = withState { state ->
         createNote.execute(

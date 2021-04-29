@@ -48,6 +48,7 @@ fun DependencyHandlerScope.hilt(){
 fun DependencyHandlerScope.unitTest() {
     testImplementation(Deps.Test.Unit.junit)
     testImplementation(Deps.Test.Unit.mockk)
+    testImplementation(Deps.Test.Unit.coroutines)
 }
 
 fun DependencyHandlerScope.androidTest() {

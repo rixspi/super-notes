@@ -3,9 +3,13 @@ package com.rixspi.notes.presentation.ui.addNote
 import com.airbnb.mvrx.Mavericks
 import com.rixspi.common.domain.interactors.CreateNote
 import com.rixspi.domain.util.empty
+import com.rixspi.notes.presentation.mapper.toNote
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
+import com.rixspi.notes.presentation.ui.MainCoroutineRule
+import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -18,6 +22,8 @@ class AddNoteViewModelTest {
     private lateinit var addNoteViewModel: AddNoteViewModel
     private val createNote: CreateNote = mockk(relaxed = true)
 
+    @get:Rule
+    val coroutineRule = MainCoroutineRule()
 
     @Before
     fun setup() {
@@ -138,6 +144,94 @@ class AddNoteViewModelTest {
                 EditableContentInfoItem(),
                 stateAfterTitleChange.note.childrenNotes[0].contentInfos[0]
             )
+        }
+    }
+
+    @Test
+    fun `updateContentInfo changes the specified content info`() {
+        runBlocking {
+            val editableNote = EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "Not changed"),
+                    EditableContentInfoItem(text = "Not changed"),
+                    EditableContentInfoItem(text = "Not changed")
+                )
+            )
+
+            val addNoteViewState = AddNoteViewState(editableNote)
+
+            addNoteViewModel = AddNoteViewModel(
+                addNoteViewState,
+                createNote
+            )
+
+            addNoteViewModel.updateContentInfo(index = 0, text = "Changed")
+
+            val stateAfterTitleChange = addNoteViewModel.awaitState()
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem("Changed"),
+                stateAfterTitleChange.note.contentInfos[0]
+            )
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem("Not changed"),
+                stateAfterTitleChange.note.contentInfos[1]
+            )
+        }
+    }
+
+    @Test
+    fun `removeContentInfo removes content info at the specified index`() {
+        runBlocking {
+            val editableNote = EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "Not removed"),
+                    EditableContentInfoItem(text = "Removed"),
+                    EditableContentInfoItem(text = "Not removed")
+                )
+            )
+
+            val addNoteViewState = AddNoteViewState(editableNote)
+
+            addNoteViewModel = AddNoteViewModel(
+                addNoteViewState,
+                createNote
+            )
+
+            addNoteViewModel.removeContentInfo(index = 1)
+
+            val stateAfterTitleChange = addNoteViewModel.awaitState()
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem("Not removed"),
+                stateAfterTitleChange.note.contentInfos[0]
+            )
+            compareEditableContentInfoItemContentExceptId(
+                EditableContentInfoItem("Not removed"),
+                stateAfterTitleChange.note.contentInfos[1]
+            )
+        }
+    }
+
+    @Test
+    fun `createNote calls CreateNote use case`() {
+        runBlocking {
+            val editableNote = EditableNoteItem(
+                contentInfos = listOf(
+                    EditableContentInfoItem(text = "Not removed"),
+                    EditableContentInfoItem(text = "Removed"),
+                    EditableContentInfoItem(text = "Not removed")
+                )
+            )
+
+            val addNoteViewState = AddNoteViewState(editableNote)
+
+            addNoteViewModel = AddNoteViewModel(
+                addNoteViewState,
+                createNote
+            )
+
+            addNoteViewModel.createNote()
+
+            coVerify { createNote.invoke(CreateNote.Params(addNoteViewState.note.toNote())) }
         }
     }
 }
