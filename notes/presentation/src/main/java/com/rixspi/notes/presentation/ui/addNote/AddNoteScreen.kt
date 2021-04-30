@@ -50,8 +50,8 @@ fun AddNoteScreen(
     ) {
         NoteEditor(
             note = note,
-            addNote = { viewModel.addNote() },
-            updateTitle = { viewModel.updateTitle(it) },
+            addNote = { viewModel.addNote(it) },
+            updateTitle = { note, title -> viewModel.updateTitle(note, title) },
             updateContentInto = { note, index, content ->
                 viewModel.updateContentInfo(
                     note,
@@ -67,8 +67,8 @@ fun AddNoteScreen(
 
 @Composable
 fun NoteEditor(
-    addNote: () -> Unit,
-    updateTitle: (String) -> Unit,
+    addNote: (EditableNoteItem) -> Unit,
+    updateTitle: (EditableNoteItem, String) -> Unit,
     updateContentInto: (EditableNoteItem, Int, String) -> Unit,
     addContentInfo: (EditableNoteItem, Int) -> Unit,
     removeContentInfo: (EditableNoteItem, Int) -> Unit,
@@ -79,12 +79,12 @@ fun NoteEditor(
             item {
                 Row {
                     TextInput(initText = note.title, label = "Note title") {
-                        updateTitle(it)
+                        updateTitle(note, it)
                     }
 
                     ContentInfoButtons(
                         showRemove = false,
-                        add = { addNote() },
+                        add = { addNote(note) },
                     )
                 }
             }
@@ -106,8 +106,8 @@ fun NoteEditor(
         note.childrenNotes.forEach {
             NoteEditor(
                 note = it,
-                addNote = { addNote() },
-                updateTitle = { updateTitle(it) },
+                addNote = { addNote(it) },
+                updateTitle = { note, title -> updateTitle(note, title) },
                 updateContentInto = { note, index, content ->
                     updateContentInto(
                         note,
@@ -159,7 +159,6 @@ fun TextInput(
     modifier: Modifier = Modifier,
     label: String,
     initText: String = String.empty,
-
     onChange: (String) -> Unit = {}
 ) {
     val (text, setText) = remember { mutableStateOf(TextFieldValue(initText)) }
@@ -218,7 +217,7 @@ fun NotesEditorPreview() {
     ) {
         NoteEditor(
             addNote = {},
-            updateTitle = {},
+            updateTitle = { _, _ -> },
             updateContentInto = { _, _, _ -> },
             addContentInfo = { _, _ -> },
             removeContentInfo = { _, _ -> },

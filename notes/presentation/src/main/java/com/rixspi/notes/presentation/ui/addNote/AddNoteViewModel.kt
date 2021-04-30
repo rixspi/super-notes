@@ -27,22 +27,9 @@ class AddNoteViewModel @AssistedInject constructor(
         }
     }
 
-    fun addNote(index: Int = 0) {
-        val id = UUID.randomUUID().toString()
-        setState {
-            addChildrenNote(id = id, index = index)
-        }
-    }
-
     fun removeNote(parentNote: EditableNoteItem, index: Int) {
         setState {
             removeChildrenNote(parentNote, index)
-        }
-    }
-
-    fun removeNote(index: Int) {
-        setState {
-            removeChildrenNote(index = index)
         }
     }
 
@@ -52,37 +39,25 @@ class AddNoteViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateTitle(title: String) {
-        setState {
-            setTitle(title = title)
-        }
-    }
-
     fun addContent(note: EditableNoteItem, index: Int) {
         val id = UUID.randomUUID().toString()
         setState { addContentInfo(note, id, index) }
     }
 
-    fun addContent(index: Int) {
-        val id = UUID.randomUUID().toString()
-        setState { addContentInfo(id = id, index = index) }
-    }
-
     fun updateContentInfo(note: EditableNoteItem, index: Int, text: String) =
         setState { updateContentInfo(note = note, index = index, text = text) }
-
-    fun updateContentInfo(index: Int, text: String) =
-        setState { updateContentInfo(index = index, text = text) }
 
     fun removeContentInfo(note: EditableNoteItem, index: Int) =
         setState { removeContentInfo(note, index) }
 
-    fun removeContentInfo(index: Int) = setState { removeContentInfo(index = index) }
-
     fun createNote() = withState { state ->
         createNote.execute(
             params = CreateNote.Params(state.note.toNote())
-        ) { copy(added = true) }
+        ) {
+            // TODO handle errors
+            //copy(added = true)
+            copy()
+        }
     }
 
     @AssistedFactory

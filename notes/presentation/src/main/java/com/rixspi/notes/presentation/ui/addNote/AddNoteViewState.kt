@@ -110,7 +110,8 @@ data class AddNoteViewState(
         note: EditableNoteItem,
         modifiedNote: EditableNoteItem
     ): AddNoteViewState {
-        return if (note == this.note) {
+        // TODO This check fails sometimes
+        return if (note.id == this.note.id) {
             copy(note = modifiedNote)
         } else {
             val modifiedChildrenNotes = this.note.childrenNotes.modify {

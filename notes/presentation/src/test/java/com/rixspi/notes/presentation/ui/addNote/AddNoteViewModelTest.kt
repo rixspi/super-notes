@@ -37,7 +37,8 @@ class AddNoteViewModelTest {
     @Test
     fun `addNote adds new empty note to the children notes`() {
         runBlocking {
-            addNoteViewModel.addNote()
+            val stateBeforeAdd = addNoteViewModel.awaitState()
+            addNoteViewModel.addNote(parentNote = stateBeforeAdd.note)
 
             val state = addNoteViewModel.awaitState()
             assertTrue(state.note.childrenNotes.isNotEmpty())
@@ -61,7 +62,7 @@ class AddNoteViewModelTest {
                 createNote
             )
 
-            addNoteViewModel.addNote(index = 1)
+            addNoteViewModel.addNote(parentNote = editableNote, index = 1)
 
             val stateAfterAddWithIndex = addNoteViewModel.awaitState()
 
@@ -88,7 +89,7 @@ class AddNoteViewModelTest {
                 createNote
             )
 
-            addNoteViewModel.removeNote(0)
+            addNoteViewModel.removeNote(parentNote = editableNote, index = 0)
 
             val stateAfterRemove = addNoteViewModel.awaitState()
 
@@ -165,7 +166,7 @@ class AddNoteViewModelTest {
                 createNote
             )
 
-            addNoteViewModel.updateContentInfo(index = 0, text = "Changed")
+            addNoteViewModel.updateContentInfo(note = editableNote, index = 0, text = "Changed")
 
             val stateAfterTitleChange = addNoteViewModel.awaitState()
             compareEditableContentInfoItemContentExceptId(
@@ -197,7 +198,7 @@ class AddNoteViewModelTest {
                 createNote
             )
 
-            addNoteViewModel.removeContentInfo(index = 1)
+            addNoteViewModel.removeContentInfo(note = editableNote, index = 1)
 
             val stateAfterTitleChange = addNoteViewModel.awaitState()
             compareEditableContentInfoItemContentExceptId(
