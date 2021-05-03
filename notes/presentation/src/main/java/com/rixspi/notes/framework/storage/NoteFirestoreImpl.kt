@@ -3,14 +3,12 @@ package com.rixspi.notes.framework.storage
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.rixspi.common.domain.model.Note
 import com.rixspi.data.dataSource.NoteFirestore
 import com.rixspi.data.model.NoteDto
-import com.rixspi.domain.Error
 import com.rixspi.domain.Result
-import com.rixspi.common.domain.model.Note
 import com.rixspi.domain.toError
 import com.rixspi.domain.util.empty
-
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

@@ -10,6 +10,7 @@ import com.rixspi.data.mapper.mapNoteDto
 import com.rixspi.data.model.NoteDto
 import com.rixspi.domain.Error
 import com.rixspi.domain.Result
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.CONFLATED
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +18,6 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertNotEquals
-import kotlin.time.ExperimentalTime
-
 
 @ExperimentalTime
 class NoteRepositoryImplWithChannelsTest : NoteRepositoryTest() {

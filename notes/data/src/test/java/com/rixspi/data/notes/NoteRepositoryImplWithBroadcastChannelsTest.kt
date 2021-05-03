@@ -10,18 +10,13 @@ import com.rixspi.data.mapper.mapNoteDto
 import com.rixspi.data.model.NoteDto
 import com.rixspi.domain.Error
 import com.rixspi.domain.Result
-import junit.framework.Assert
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel.Factory.CONFLATED
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import kotlin.random.Random
-import kotlin.time.ExperimentalTime
-
 
 @ExperimentalTime
 class NoteRepositoryImplWithBroadcastChannelsTest : NoteRepositoryTest() {

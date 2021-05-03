@@ -2,10 +2,13 @@ package com.rixspi.notes.presentation.ui.addNote
 
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
-import org.junit.Assert.*
+import java.util.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import java.util.*
 
 class AddNoteViewStateTest {
     private lateinit var addNoteViewState: AddNoteViewState
@@ -52,7 +55,8 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addContentInfo(childNote2, id = UUID.randomUUID().toString())
+        addNoteViewState =
+            addNoteViewState.addContentInfo(childNote2, id = UUID.randomUUID().toString())
 
         val childNoteContentInfos =
             addNoteViewState.note.childrenNotes[0].contentInfos
@@ -83,7 +87,8 @@ class AddNoteViewStateTest {
             )
         )
 
-        addNoteViewState = addNoteViewState.addContentInfo(index = 1, id = UUID.randomUUID().toString())
+        addNoteViewState =
+            addNoteViewState.addContentInfo(index = 1, id = UUID.randomUUID().toString())
 
         val masterNoteContentInfos = addNoteViewState.note.contentInfos
 

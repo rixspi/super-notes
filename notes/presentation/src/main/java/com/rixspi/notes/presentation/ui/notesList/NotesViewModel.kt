@@ -1,22 +1,19 @@
 package com.rixspi.notes.presentation
 
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.Async
+import com.airbnb.mvrx.MavericksState
+import com.airbnb.mvrx.MavericksViewModelFactory
+import com.airbnb.mvrx.Uninitialized
 import com.rixspi.common.domain.interactors.DeleteNote
-import com.rixspi.common.domain.model.Note
+import com.rixspi.common.domain.interactors.GetNotes
 import com.rixspi.common.framework.di.AssistedViewModelFactory
 import com.rixspi.common.framework.di.hiltMavericksViewModelFactory
-import com.rixspi.common.domain.interactors.GetNotes
 import com.rixspi.common.presentation.BaseViewModel
-import com.rixspi.data.mapper.mapList
-import com.rixspi.domain.fold
-import com.rixspi.notes.presentation.mapper.mapContentInfo
-import com.rixspi.notes.presentation.mapper.mapNote
 import com.rixspi.notes.presentation.mapper.mapNotesList
 import com.rixspi.notes.presentation.model.NoteListItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.lang.IllegalStateException
 
 data class NotesViewState(
     val notes: Async<List<NoteListItem>> = Uninitialized
@@ -27,7 +24,6 @@ class NotesViewModel @AssistedInject constructor(
     getNotes: GetNotes,
     private val deleteNote: DeleteNote
 ) : BaseViewModel<NotesViewState>(state) {
-
 
     init {
         getNotes().execute(

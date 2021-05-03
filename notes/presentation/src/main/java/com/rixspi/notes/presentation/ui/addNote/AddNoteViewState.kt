@@ -105,7 +105,6 @@ data class AddNoteViewState(
         }
         .toList()
 
-
     private fun prepareNewState(
         note: EditableNoteItem,
         modifiedNote: EditableNoteItem

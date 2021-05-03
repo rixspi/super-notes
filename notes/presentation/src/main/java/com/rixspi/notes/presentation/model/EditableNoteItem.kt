@@ -1,8 +1,8 @@
 package com.rixspi.notes.presentation.model
 
 import com.rixspi.domain.util.empty
-import kotlinx.serialization.SerialName
 import java.util.*
+import kotlinx.serialization.SerialName
 
 data class EditableNoteItem(
     val id: String = UUID.randomUUID().toString(),

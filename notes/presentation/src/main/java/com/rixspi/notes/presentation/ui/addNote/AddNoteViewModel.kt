@@ -1,9 +1,9 @@
 package com.rixspi.notes.presentation.ui.addNote
 
-import com.airbnb.mvrx.*
+import com.airbnb.mvrx.MavericksViewModelFactory
+import com.rixspi.common.domain.interactors.CreateNote
 import com.rixspi.common.framework.di.AssistedViewModelFactory
 import com.rixspi.common.framework.di.hiltMavericksViewModelFactory
-import com.rixspi.common.domain.interactors.CreateNote
 import com.rixspi.common.presentation.BaseViewModel
 import com.rixspi.notes.presentation.mapper.toNote
 import com.rixspi.notes.presentation.model.EditableNoteItem
@@ -55,7 +55,7 @@ class AddNoteViewModel @AssistedInject constructor(
             params = CreateNote.Params(state.note.toNote())
         ) {
             // TODO handle errors
-            //copy(added = true)
+            // copy(added = true)
             copy()
         }
     }

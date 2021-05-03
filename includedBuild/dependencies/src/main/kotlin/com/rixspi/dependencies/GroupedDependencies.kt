@@ -1,6 +1,5 @@
 package com.rixspi.dependencies
 
-import org.apache.tools.ant.taskdefs.optional.depend.Depend
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -40,7 +39,7 @@ fun DependencyHandlerScope.firebase() {
     implementation(Deps.Firebase.firestore)
 }
 
-fun DependencyHandlerScope.hilt(){
+fun DependencyHandlerScope.hilt() {
     implementation(Deps.Hilt.hilt)
     kapt(Deps.Hilt.hiltProcessor)
 }
@@ -57,7 +56,7 @@ fun DependencyHandlerScope.androidTest() {
     androidTestImplementation(Deps.Test.Android.compose)
 }
 
-fun DependencyHandlerScope.compose(){
+fun DependencyHandlerScope.compose() {
     implementation(Deps.Android.Compose.ui)
     implementation(Deps.Android.Compose.tooling)
     implementation(Deps.Android.Compose.foundation)

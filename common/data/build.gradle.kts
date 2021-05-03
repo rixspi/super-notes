@@ -1,6 +1,5 @@
 import com.rixspi.dependencies.Deps
 import com.rixspi.dependencies.Modules
-import com.rixspi.dependencies.Versions
 
 plugins {
     id("java-library")

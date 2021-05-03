@@ -1,12 +1,9 @@
 package com.rixspi.domain
 
-import java.lang.Exception
-
-
 sealed class Error(open val throwable: Throwable? = null) {
     data class UnspecifiedError(override val throwable: Throwable? = null) : Error(throwable)
 
-    data class ElementNotFound(override val throwable: Throwable? = null): Error(throwable)
+    data class ElementNotFound(override val throwable: Throwable? = null) : Error(throwable)
 }
 
 fun Exception.toError(): Error {
@@ -91,7 +88,6 @@ inline fun <T, A> Result<T>.fold(
 fun <T> success(data: T) = Result.Success(data)
 
 fun failure(Error: Error) = Result.Failure(Error)
-
 
 inline fun <T> safeCall(call: () -> T): Result<T> =
     try {

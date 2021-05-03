@@ -1,7 +1,7 @@
 package com.rixspi.data.mapper
 
-import com.rixspi.data.model.ContentInfoDto
 import com.rixspi.common.domain.model.ContentInfo
+import com.rixspi.data.model.ContentInfoDto
 
 fun mapContentInfoDto(
     input: ContentInfoDto,

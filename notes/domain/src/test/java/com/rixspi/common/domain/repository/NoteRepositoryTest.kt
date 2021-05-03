@@ -1,15 +1,17 @@
 package com.rixspi.common.domain.repository
 
 import app.cash.turbine.test
-import com.rixspi.domain.Result
 import com.rixspi.common.domain.model.Note
 import com.rixspi.domain.Error
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import com.rixspi.domain.Result
+import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 abstract class NoteRepositoryTest {
@@ -70,7 +72,7 @@ abstract class NoteRepositoryTest {
         // Delays here are necessary for having separate `getNotes` triggers as without it the conflated
         //  StateFlow will "flatten" two or more calls, as we have only one value in there
         val notesCount = 10
-        repeat(notesCount){
+        repeat(notesCount) {
             delay(5)
             noteRepository.createNote(Note(it.toString()))
         }
@@ -81,7 +83,6 @@ abstract class NoteRepositoryTest {
         firstConsumer.cancel()
         secondConsumer.cancel()
     }
-
 
     @Test
     fun `flow testing with runBlockingTest`() {

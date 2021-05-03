@@ -1,9 +1,9 @@
 package com.rixspi.data.mapper
 
-import com.rixspi.data.model.ContentInfoDto
-import com.rixspi.data.model.NoteDto
 import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.domain.model.Note
+import com.rixspi.data.model.ContentInfoDto
+import com.rixspi.data.model.NoteDto
 
 fun mapNoteDto(
     input: NoteDto,

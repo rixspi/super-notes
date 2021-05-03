@@ -1,17 +1,28 @@
 package com.rixspi.common.presentation
 
-import com.airbnb.mvrx.*
-import com.rixspi.domain.Error
+import com.airbnb.mvrx.Async
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.InternalMavericksApi
+import com.airbnb.mvrx.Loading
+import com.airbnb.mvrx.MavericksState
+import com.airbnb.mvrx.MavericksViewModel
+import com.airbnb.mvrx.MavericksViewModelConfig
+import com.airbnb.mvrx.Success
 import com.rixspi.domain.Result
 import com.rixspi.domain.fold
 import com.rixspi.domain.interactor.SuspendUseCase
-import kotlinx.coroutines.*
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.reflect.KProperty1
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.reflect.KProperty1
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 @OptIn(InternalMavericksApi::class)
 open class BaseViewModel<S : MavericksState>(
@@ -155,5 +166,4 @@ open class BaseViewModel<S : MavericksState>(
             reducer = reducer
         )
     }
-
 }

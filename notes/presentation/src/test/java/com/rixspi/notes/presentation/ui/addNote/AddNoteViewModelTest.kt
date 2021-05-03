@@ -9,14 +9,12 @@ import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.ui.MainCoroutineRule
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 
 class AddNoteViewModelTest {
     private lateinit var addNoteViewModel: AddNoteViewModel

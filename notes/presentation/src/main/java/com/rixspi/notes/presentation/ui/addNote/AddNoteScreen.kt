@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,16 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
-import com.rixspi.common.domain.model.ContentInfo
-import com.rixspi.common.domain.model.Note
 import com.rixspi.common.presentation.ui.styling.shapes
 import com.rixspi.domain.util.empty
-import com.rixspi.notes.presentation.ui.notesList.FabButtonView
 import com.rixspi.notes.presentation.R
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
+import com.rixspi.notes.presentation.ui.notesList.FabButtonView
 import java.util.*
-
 
 @Composable
 fun AddNoteScreen(
@@ -197,7 +199,6 @@ fun NotesEditorPreview() {
         ),
         childrenNotes = listOf(subnoteSubnote)
     )
-
 
     val note = EditableNoteItem(
         id = UUID.randomUUID().toString(),

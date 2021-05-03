@@ -1,4 +1,5 @@
-import com.rixspi.dependencies.*
+import com.rixspi.dependencies.Deps
+import com.rixspi.dependencies.Modules
 
 plugins {
     id("kotlin")

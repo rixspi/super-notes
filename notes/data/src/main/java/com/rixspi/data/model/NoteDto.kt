@@ -1,6 +1,5 @@
 package com.rixspi.data.model
 
-
 import com.rixspi.domain.util.empty
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

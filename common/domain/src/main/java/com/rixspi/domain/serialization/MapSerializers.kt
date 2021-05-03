@@ -42,7 +42,6 @@ class MapOutput(val map: MutableMap<String, Any> = mutableMapOf()) : NamedValueE
     }
 }
 
-
 @InternalSerializationApi
 class MapInput(val map: Map<String, Any>) : NamedValueDecoder() {
     override fun decodeCollectionSize(descriptor: SerialDescriptor): Int {

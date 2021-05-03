@@ -44,7 +44,6 @@ object Deps {
             val activityKtx = "androidx.activity:activity-ktx:${Versions.Android.androidxActivity}"
             val navigation =
                 "androidx.navigation:navigation-compose:${Versions.Android.composeNavigation}"
-
         }
     }
 
@@ -66,7 +65,8 @@ object Deps {
     object Test {
         object Unit {
             const val junit = "junit:junit:${Versions.Test.Unit.junit}"
-            const val coroutines ="org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+            const val coroutines =
+                "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
             const val mockk = "io.mockk:mockk:${Versions.Test.mockk}"
             const val flowTurbine = "app.cash.turbine:turbine:${Versions.Test.flowTurbine}"
         }

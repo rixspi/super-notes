@@ -1,6 +1,5 @@
 package com.rixspi.domain.interactor
 
-
 import com.rixspi.domain.Result
 import com.rixspi.domain.toError
 import kotlinx.coroutines.CoroutineDispatcher

@@ -1,5 +1,11 @@
-import com.rixspi.dependencies.*
+import com.rixspi.dependencies.Deps
+import com.rixspi.dependencies.Modules
 import com.rixspi.dependencies.Versions.Android
+import com.rixspi.dependencies.androidTest
+import com.rixspi.dependencies.compose
+import com.rixspi.dependencies.firebase
+import com.rixspi.dependencies.hilt
+import com.rixspi.dependencies.unitTest
 
 plugins {
     id("com.android.library")

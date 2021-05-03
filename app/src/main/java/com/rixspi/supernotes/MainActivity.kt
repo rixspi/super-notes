@@ -7,15 +7,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.rixspi.common.presentation.ui.styling.SuperNoteTheme
 import com.rixspi.notes.presentation.ui.addNote.AddNoteScreen
 import com.rixspi.notes.presentation.ui.notesList.NotesScreen
-import com.rixspi.common.presentation.ui.styling.SuperNoteTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

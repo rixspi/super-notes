@@ -1,9 +1,8 @@
 package com.rixspi.data.dataSource
 
-
+import com.rixspi.common.domain.model.Note
 import com.rixspi.data.model.NoteDto
 import com.rixspi.domain.Result
-import com.rixspi.common.domain.model.Note
 import kotlinx.coroutines.flow.Flow
 
 /**

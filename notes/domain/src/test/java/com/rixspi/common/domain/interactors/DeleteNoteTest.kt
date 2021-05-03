@@ -7,11 +7,9 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import java.lang.IllegalStateException
 
 class DeleteNoteTest {
     private lateinit var deleteNote: DeleteNote
@@ -37,7 +35,6 @@ class DeleteNoteTest {
             assertEquals(success, result)
         }
     }
-
 
     @Test
     fun `when deletion is unsuccessful return meaningful error`() {
