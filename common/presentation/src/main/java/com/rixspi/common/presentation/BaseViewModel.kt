@@ -32,7 +32,7 @@ open class BaseViewModel<S : MavericksState>(
     private fun <T> Result<T>.toAsync(): Async<T> = fold(
         error = {
             // TODO Change this hardcoded exception
-            Fail(IllegalStateException())
+            Fail(IllegalStateException("Hardcoded error"))
         },
         success = {
             Success(it)
@@ -42,7 +42,7 @@ open class BaseViewModel<S : MavericksState>(
     private fun <T, A> Result<T>.toAsync(mapper: ((T) -> A)): Async<A> = fold(
         error = {
             // TODO Change this hardcoded exception
-            Fail(IllegalStateException())
+            Fail(IllegalStateException("Hardcoded error"))
         },
         success = {
             Success(mapper(it))

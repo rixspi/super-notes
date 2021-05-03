@@ -1,3 +1,5 @@
+@file: Suppress("TooManyFunctions")
+
 package com.rixspi.domain
 
 sealed class Error(open val throwable: Throwable? = null) {
@@ -87,8 +89,9 @@ inline fun <T, A> Result<T>.fold(
 
 fun <T> success(data: T) = Result.Success(data)
 
-fun failure(Error: Error) = Result.Failure(Error)
+fun failure(error: Error) = Result.Failure(error)
 
+@Suppress("TooGenericExceptionCaught")
 inline fun <T> safeCall(call: () -> T): Result<T> =
     try {
         Result.Success(call.invoke())

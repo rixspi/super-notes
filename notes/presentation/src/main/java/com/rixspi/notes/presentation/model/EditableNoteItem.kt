@@ -1,7 +1,7 @@
 package com.rixspi.notes.presentation.model
 
 import com.rixspi.domain.util.empty
-import java.util.*
+import java.util.UUID
 import kotlinx.serialization.SerialName
 
 data class EditableNoteItem(

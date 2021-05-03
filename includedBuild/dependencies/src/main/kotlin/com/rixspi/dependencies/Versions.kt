@@ -1,5 +1,6 @@
 package com.rixspi.dependencies
 
+@Suppress("MayBeConst", "MemberNameEqualsClassName")
 object Versions {
     const val kotlin = "1.4.30"
     const val kotlinSerialization = "1.0.1"

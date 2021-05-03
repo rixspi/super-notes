@@ -10,7 +10,7 @@ import com.rixspi.notes.presentation.model.EditableNoteItem
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.util.*
+import java.util.UUID
 
 class AddNoteViewModel @AssistedInject constructor(
     @Assisted state: AddNoteViewState,

@@ -1,5 +1,13 @@
+@file: Suppress("TooManyFunctions")
+
 package com.rixspi.dependencies
 
+import com.rixspi.dependencies.Deps.Android
+import com.rixspi.dependencies.Deps.Android.Compose
+import com.rixspi.dependencies.Deps.Firebase
+import com.rixspi.dependencies.Deps.Hilt
+import com.rixspi.dependencies.Deps.Test
+import com.rixspi.dependencies.Deps.Test.Unit
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -26,43 +34,43 @@ private fun DependencyHandler.project(
 ) as ProjectDependency
 
 fun DependencyHandlerScope.android() {
-    implementation(Deps.Android.kore)
-    implementation(Deps.Android.appCompat)
-    implementation(Deps.Android.constraintLayout)
+    implementation(Android.kore)
+    implementation(Android.appCompat)
+    implementation(Android.constraintLayout)
 }
 
 fun DependencyHandlerScope.firebase() {
-    implementation(platform(Deps.Firebase.platform))
-    implementation(Deps.Firebase.playServicesCoroutines)
-    implementation(Deps.Firebase.analyticsKtx)
-    implementation(Deps.Firebase.auth)
-    implementation(Deps.Firebase.firestore)
+    implementation(platform(Firebase.platform))
+    implementation(Firebase.playServicesCoroutines)
+    implementation(Firebase.analyticsKtx)
+    implementation(Firebase.auth)
+    implementation(Firebase.firestore)
 }
 
 fun DependencyHandlerScope.hilt() {
-    implementation(Deps.Hilt.hilt)
-    kapt(Deps.Hilt.hiltProcessor)
+    implementation(Hilt.hilt)
+    kapt(Hilt.hiltProcessor)
 }
 
 fun DependencyHandlerScope.unitTest() {
-    testImplementation(Deps.Test.Unit.junit)
-    testImplementation(Deps.Test.Unit.mockk)
-    testImplementation(Deps.Test.Unit.coroutines)
+    testImplementation(Unit.junit)
+    testImplementation(Unit.mockk)
+    testImplementation(Unit.coroutines)
 }
 
 fun DependencyHandlerScope.androidTest() {
-    androidTestImplementation(Deps.Test.Android.junitExt)
-    androidTestImplementation(Deps.Test.Android.espresso)
-    androidTestImplementation(Deps.Test.Android.compose)
+    androidTestImplementation(Test.Android.junitExt)
+    androidTestImplementation(Test.Android.espresso)
+    androidTestImplementation(Test.Android.compose)
 }
 
 fun DependencyHandlerScope.compose() {
-    implementation(Deps.Android.Compose.ui)
-    implementation(Deps.Android.Compose.tooling)
-    implementation(Deps.Android.Compose.foundation)
-    implementation(Deps.Android.Compose.material)
-    implementation(Deps.Android.Compose.materialIcons)
-    implementation(Deps.Android.Compose.materialIconsExtended)
-    implementation(Deps.Android.Compose.activity)
-    implementation(Deps.Android.Compose.activityKtx)
+    implementation(Compose.ui)
+    implementation(Compose.tooling)
+    implementation(Compose.foundation)
+    implementation(Compose.material)
+    implementation(Compose.materialIcons)
+    implementation(Compose.materialIconsExtended)
+    implementation(Compose.activity)
+    implementation(Compose.activityKtx)
 }

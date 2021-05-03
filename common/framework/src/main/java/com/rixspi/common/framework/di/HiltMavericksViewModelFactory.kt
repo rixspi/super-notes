@@ -11,7 +11,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 /**
- * To connect Mavericks ViewModel creation with Hilt's dependency injection, add the following Factory and companion object to your MavericksViewModel.
+ * To connect Mavericks ViewModel creation with Hilt's dependency injection, add the following Factory and companion
+ * object to your MavericksViewModel.
  *
  * Example:
  *
@@ -52,8 +53,9 @@ class HiltMavericksViewModelFactory<VM : MavericksViewModel<S>, S : MavericksSta
 }
 
 /**
- * Hilt's ViewModelComponent's parent is ActivityRetainedComponent but there is no easy way to access it. SingletonComponent should be sufficient
- * because the ViewModel that gets created is the only object with a reference to the created component so the lifecycle of it will
+ * Hilt's ViewModelComponent's parent is ActivityRetainedComponent but there is no easy way to access it.
+ * SingletonComponent should be sufficient because the ViewModel that gets created is the only object with a reference
+ * to the created component so the lifecycle of it will
  * still be correct.
  */
 @MavericksViewModelScoped

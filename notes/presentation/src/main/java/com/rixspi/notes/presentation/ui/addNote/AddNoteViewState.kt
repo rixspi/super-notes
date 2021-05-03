@@ -3,7 +3,7 @@ package com.rixspi.notes.presentation.ui.addNote
 import com.airbnb.mvrx.MavericksState
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
-import java.util.*
+import java.util.UUID
 
 data class AddNoteViewState(
     val note: EditableNoteItem = EditableNoteItem(

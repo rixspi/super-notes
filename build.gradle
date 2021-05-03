@@ -35,7 +35,7 @@ allprojects {
         kotlinOptions {
             freeCompilerArgs += [
                     "-XXLanguage:+InlineClasses",
-                    "-Xopt-in=org.mylibrary.OptInAnnotation"
+                    "-Xopt-in=kotlin.RequiresOptIn"
             ]
         }
     }

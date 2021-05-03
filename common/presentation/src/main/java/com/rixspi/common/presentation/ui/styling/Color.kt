@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package com.rixspi.common.presentation.ui.styling
 
 import androidx.compose.ui.graphics.Color

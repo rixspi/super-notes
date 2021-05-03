@@ -2,7 +2,7 @@ package com.rixspi.notes.presentation.ui.addNote
 
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
-import java.util.*
+import java.util.UUID
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -262,8 +262,8 @@ fun compareEditableContentInfoItemContentExceptId(
     editableContent: EditableContentInfoItem,
     other: EditableContentInfoItem
 ) = editableContent.bottom == other.bottom &&
-        editableContent.top == other.top &&
-        editableContent.start == other.start &&
-        editableContent.end == other.end &&
-        editableContent.text == other.text &&
-        editableContent.image == other.image
+    editableContent.top == other.top &&
+    editableContent.start == other.start &&
+    editableContent.end == other.end &&
+    editableContent.text == other.text &&
+    editableContent.image == other.image

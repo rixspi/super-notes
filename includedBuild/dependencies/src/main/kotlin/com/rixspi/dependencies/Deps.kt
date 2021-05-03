@@ -1,5 +1,8 @@
+
+
 package com.rixspi.dependencies
 
+@Suppress("MayBeConst", "MemberNameEqualsClassName")
 object Deps {
 
     val mvrx = "com.airbnb.android:mavericks:${Versions.mvrx}"

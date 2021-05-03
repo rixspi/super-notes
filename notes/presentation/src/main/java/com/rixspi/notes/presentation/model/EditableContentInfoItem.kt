@@ -1,6 +1,6 @@
 package com.rixspi.notes.presentation.model
 
-import java.util.*
+import java.util.UUID
 
 data class EditableContentInfoItem(
     val id: String = UUID.randomUUID().toString(),

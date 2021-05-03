@@ -28,7 +28,7 @@ import com.rixspi.notes.presentation.R
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.ui.notesList.FabButtonView
-import java.util.*
+import java.util.UUID
 
 @Composable
 fun AddNoteScreen(
@@ -68,6 +68,7 @@ fun AddNoteScreen(
 }
 
 @Composable
+@Suppress("LongParameterList")
 fun NoteEditor(
     addNote: (EditableNoteItem) -> Unit,
     updateTitle: (EditableNoteItem, String) -> Unit,

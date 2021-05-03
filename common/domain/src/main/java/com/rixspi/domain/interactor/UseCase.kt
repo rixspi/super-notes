@@ -13,6 +13,7 @@ abstract class UseCase<in P, R>(private val coroutineDispatcher: CoroutineDispat
      *
      * @param parameters the input parameters to run the use case with
      */
+    @Suppress("TooGenericExceptionCaught")
     suspend operator fun invoke(parameters: P): Result<R> {
         return try {
             // Moving all use case's executions to the injected dispatcher
@@ -44,6 +45,7 @@ abstract class ParameterlessUseCase<R>(private val coroutineDispatcher: Coroutin
      *
      * @param parameters the input parameters to run the use case with
      */
+    @Suppress("TooGenericExceptionCaught")
     suspend operator fun invoke(): Result<R> {
         return try {
             // Moving all use case's executions to the injected dispatcher
