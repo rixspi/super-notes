@@ -5,6 +5,7 @@ buildscript {
         google()
         jcenter()
         maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local/" }
+        gradlePluginPortal()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
@@ -12,9 +13,17 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.5'  // Google Services plugin
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.31.1-alpha'
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+}
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.16.0"
+}
+
+repositories {
+    mavenCentral()
 }
 
 allprojects {
@@ -32,6 +41,37 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+def projectSource = file(projectDir)
+def configFile = files("$rootDir/config/detekt/detekt.yml")
+def baselineFile = file("$rootDir/config/detekt/baseline.xml")
+def kotlinFiles = "**/*.kt"
+def resourceFiles = "**/resources/**"
+def buildFiles = "**/build/**"
+
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+tasks.register("detektAll", io.gitlab.arturbosch.detekt.Detekt) {
+    def autoFix = project.hasProperty('detektAutoFix')
+
+    description = "Custom DETEKT build for all modules"
+    parallel = true
+    ignoreFailures = false
+    autoCorrect = autoFix
+    buildUponDefaultConfig = true
+    setSource(projectSource)
+    if (baselineFile.exists()) {
+        baseline.set(baselineFile)
+    }
+    config.setFrom(configFile)
+    include(kotlinFiles)
+    exclude(resourceFiles, buildFiles)
+    reports {
+        html.enabled = true
+        xml.enabled = false
+        txt.enabled = false
+    }
+}
+
+dependencies {
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0"
 }
