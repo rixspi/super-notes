@@ -11,13 +11,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Android.compileSdk)
-    buildToolsVersion(Android.buildTools)
+    compileSdk = Android.compileSdk
+    buildToolsVersion = Android.buildTools
     defaultConfig {
-        minSdkVersion(Android.minSdk)
-        targetSdkVersion(Android.targetSdk)
-        versionCode(Android.versionCode)
-        versionName(Android.versionName)
+        minSdk = Android.minSdk
+        targetSdk = Android.targetSdk
+        // versionCode(Android.versionCode)
+        // versionName(Android.versionName)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
