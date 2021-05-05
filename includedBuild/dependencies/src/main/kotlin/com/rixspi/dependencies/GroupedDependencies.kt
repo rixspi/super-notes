@@ -45,6 +45,7 @@ fun DependencyHandlerScope.firebase() {
     implementation(Firebase.analyticsKtx)
     implementation(Firebase.auth)
     implementation(Firebase.firestore)
+    implementation(Firebase.crashlytics)
 }
 
 fun DependencyHandlerScope.hilt() {

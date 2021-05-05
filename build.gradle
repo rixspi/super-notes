@@ -12,7 +12,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.5'  // Google Services plugin
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.31.1-alpha'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.35'
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

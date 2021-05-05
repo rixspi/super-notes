@@ -10,7 +10,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.gms.google-services")  // Google Services plugin
-
+    id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
@@ -65,22 +65,22 @@ android {
     }
 
     packagingOptions {
-        resources.excludes.add("META-INF/DEPENDENCIES")
-        resources.excludes.add("META-INF/LICENSE")
-        resources.excludes.add("META-INF/LICENSE.txt")
-        resources.excludes.add("META-INF/license.txt")
-        resources.excludes.add("META-INF/NOTICE")
-        resources.excludes.add("META-INF/NOTICE.txt")
-        resources.excludes.add("META-INF/notice.txt")
-        resources.excludes.add("META-INF/ASL2.0")
-        resources.excludes.add("META-INF/*.kotlin_module")
-        resources.excludes.add("**/attach_hotspot_windows.dll")
-        resources.excludes.add("META-INF/AL2.0")
-        resources.excludes.add("META-INF/LGPL2.1")
-        resources.excludes.add("META-INF/licenses/**")
-
+        with(resources.excludes) {
+            add("META-INF/LICENSE")
+            add("META-INF/DEPENDENCIES")
+            add("META-INF/LICENSE.txt")
+            add("META-INF/license.txt")
+            add("META-INF/NOTICE")
+            add("META-INF/NOTICE.txt")
+            add("META-INF/notice.txt")
+            add("META-INF/ASL2.0")
+            add("META-INF/*.kotlin_module")
+            add("**/attach_hotspot_windows.dll")
+            add("META-INF/AL2.0")
+            add("META-INF/LGPL2.1")
+            add("META-INF/licenses/**")
+        }
     }
-
 }
 
 dependencies {

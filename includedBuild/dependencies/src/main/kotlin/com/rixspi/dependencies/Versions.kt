@@ -46,6 +46,6 @@ object Versions {
         }
     }
 
-    const val firebase = "26.4.0"
+    const val firebase = "27.1.0"
     const val firebaseCoroutines = "1.4.2"
 }

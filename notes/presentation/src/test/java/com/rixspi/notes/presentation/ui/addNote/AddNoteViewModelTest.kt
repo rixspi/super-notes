@@ -36,7 +36,7 @@ class AddNoteViewModelTest {
     fun `addNote adds new empty note to the children notes`() {
         runBlocking {
             val stateBeforeAdd = addNoteViewModel.awaitState()
-            addNoteViewModel.addNote(parentNote = stateBeforeAdd.note)
+            addNoteViewModel.addNote(parentNote = stateBeforeAdd.note, 0)
 
             val state = addNoteViewModel.awaitState()
             assertTrue(state.note.childrenNotes.isNotEmpty())

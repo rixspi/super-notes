@@ -58,6 +58,8 @@ object Deps {
         val firestore = "com.google.firebase:firebase-firestore-ktx"
         val playServicesCoroutines =
             "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.firebaseCoroutines}"
+
+        val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     }
 
     object Hilt {
