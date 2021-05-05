@@ -17,7 +17,7 @@ class AddNoteViewModel @AssistedInject constructor(
     private val createNote: CreateNote
 ) : BaseViewModel<AddNoteViewState>(state) {
 
-    fun addNote(parentNote: EditableNoteItem, index: Int = 0) {
+    fun addNote(parentNote: EditableNoteItem, index: Int) {
         // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
         // the reducer will be impure, because if run twice we will get two different UUIDs
         // I don't want to turn off debug validation from Maverick, so this is the simplest solution

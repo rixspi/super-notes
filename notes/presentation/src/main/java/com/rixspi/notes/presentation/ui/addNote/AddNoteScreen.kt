@@ -52,7 +52,7 @@ fun AddNoteScreen(
     ) {
         NoteEditor(
             note = note,
-            addNote = { viewModel.addNote(it) },
+            addNote = { parent, index -> viewModel.addNote(parent, index) },
             updateTitle = { note, title -> viewModel.updateTitle(note, title) },
             updateContentInto = { note, index, content ->
                 viewModel.updateContentInfo(
@@ -70,7 +70,7 @@ fun AddNoteScreen(
 @Composable
 @Suppress("LongParameterList")
 fun NoteEditor(
-    addNote: (EditableNoteItem) -> Unit,
+    addNote: (EditableNoteItem, Int) -> Unit,
     updateTitle: (EditableNoteItem, String) -> Unit,
     updateContentInto: (EditableNoteItem, Int, String) -> Unit,
     addContentInfo: (EditableNoteItem, Int) -> Unit,
@@ -87,7 +87,7 @@ fun NoteEditor(
 
                     ContentInfoButtons(
                         showRemove = false,
-                        add = { addNote(note) },
+                        add = { addNote(note, 0) },
                     )
                 }
             }
@@ -109,7 +109,7 @@ fun NoteEditor(
         note.childrenNotes.forEach {
             NoteEditor(
                 note = it,
-                addNote = { addNote(it) },
+                addNote = { parentNote, index -> addNote(parentNote, index) },
                 updateTitle = { note, title -> updateTitle(note, title) },
                 updateContentInto = { note, index, content ->
                     updateContentInto(
@@ -218,7 +218,7 @@ fun NotesEditorPreview() {
         }
     ) {
         NoteEditor(
-            addNote = {},
+            addNote = { _, _ -> },
             updateTitle = { _, _ -> },
             updateContentInto = { _, _, _ -> },
             addContentInfo = { _, _ -> },

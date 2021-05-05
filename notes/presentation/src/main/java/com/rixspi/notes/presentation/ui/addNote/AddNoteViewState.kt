@@ -109,10 +109,13 @@ data class AddNoteViewState(
         note: EditableNoteItem,
         modifiedNote: EditableNoteItem
     ): AddNoteViewState {
-        // TODO This check fails sometimes
         return if (note.id == this.note.id) {
             copy(note = modifiedNote)
         } else {
+            // What happens when I am adding a note to the third level note?
+            //  I cannot look for existing note on the second level! I have to look at the third
+            //  this works for creating a second level note and third level note, because first level goes in the if
+            //  branch above, the second uses children notes
             val modifiedChildrenNotes = this.note.childrenNotes.modify {
                 set(indexOfFirst { it.id == note.id }, modifiedNote)
             }
