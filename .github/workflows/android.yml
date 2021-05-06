@@ -18,6 +18,16 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+      env:
+        GP_KEY: ${{ secrets.GOOGLE_PLAY_SERVICES}}
+    - name: Base64 secret to file
+  # You may pin to the exact commit or the version.
+  # uses: davidSchuppa/base64Secret-toFile-action@12bacf3726852dd0fb699d3c0a2500f8f2a2f254
+      uses: davidSchuppa/base64Secret-toFile-action@v1
+      with:
+        secret: GOOGLE_PLAY_SERVICES
+        filename: google_play_services.json
+        destination-path: /app/
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
