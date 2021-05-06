@@ -25,7 +25,7 @@ jobs:
       uses: timheuer/base64-to-file@v1.0.4
       with:
         # Name of the file when written to temp location
-        fileName: ${{ github.workspace }}/super-notes/app/google_services.json
+        fileName: ${{ github.workspace }}/app/google_services.json
         # The base64 encoded string
         encodedString:  ${{ secrets.GOOGLE_PLAY_SERVICES}}
 
