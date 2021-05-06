@@ -25,13 +25,13 @@ jobs:
       uses: timheuer/base64-to-file@v1.0.4
       with:
         # Name of the file when written to temp location
-        fileName: ./app/google_services.json
+        fileName: ${{ github.workspace }}/super-notes/app/google_services.json
         # The base64 encoded string
         encodedString:  ${{ secrets.GOOGLE_PLAY_SERVICES}}
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Run detekt
-      run: ./gradlew detektAll
+#     - name: Run detekt
+#       run: ./gradlew detektAll
     - name: Run unit tests
       run: ./gradlew test
