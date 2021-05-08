@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  detekt:
+  quality:
 
     runs-on: ubuntu-latest
 
@@ -34,7 +34,7 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-#     - name: Run detekt
-#       run: ./gradlew detektAll
+    - name: Run detekt
+      run: ./gradlew detektAll
     - name: Run unit tests
-      run: ./gradlew test
+      run: ./gradlew clean test
