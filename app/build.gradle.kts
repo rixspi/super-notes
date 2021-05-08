@@ -1,3 +1,4 @@
+
 import com.rixspi.dependencies.Deps
 import com.rixspi.dependencies.Modules
 import com.rixspi.dependencies.Versions.Android
@@ -5,6 +6,11 @@ import com.rixspi.dependencies.android
 import com.rixspi.dependencies.androidTest
 import com.rixspi.dependencies.compose
 import com.rixspi.dependencies.hilt
+import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 
 plugins {
     id("com.android.application")
@@ -62,6 +68,36 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = Android.compose
+    }
+
+    testOptions {
+        animationsDisabled = true
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+        // Changes the directory where Gradle saves test reports. By default, Gradle saves test reports
+        // in the path_to_your_project/module_name/build/outputs/reports/ directory.
+        // '$rootDir' sets the path relative to the root directory of the current project.
+        reportDir = "$rootDir/reports/androidTest/${project.name}"
+        // Changes the directory where Gradle saves test results. By default, Gradle saves test results
+        // in the path_to_your_project/module_name/build/outputs/test-results/ directory.
+        // '$rootDir' sets the path relative to the root directory of the current project.
+        resultsDir = "$rootDir/reports/androidTest/results/${project.name}"
+
+        unitTests.isReturnDefaultValues = true
+        unitTests.all {
+            with(it) {
+                reports {
+                    junitXml.destination = file("$rootDir/reports/${project.name}/xml")
+                    html.isEnabled = true
+                    html.destination = file("$rootDir/reports/${project.name}/html")
+                }
+
+                jvmArgs = listOf("-XX:MaxPermSize=512m")
+
+                testLogging {
+                    events = setOf(PASSED, SKIPPED, FAILED, STANDARD_OUT, STANDARD_ERROR)
+                }
+            }
+        }
     }
 
     packagingOptions {

@@ -8,9 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
-
 dependencies {
     implementation(Deps.Kotlin.serialization)
     implementation(Deps.Kotlin.coroutines)
-
 }

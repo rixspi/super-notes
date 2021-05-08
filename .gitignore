@@ -15,3 +15,4 @@
 includedBuild/dependencies/build
 .idea
 app/google-services.json
+reports

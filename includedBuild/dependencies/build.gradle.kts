@@ -8,7 +8,7 @@ group = "com.rixspi.dependencies"
 version = "SNAPSHOT"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 gradlePlugin {

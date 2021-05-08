@@ -4,7 +4,7 @@ includeBuild("includedBuild/dependencies")
 pluginManagement {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         gradlePluginPortal()
     }
 }
