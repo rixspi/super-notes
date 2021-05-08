@@ -38,3 +38,8 @@ jobs:
       run: ./gradlew detektAll
     - name: Run unit tests
       run: ./gradlew clean test
+    - name: Unit tests results
+      uses: actions/upload-artifact@v1
+      with:
+        name: unit-tests-results
+        path: app/build/reports/tests/testDebugUnitTest/index.html
