@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  detekt:
+  quality:
 
     runs-on: ubuntu-latest
 
@@ -18,10 +18,28 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+      env:
+        GP_KEY: ${{ secrets.GOOGLE_PLAY_SERVICES}}
+        
+    - name: base64-to-file
+      id: gp_key
+      uses: timheuer/base64-to-file@v1.0.4
+      with:
+        # Name of the file when written to temp location
+        fileName: google-services.json
+        # The base64 encoded string
+        encodedString:  ${{ secrets.GOOGLE_PLAY_SERVICES}}
+    - name: copy-gp-key-to-project
+      run: cp -v ${{ steps.gp_key.outputs.filePath }}  ${{ github.workspace }}/app/
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Run detekt
       run: ./gradlew detektAll
     - name: Run unit tests
-      run: ./gradlew test
+      run: ./gradlew clean test
+    - name: Unit tests results
+      uses: actions/upload-artifact@v1
+      with:
+        name: unit-tests-results
+        path: app/build/reports/tests/testDebugUnitTest/index.html
