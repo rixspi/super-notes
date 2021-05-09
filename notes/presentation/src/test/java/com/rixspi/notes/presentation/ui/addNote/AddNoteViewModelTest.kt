@@ -15,6 +15,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.Timeout
 
 class AddNoteViewModelTest {
     private lateinit var addNoteViewModel: AddNoteViewModel
@@ -22,6 +23,9 @@ class AddNoteViewModelTest {
 
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+
+    @get:Rule
+    val timeoutRule: Timeout = Timeout.seconds(1)
 
     @Before
     fun setup() {
@@ -39,6 +43,28 @@ class AddNoteViewModelTest {
             addNoteViewModel.addNote(parentNote = stateBeforeAdd.note, 0)
 
             val state = addNoteViewModel.awaitState()
+            assertTrue(state.note.childrenNotes.isNotEmpty())
+        }
+    }
+
+    @Test
+    fun `addNote to child note and again and again`() {
+        runBlocking {
+            val stateBeforeAdd = addNoteViewModel.awaitState()
+            addNoteViewModel.addNote(parentNote = stateBeforeAdd.note, 0)
+
+            val state = addNoteViewModel.awaitState()
+
+            addNoteViewModel.addNote(parentNote = state.note.childrenNotes[0], 0)
+
+            val state2 = addNoteViewModel.awaitState()
+
+            addNoteViewModel.addNote(parentNote = state2.note.childrenNotes[0].childrenNotes[0], 0)
+
+            val state3 = addNoteViewModel.awaitState()
+
+            addNoteViewModel.addNote(parentNote = state3.note.childrenNotes[0].childrenNotes[0].childrenNotes[0], 0)
+
             assertTrue(state.note.childrenNotes.isNotEmpty())
         }
     }
