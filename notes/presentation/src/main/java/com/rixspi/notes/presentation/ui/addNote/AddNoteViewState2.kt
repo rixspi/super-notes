@@ -11,9 +11,15 @@ data class AddNoteViewState2(
     val notes: Map<String, EditableNoteItem2> = mapOf(
         ROOT to EditableNoteItem2(
             id = UUID.randomUUID().toString(),
-            position = "0",
+            position = 0,
             contentInfos = listOf(EditableContentInfoItem())
         )
+    ),
+    val sibilings: Map<String, List<String>> = mapOf(
+        ROOT to emptyList()
+    ),
+    val positions: Map<String, Int> = mapOf(
+        ROOT to 0
     ),
     val added: Boolean = false
 ) : MavericksState {
@@ -57,8 +63,14 @@ data class AddNoteViewState2(
     ): AddNoteViewState2 {
 
         // position has to always be one behind the parent, so I need a method which will calculate that
+        val parentNotePosition = positions[parentNote.id] ?: 0
+        val nextNotePosition = sibilings[parentNote.id]
+            ?.map { positions[it] ?: 0 }
+            ?.filter { it > parentNotePosition }
+            ?.minOrNull() ?: 0
+        val position = calculateMiddle(parentNotePosition, nextNotePosition)
 
-        return copy(notes = notes.copy(id to EditableNoteItem2(id = id, parentId = parentNote.id, position = "1000")))
+        return copy(notes = notes.copy(id to EditableNoteItem2(id = id, parentId = parentNote.id, position = position)))
     }
 
     fun removeChildrenNote(
@@ -67,6 +79,15 @@ data class AddNoteViewState2(
     ): AddNoteViewState2 {
 
         return this
+    }
+
+    private val positionStep = 10000
+    private fun calculateMiddle(start: Int, end: Int): Int {
+        if (start == 0) {
+            return positionStep
+        }
+
+        return start + end / 2
     }
 
     private fun <T> List<T>.modify(

@@ -66,7 +66,7 @@ class AddNoteViewStateTest2 {
         val id = "CHILD_LEVEL_1"
         addNoteViewState = addNoteViewState.addChildrenNote(id = id)
 
-        val expectedPosition = 1000
+        val expectedPosition = 0
 
         assertEquals(expectedPosition.toString(), addNoteViewState.notes[id]?.position)
     }
@@ -80,9 +80,9 @@ class AddNoteViewStateTest2 {
 
         // TODO prepare a function which will handle creating this positions
         //  for now finding the middle between numbers is suffice, with strings I can go to fractions
-        val expectedPosition = 500
+        val expectedPosition = 10000
 
-        assertEquals(expectedPosition.toString(), addNoteViewState.notes[id2]?.position)
+        assertEquals(expectedPosition, addNoteViewState.notes[id2]?.position)
     }
 
     @Test
