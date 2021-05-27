@@ -6,15 +6,20 @@ class NotesHandler(
     val onChangeListener: (List<EditableNoteItem2>) -> Unit = {}
 ) {
     private val notes: MutableMap<String, EditableNoteItem2> = mutableMapOf()
-    private val children: MutableMap<String, MutableList<String>> = mutableMapOf()
-    private val depth: MutableMap<Int, MutableList<String>> = mutableMapOf()
+    private val children: MutableMap<String, LinkedList> = mutableMapOf()
+    private val depth: MutableMap<Int, LinkedList> = mutableMapOf()
     private val positions: MutableMap<String, Int> = mutableMapOf()
 
     fun appendNote(note: EditableNoteItem2) {
         notes[note.id] = note
-        children.getOrPut(note.parentId ?: "ROOT") { mutableListOf() }.add(note.id)
-        positions[note.id] = calculateMiddle(getLastSiblingPosition(note.id), 0)
-        depth.getOrPut(note.depth) { mutableListOf() }.add(note.id)
+
+        children.getOrPut(note.parentId ?: "ROOT") { LinkedList() }.add(note.id)
+
+        //positions[note.id] = calculateMiddle(getLastSiblingPosition(note.id), 0)
+
+        depth.getOrPut(note.depth) { LinkedList() }.add(note.id)
+
+
         onChangeListener(flattenNotes())
     }
 
@@ -25,7 +30,7 @@ class NotesHandler(
         onChangeListener(flattenNotes())
     }
 
-    fun getSiblings(noteId: String): List<String> = depth[notes[noteId]?.depth] ?: emptyList()
+    fun getSiblings(noteId: String): List<String> = depth[notes[noteId]?.depth]?.getAll() ?: emptyList()
 
     fun getLastSiblingPosition(noteId: String): Int {
         val siblingsPosition = getSiblings(noteId).map { positions[it] }
@@ -36,7 +41,7 @@ class NotesHandler(
     private fun flattenNotes(): List<EditableNoteItem2> {
         val notesFlat = mutableListOf<EditableNoteItem2>()
         depth[0]
-            ?.sortedBy { positions[it] }
+            ?.getAll()
             ?.forEach { noteId ->
                 notesFlat.add(notes[noteId]!!)
                 notesFlat.addAll(getDescendants(noteId).mapNotNull { notes[it] })
@@ -48,11 +53,11 @@ class NotesHandler(
     private fun getDescendants(noteId: String, descendants: List<String> = emptyList()): List<String> {
         val descendantsMutable = descendants.toMutableList()
         children[noteId]
-            ?.sortedBy { positions[it] }
+            ?.getAll()
             ?.forEach {
-            descendantsMutable.add(it)
-            getDescendants(it, descendantsMutable)
-        }
+                descendantsMutable.add(it)
+                getDescendants(it, descendantsMutable)
+            }
         return descendants
     }
 
