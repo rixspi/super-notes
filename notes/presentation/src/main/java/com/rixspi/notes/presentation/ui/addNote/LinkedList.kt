@@ -32,6 +32,12 @@ class LinkedList {
         val nodeInfo = nodes[id]
         val previousNodeInfo = nodes[nodeInfo?.previousId]
         val nextNodeInfo = nodes[nodeInfo?.nextId]
+        if (id == head) {
+            head = nodeInfo?.nextId
+        }
+        if (id == tail) {
+            tail = nodeInfo?.previousId
+        }
         previousNodeInfo?.nextId = nodeInfo?.nextId
         nextNodeInfo?.previousId = nodeInfo?.previousId
         nodes.remove(id)

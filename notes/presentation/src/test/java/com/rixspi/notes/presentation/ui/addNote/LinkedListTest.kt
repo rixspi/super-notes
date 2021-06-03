@@ -55,4 +55,45 @@ class LinkedListTest {
         assertEquals("newThird", linkedList.tail)
         assertEquals(listOf("first", "second", "third", "newThird"), linkedList.getAll())
     }
+
+    @Test
+    fun `remove from head`() {
+        linkedList.add("first")
+        linkedList.add("second", "first")
+        linkedList.add("third", "second")
+
+        val head = requireNotNull(linkedList.head)
+
+        linkedList.remove(head)
+
+        assertEquals("second", linkedList.head)
+        assertEquals(listOf("second", "third"), linkedList.getAll())
+    }
+
+    @Test
+    fun `remove from middle`() {
+        linkedList.add("first")
+        linkedList.add("second", "first")
+        linkedList.add("third", "second")
+
+        linkedList.remove("second")
+
+        assertEquals("first", linkedList.head)
+        assertEquals("third", linkedList.tail)
+        assertEquals(listOf("first", "third"), linkedList.getAll())
+    }
+
+    @Test
+    fun `remove from tail`() {
+        linkedList.add("first")
+        linkedList.add("second", "first")
+        linkedList.add("third", "second")
+
+        println(linkedList.tail)
+        linkedList.remove(requireNotNull(linkedList.tail))
+
+        assertEquals("first", linkedList.head)
+        assertEquals("second", linkedList.tail)
+        assertEquals(listOf("first", "second"), linkedList.getAll())
+    }
 }

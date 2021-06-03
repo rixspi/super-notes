@@ -1,29 +1,40 @@
 package com.rixspi.notes.presentation.ui.addNote
 
+import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.model.EditableNoteItem2
 
-class NotesHandler(
-    val onChangeListener: (List<EditableNoteItem2>) -> Unit = {}
-) {
+private const val ROOT = "ROOT"
+
+class NotesHandler {
     private val notes: MutableMap<String, EditableNoteItem2> = mutableMapOf()
     private val children: MutableMap<String, LinkedList> = mutableMapOf()
     private val depth: MutableMap<Int, LinkedList> = mutableMapOf()
+    private var flatten: List<EditableNoteItem2> = emptyList()
 
     fun appendNote(note: EditableNoteItem2) {
         notes[note.id] = note
 
-        children.getOrPut(note.parentId ?: "ROOT") { LinkedList() }.apply { add(note.id, tail) }
+        children.getOrPut(note.parentId ?: ROOT) { LinkedList() }.apply { add(note.id, tail) }
 
         depth.getOrPut(note.depth) { LinkedList() }.apply { add(note.id, tail) }
 
-        onChangeListener(flattenNotes())
+        flatten = flattenNotes()
     }
 
     fun removeNote(noteId: String) {
-        val note = notes[noteId] ?: error("No note to remove")
         notes.remove(noteId)
+        children.remove(noteId)
+        flatten = flattenNotes()
+    }
 
-        onChangeListener(flattenNotes())
+    fun setTitle(noteId: String, title: String) {
+        notes[noteId]?.title = title
+    }
+
+    fun getOrderedList(): List<EditableNoteItem2> = flatten.map {
+        val contents = it.contentInfos.map { content -> content.copy() }
+
+        it.copy(contentInfos = contents.toMutableList())
     }
 
     private fun flattenNotes(): List<EditableNoteItem2> {
@@ -46,5 +57,18 @@ class NotesHandler(
                 getDescendants(it, descendantsMutable)
             }
         return descendants
+    }
+
+    fun getNote(): EditableNoteItem {
+        val root = children[ROOT]?.head
+        val note = notes[root]!!
+        // EditableNoteItem(
+        //     id = note.id,
+        //     backgroundColor = note.backgroundColor,
+        //     backgroundImage = note.backgroundImage,
+        //     title = note.title,
+        //     ...
+        //     //T ODO
+        // )
     }
 }
