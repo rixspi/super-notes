@@ -17,6 +17,10 @@ class AddNoteViewModel @AssistedInject constructor(
     private val createNote: CreateNote
 ) : BaseViewModel<AddNoteViewState2>(state) {
 
+    fun command(show: Boolean){
+        setState { copy(command = show) }
+    }
+
     fun addNote(parentNote: EditableNoteItem2) {
         // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
         // the reducer will be impure, because if run twice we will get two different UUIDs

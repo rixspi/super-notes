@@ -1,11 +1,12 @@
 package com.rixspi.notes.presentation.ui.addNote
 
-import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.model.EditableNoteItem2
 
-private const val ROOT = "ROOT"
-
 class NotesHandler {
+    companion object {
+        private const val ROOT = "ROOT"
+    }
+
     private val notes: MutableMap<String, EditableNoteItem2> = mutableMapOf()
     private val children: MutableMap<String, LinkedList> = mutableMapOf()
     private val depth: MutableMap<Int, LinkedList> = mutableMapOf()
@@ -57,18 +58,5 @@ class NotesHandler {
                 getDescendants(it, descendantsMutable)
             }
         return descendants
-    }
-
-    fun getNote(): EditableNoteItem {
-        val root = children[ROOT]?.head
-        val note = notes[root]!!
-        // EditableNoteItem(
-        //     id = note.id,
-        //     backgroundColor = note.backgroundColor,
-        //     backgroundImage = note.backgroundImage,
-        //     title = note.title,
-        //     ...
-        //     //T ODO
-        // )
     }
 }

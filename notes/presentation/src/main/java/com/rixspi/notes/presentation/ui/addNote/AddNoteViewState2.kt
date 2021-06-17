@@ -3,11 +3,11 @@ package com.rixspi.notes.presentation.ui.addNote
 import com.airbnb.mvrx.MavericksState
 import com.rixspi.notes.presentation.model.EditableNoteItem2
 
-private const val ROOT = "ROOT"
 
 data class AddNoteViewState2(
     val notes: List<EditableNoteItem2> = emptyList(),
-    val added: Boolean = false
+    val added: Boolean = false,
+    val command: Boolean = false
 ) : MavericksState {
     private val notesHandler = NotesHandler()
     private fun getRootNote() = notes.first()

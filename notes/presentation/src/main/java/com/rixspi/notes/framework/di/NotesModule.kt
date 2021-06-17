@@ -8,7 +8,6 @@ import com.rixspi.common.domain.model.Note
 import com.rixspi.common.domain.repository.NoteRepository
 import com.rixspi.data.dataSource.NoteFirestore
 import com.rixspi.data.mapper.mapContentInfoDto
-import com.rixspi.data.mapper.mapList
 import com.rixspi.data.mapper.mapNoteDto
 import com.rixspi.data.model.NoteDto
 import com.rixspi.data.notes.NoteRepositoryImpl
@@ -34,8 +33,10 @@ object NotesModule {
 
     @Provides
     fun provideNotesListDtoMapper(): (List<NoteDto>) -> List<Note> = { dtoList ->
-        mapList(dtoList) { listDto ->
-            mapNoteDto(listDto) { mapList(it) { dto -> mapContentInfoDto(dto) } }
+        dtoList.map {
+            mapNoteDto(it) {
+                it.map { mapContentInfoDto(it) }
+            }
         }
     }
 

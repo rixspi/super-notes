@@ -2,7 +2,6 @@ package com.rixspi.notes.presentation.mapper
 
 import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.domain.model.Note
-import com.rixspi.data.mapper.mapList
 import com.rixspi.notes.presentation.model.ContentInfoListItem
 import com.rixspi.notes.presentation.model.NoteListItem
 
@@ -22,8 +21,8 @@ fun mapNote(
 
 fun mapNotesList(
     input: List<Note>
-): List<NoteListItem> = mapList(input) { note ->
-    mapNote(note) { contentInfos ->
-        mapList(contentInfos) { contentInfo -> mapContentInfo(contentInfo) }
+): List<NoteListItem> = input.map {
+    mapNote(it) {
+        it.map { mapContentInfo(it) }
     }
 }
