@@ -40,25 +40,25 @@ val LightTypography = Typography(
     h1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
-        color = background900,
+        color = Color.White,
         fontSize = 28.sp
     ),
     h2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
-        color = background900,
+        color = Color.White,
         fontSize = 21.sp
     ),
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        color = background800,
+        color = Color.White,
         fontSize = 14.sp
     ),
     body2 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        color = background800,
+        color = white87,
         fontSize = 14.sp
     )
 )

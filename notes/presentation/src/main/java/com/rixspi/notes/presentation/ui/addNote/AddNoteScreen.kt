@@ -15,7 +15,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
@@ -57,7 +56,6 @@ fun AddNoteScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scaffoldState = rememberScaffoldState(snackbarHostState = snackbarHostState)
-    val scope = rememberCoroutineScope()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -65,21 +63,27 @@ fun AddNoteScreen(
             FabButtonView {
                 viewModel.createNote()
             }
-        }
-    ) {
-        Column {
-            NoteEditor(viewModel)
+        },
+        bottomBar = {
+            // TODO This row should be visible only when there is a focused textview
+            //  becasue it adds new element after the existing one
             Row {
                 Button(onClick = {}) {
                     Text(text = "Image")
                 }
-                Button(onClick = {  }) {
+                Button(onClick = {
+                    viewModel.addNoteTemp()
+                }) {
                     Text(text = "Container")
                 }
-                Button(onClick = {  }) {
+                Button(onClick = {}) {
                     Text(text = "Text")
                 }
             }
+        }
+    ) {
+        Column {
+            NoteEditor(viewModel)
         }
     }
 }

@@ -31,6 +31,16 @@ class AddNoteViewModel @AssistedInject constructor(
         }
     }
 
+    fun addNoteTemp() {
+        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
+        // the reducer will be impure, because if run twice we will get two different UUIDs
+        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
+        val id = UUID.randomUUID().toString()
+        setState {
+            addChildrenNote(id = id)
+        }
+    }
+
     fun removeNote(noteId: String) {
         setState {
             removeChildrenNote(noteId)

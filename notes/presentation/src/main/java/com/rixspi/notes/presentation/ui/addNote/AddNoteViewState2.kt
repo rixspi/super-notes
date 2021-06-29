@@ -3,13 +3,13 @@ package com.rixspi.notes.presentation.ui.addNote
 import com.airbnb.mvrx.MavericksState
 import com.rixspi.notes.presentation.model.EditableNoteItem2
 
-
 data class AddNoteViewState2(
-    val notes: List<EditableNoteItem2> = emptyList(),
+    val notes: List<EditableNoteItem2> = listOf(EditableNoteItem2()),
     val added: Boolean = false,
-    val command: Boolean = false
+    val command: Boolean = false,
+    private val notesHandler: NotesHandler = NotesHandler().also { it.appendNote(notes.first()) }
 ) : MavericksState {
-    private val notesHandler = NotesHandler()
+
     private fun getRootNote() = notes.first()
 
     fun setTitle(noteId: String, title: String): AddNoteViewState2 {
@@ -47,6 +47,10 @@ data class AddNoteViewState2(
         parentNote: EditableNoteItem2 = getRootNote(),
         id: String
     ): AddNoteViewState2 {
+
+        // TODO Adding notes after first results in creating a children and then all next are inside this first one
+        //  investigate ;)
+
         notesHandler.appendNote(EditableNoteItem2(id = id, parentId = parentNote.id))
         return prepareNewState()
     }
