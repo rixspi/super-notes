@@ -29,7 +29,7 @@ object Versions {
     }
 
     object Hilt {
-        const val hilt = "2.31.1-alpha"
+        const val hilt = "2.35"
     }
 
     object Test {
