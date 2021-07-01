@@ -26,22 +26,6 @@ import com.rixspi.domain.util.empty
 import com.rixspi.notes.presentation.ui.notesList.FabButtonView
 
 @Composable
-fun SnackbarFUckingShit(
-    host: SnackbarHostState
-) {
-    SnackbarHost(hostState = host) { data ->
-        Snackbar(
-            action = {
-                Button(onClick = {}) {
-                    Text("MyAction")
-                }
-            },
-            modifier = Modifier.padding(8.dp)
-        ) { Text(text = "This is a snackbar!") }
-    }
-}
-
-@Composable
 fun AddNoteScreen(
     noteAdded: () -> Unit
 ) {
