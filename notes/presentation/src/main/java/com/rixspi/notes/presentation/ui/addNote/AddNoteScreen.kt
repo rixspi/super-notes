@@ -2,11 +2,8 @@ package com.rixspi.notes.presentation.ui.addNote
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -16,13 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.focus.isFocused
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
 import com.airbnb.mvrx.compose.collectAsState
 import com.airbnb.mvrx.compose.mavericksViewModel
 import com.rixspi.common.presentation.ui.styling.shapes
 import com.rixspi.domain.util.empty
+import com.rixspi.notes.presentation.model.EditableNoteItem2
 import com.rixspi.notes.presentation.ui.notesList.FabButtonView
 
 @Composable
@@ -51,39 +51,54 @@ fun AddNoteScreen(
         bottomBar = {
             // TODO This row should be visible only when there is a focused textview
             //  becasue it adds new element after the existing one
-            Row {
-                Button(onClick = {}) {
-                    Text(text = "Image")
-                }
-                Button(onClick = {
-                    viewModel.addNoteTemp()
-                }) {
-                    Text(text = "Container")
-                }
-                Button(onClick = {}) {
-                    Text(text = "Text")
+            if (state.value.activeNote != String.empty) {
+                Row {
+                    Button(onClick = {}) {
+                        Text(text = "Image")
+                    }
+                    Button(onClick = {
+                        viewModel.addNoteTemp()
+                    }) {
+                        Text(text = "Container")
+                    }
+                    Button(onClick = {
+                        viewModel.addContentTemp()
+                    }) {
+                        Text(text = "Text")
+                    }
                 }
             }
         }
     ) {
         Column {
-            NoteEditor(viewModel)
+            NoteEditor(state.value.notes, updateCurrentFocusNote = { viewModel.setActiveNote(it) }) { noteId, title ->
+                viewModel.updateTitle(noteId, title)
+            }
         }
     }
 }
 
 @Composable
-fun NoteEditor(viewModel: AddNoteViewModel) {
-    Column() {
-        TextInput(label = "Title")
-        TextInput(label = "Content") { text ->
-            if (text.length > 1) {
-                val lastTwoChars = text.substring(text.length - 2, text.length)
-                if (lastTwoChars.contains("  ")) {
-                    viewModel.command(true)
-                } else {
-                    viewModel.command(false)
+fun NoteEditor(
+    notes: List<EditableNoteItem2>,
+    updateCurrentFocusNote: (String) -> Unit,
+    updateTitle: (String, String) -> Unit
+) {
+    Column {
+        notes.forEach { note ->
+            TextInput(initText = "Title", label = note.title, onFocusChange = {
+                if (it) {
+                    updateCurrentFocusNote(note.id)
                 }
+            }) {
+                updateTitle(note.id, it)
+            }
+            note.contentInfos.forEach { content ->
+                TextInput(initText = "Content", label = content.text ?: String.empty, onFocusChange = {
+                    if (it) {
+                        updateCurrentFocusNote(note.id)
+                    }
+                })
             }
         }
     }
@@ -94,11 +109,14 @@ fun TextInput(
     modifier: Modifier = Modifier,
     label: String,
     initText: String = String.empty,
-    onChange: (String) -> Unit = {}
+    onFocusChange: (Boolean) -> Unit = {},
+    onChange: (String) -> Unit = {},
 ) {
     val (text, setText) = remember { mutableStateOf(TextFieldValue(initText)) }
     TextField(
-        modifier = modifier,
+        modifier = modifier
+            .focusModifier()
+            .onFocusChanged { onFocusChange(it.isFocused) },
         shape = shapes.large,
         value = text,
         onValueChange = {

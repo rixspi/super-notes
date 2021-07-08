@@ -5,6 +5,7 @@ import com.rixspi.common.domain.interactors.CreateNote
 import com.rixspi.common.framework.di.AssistedViewModelFactory
 import com.rixspi.common.framework.di.hiltMavericksViewModelFactory
 import com.rixspi.common.presentation.BaseViewModel
+import com.rixspi.domain.util.empty
 import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.model.EditableNoteItem2
 import dagger.assisted.Assisted
@@ -17,52 +18,74 @@ class AddNoteViewModel @AssistedInject constructor(
     private val createNote: CreateNote
 ) : BaseViewModel<AddNoteViewState2>(state) {
 
-    fun command(show: Boolean){
-        setState { copy(command = show) }
+    private val firstNote: EditableNoteItem2
+    private val notesHandler: NotesHandler = NotesHandler().also {
+        firstNote = state.notes.first()
+        it.appendNote(firstNote)
     }
 
-    fun addNote(parentNote: EditableNoteItem2) {
-        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
-        // the reducer will be impure, because if run twice we will get two different UUIDs
-        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
-        val id = UUID.randomUUID().toString()
+    fun setActiveNote(noteId: String) {
         setState {
-            addChildrenNote(parentNote = parentNote, id = id)
+            copy(activeNote = noteId)
         }
     }
 
-    fun addNoteTemp() {
-        // Random uuid is totally fine for now, but if used anywhere in `setState` block, then
-        // the reducer will be impure, because if run twice we will get two different UUIDs
-        // I don't want to turn off debug validation from Maverick, so this is the simplest solution
+    fun addNote(parentNote: EditableNoteItem2) {
         val id = UUID.randomUUID().toString()
-        setState {
-            addChildrenNote(id = id)
+        notesHandler.appendNote(EditableNoteItem2(id = id, parentId = parentNote.id))
+        updateNotes()
+    }
+
+    fun addNoteTemp() {
+        val id = UUID.randomUUID().toString()
+        withState { state ->
+            if (state.activeNote == String.empty) {
+                //error
+            } else {
+                notesHandler.appendNote(EditableNoteItem2(id = id, parentId = state.activeNote))
+                updateNotes()
+            }
         }
     }
 
     fun removeNote(noteId: String) {
-        setState {
-            removeChildrenNote(noteId)
-        }
+        notesHandler.removeNote(noteId)
+        updateNotes()
     }
 
     fun updateTitle(noteId: String, title: String) {
-        setState {
-            setTitle(noteId, title = title)
-        }
+        notesHandler.setTitle(noteId, title)
+        updateNotes()
     }
 
     fun addContent(note: EditableNoteItem, index: Int) {
         val id = UUID.randomUUID().toString()
-        //setState { addContentInfo(note, id, index) }
+        updateNotes()
+    }
+
+    fun addContentTemp(index: Int = 0) {
+        val id = UUID.randomUUID().toString()
+        withState { state ->
+            if (state.activeNote == String.empty) {
+                //error
+            } else {
+                notesHandler.addContentInfo(state.activeNote, id)
+                updateNotes()
+            }
+        }
+    }
+
+    private fun updateNotes() {
+        setState {
+            copy(notes = notesHandler.getOrderedList())
+        }
     }
 
     fun updateContentInfo(note: EditableNoteItem, index: Int, text: String) = {}
-        //setState { updateContentInfo(note = note, index = index, text = text) }
+    //setState { updateContentInfo(note = note, index = index, text = text) }
 
     fun removeContentInfo(note: EditableNoteItem, index: Int) = {}
-        // setState { removeContentInfo(note, index) }
+    // setState { removeContentInfo(note, index) }
 
     fun createNote() = withState { state ->
         // This needs some more work

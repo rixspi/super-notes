@@ -1,5 +1,6 @@
 package com.rixspi.notes.presentation.ui.addNote
 
+import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem2
 
 class NotesHandler {
@@ -29,14 +30,24 @@ class NotesHandler {
     }
 
     fun setTitle(noteId: String, title: String) {
-        notes[noteId]?.title = title
+        notes[noteId] = notes[noteId]?.copy(title = title)!!
+    }
+
+    fun addContentInfo(noteId: String, contentInfoItemId: String) {
+        val contentInfos = notes[noteId]?.contentInfos
+        if (contentInfos?.firstOrNull { it.id == contentInfoItemId } == null) {
+            val note = notes[noteId]
+            val contenInfos =
+                note?.contentInfos?.toMutableList()?.apply { add(EditableContentInfoItem(id = contentInfoItemId)) }
+            notes[noteId] = note?.copy(contentInfos = contenInfos?.toList() ?: emptyList())!!
+        }
     }
 
     fun getOrderedList(): List<EditableNoteItem2> = flatten.map {
         val contents = it.contentInfos.map { content -> content.copy() }
 
         it.copy(contentInfos = contents.toMutableList())
-    }
+    }.toMutableList()
 
     private fun flattenNotes(): List<EditableNoteItem2> {
         val notesFlat = mutableListOf<EditableNoteItem2>()
