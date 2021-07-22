@@ -20,6 +20,7 @@ class NotesHandler {
 
         depth.getOrPut(note.depth) { LinkedList() }.apply { add(note.id, tail) }
 
+        // This pretty much defies the idea of having fast operations :D
         flatten = flattenNotes()
     }
 
@@ -31,16 +32,18 @@ class NotesHandler {
 
     fun setTitle(noteId: String, title: String) {
         notes[noteId] = notes[noteId]?.copy(title = title)!!
+        flatten = flattenNotes()
     }
 
     fun addContentInfo(noteId: String, contentInfoItemId: String) {
-        val contentInfos = notes[noteId]?.contentInfos
-        if (contentInfos?.firstOrNull { it.id == contentInfoItemId } == null) {
-            val note = notes[noteId]
-            val contenInfos =
-                note?.contentInfos?.toMutableList()?.apply { add(EditableContentInfoItem(id = contentInfoItemId)) }
-            notes[noteId] = note?.copy(contentInfos = contenInfos?.toList() ?: emptyList())!!
+        val note = notes[noteId] ?: return
+        val contentInfos = note.contentInfos
+        if (contentInfos.firstOrNull { it.id == contentInfoItemId } == null) {
+            val contentInfosMutable =
+                contentInfos.toMutableList().apply { add(EditableContentInfoItem(id = contentInfoItemId)) }
+            notes[noteId] = note.copy(contentInfos = contentInfosMutable.toList())
         }
+        flatten = flattenNotes()
     }
 
     fun getOrderedList(): List<EditableNoteItem2> = flatten.map {

@@ -49,8 +49,6 @@ fun AddNoteScreen(
             }
         },
         bottomBar = {
-            // TODO This row should be visible only when there is a focused textview
-            //  becasue it adds new element after the existing one
             if (state.value.activeNote != String.empty) {
                 Row {
                     Button(onClick = {}) {
@@ -86,15 +84,15 @@ fun NoteEditor(
 ) {
     Column {
         notes.forEach { note ->
-            TextInput(initText = "Title", label = note.title, onFocusChange = {
+            TextInput(label = "Title", text = note.title, onFocusChange = {
                 if (it) {
                     updateCurrentFocusNote(note.id)
                 }
             }) {
-                updateTitle(note.id, it)
+                //updateTitle(note.id, it)
             }
             note.contentInfos.forEach { content ->
-                TextInput(initText = "Content", label = content.text ?: String.empty, onFocusChange = {
+                TextInput(label = "Content", text = content.text ?: String.empty, onFocusChange = {
                     if (it) {
                         updateCurrentFocusNote(note.id)
                     }
@@ -108,19 +106,19 @@ fun NoteEditor(
 fun TextInput(
     modifier: Modifier = Modifier,
     label: String,
-    initText: String = String.empty,
+    text: String = String.empty,
     onFocusChange: (Boolean) -> Unit = {},
     onChange: (String) -> Unit = {},
 ) {
-    val (text, setText) = remember { mutableStateOf(TextFieldValue(initText)) }
+    val textState = remember { mutableStateOf(TextFieldValue(text)) }
     TextField(
         modifier = modifier
             .focusModifier()
             .onFocusChanged { onFocusChange(it.isFocused) },
         shape = shapes.large,
-        value = text,
+        value = textState.value,
         onValueChange = {
-            setText(it)
+            textState.value = it
             onChange(it.text)
         },
         placeholder = { Text(label) },
