@@ -49,7 +49,8 @@ class NotesHandler {
     fun getOrderedList(): List<EditableNoteItem2> = flatten.map {
         val contents = it.contentInfos.map { content -> content.copy() }
 
-        it.copy(contentInfos = contents.toMutableList())
+        //it.copy(contentInfos = contents.toMutableList())
+        it.copy()
     }.toMutableList()
 
     private fun flattenNotes(): List<EditableNoteItem2> {

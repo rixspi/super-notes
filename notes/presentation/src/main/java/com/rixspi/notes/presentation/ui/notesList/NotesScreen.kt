@@ -21,8 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.airbnb.mvrx.compose.collectAsState
-import com.airbnb.mvrx.compose.mavericksViewModel
+import com.rixspi.common.presentation.ui.collectAsState
+import com.rixspi.common.presentation.ui.mavericksViewModel
+
 import com.rixspi.domain.util.empty
 import com.rixspi.notes.presentation.NotesViewModel
 import com.rixspi.notes.presentation.model.ContentInfoListItem
@@ -181,5 +182,5 @@ fun NotesListPreview() {
         childrenNotes = listOf(note1, note2)
     )
 
-    NotesListView(notes = listOf(note1, note2, note3))
+    NotesListView(notes = listOf(note1, note2, note3,note1))
 }

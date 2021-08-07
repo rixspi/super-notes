@@ -1,5 +1,6 @@
 package com.rixspi.notes.presentation.ui.addNote
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
@@ -14,12 +15,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.focus.isFocused
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
-import com.airbnb.mvrx.compose.collectAsState
-import com.airbnb.mvrx.compose.mavericksViewModel
+import com.rixspi.common.presentation.ui.collectAsState
+import com.rixspi.common.presentation.ui.mavericksViewModel
 import com.rixspi.common.presentation.ui.styling.shapes
 import com.rixspi.domain.util.empty
 import com.rixspi.notes.presentation.model.EditableNoteItem2
@@ -84,14 +84,20 @@ fun NoteEditor(
 ) {
     Column {
         notes.forEach { note ->
-            TextInput(label = "Title", text = note.title, onFocusChange = {
+
+            Log.e("LOL", note.toString())
+
+            TextInput(label = "Titl2e", text = note.title, onFocusChange = {
                 if (it) {
                     updateCurrentFocusNote(note.id)
                 }
             }) {
                 //updateTitle(note.id, it)
             }
+            // This displays only "title" after adding a container after content info
+            //  something I made is very wrong
             note.contentInfos.forEach { content ->
+                Log.e("LOL2", content.toString())
                 TextInput(label = "Content", text = content.text ?: String.empty, onFocusChange = {
                     if (it) {
                         updateCurrentFocusNote(note.id)
@@ -103,6 +109,7 @@ fun NoteEditor(
 }
 
 @Composable
+// This displays wrong label
 fun TextInput(
     modifier: Modifier = Modifier,
     label: String,
@@ -111,6 +118,9 @@ fun TextInput(
     onChange: (String) -> Unit = {},
 ) {
     val textState = remember { mutableStateOf(TextFieldValue(text)) }
+
+    Log.e("LOL3", label)
+    // result of above log is correct, textField still displays wrong text
     TextField(
         modifier = modifier
             .focusModifier()
@@ -121,7 +131,7 @@ fun TextInput(
             textState.value = it
             onChange(it.text)
         },
-        placeholder = { Text(label) },
+        label = {  Text(text = label) },
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,

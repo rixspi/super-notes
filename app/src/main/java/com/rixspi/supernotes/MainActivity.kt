@@ -5,7 +5,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.rixspi.common.presentation.ui.styling.SuperNoteTheme
 import com.rixspi.notes.presentation.ui.addNote.AddNoteScreen

@@ -40,10 +40,10 @@ class AddNoteViewModelTest {
     fun `addNote adds new empty note to the children notes`() {
         runBlocking {
             val stateBeforeAdd = addNoteViewModel.awaitState()
-            addNoteViewModel.addNote(parentNote = stateBeforeAdd.note, 0)
+            addNoteViewModel.addNote(parentNote = stateBeforeAdd.notes, 0)
 
             val state = addNoteViewModel.awaitState()
-            assertTrue(state.note.childrenNotes.isNotEmpty())
+            assertTrue(state.notes.childrenNotes.isNotEmpty())
         }
     }
 
@@ -51,21 +51,21 @@ class AddNoteViewModelTest {
     fun `addNote to child note and again and again`() {
         runBlocking {
             val stateBeforeAdd = addNoteViewModel.awaitState()
-            addNoteViewModel.addNote(parentNote = stateBeforeAdd.note, 0)
+            addNoteViewModel.addNote(parentNote = stateBeforeAdd.notes, 0)
 
             val state = addNoteViewModel.awaitState()
 
-            addNoteViewModel.addNote(parentNote = state.note.childrenNotes[0], 0)
+            addNoteViewModel.addNote(parentNote = state.notes.childrenNotes[0], 0)
 
             val state2 = addNoteViewModel.awaitState()
 
-            addNoteViewModel.addNote(parentNote = state2.note.childrenNotes[0].childrenNotes[0], 0)
+            addNoteViewModel.addNote(parentNote = state2.notes.childrenNotes[0].childrenNotes[0], 0)
 
             val state3 = addNoteViewModel.awaitState()
 
-            addNoteViewModel.addNote(parentNote = state3.note.childrenNotes[0].childrenNotes[0].childrenNotes[0], 0)
+            addNoteViewModel.addNote(parentNote = state3.notes.childrenNotes[0].childrenNotes[0].childrenNotes[0], 0)
 
-            assertTrue(state.note.childrenNotes.isNotEmpty())
+            assertTrue(state.notes.childrenNotes.isNotEmpty())
         }
     }
 
@@ -90,9 +90,9 @@ class AddNoteViewModelTest {
 
             val stateAfterAddWithIndex = addNoteViewModel.awaitState()
 
-            assertEquals(stateAfterAddWithIndex.note.childrenNotes[1].title, String.empty)
-            assertEquals(stateAfterAddWithIndex.note.childrenNotes[0].title, "test")
-            assertEquals(stateAfterAddWithIndex.note.childrenNotes[2].title, "test")
+            assertEquals(stateAfterAddWithIndex.notes.childrenNotes[1].title, String.empty)
+            assertEquals(stateAfterAddWithIndex.notes.childrenNotes[0].title, "test")
+            assertEquals(stateAfterAddWithIndex.notes.childrenNotes[2].title, "test")
         }
     }
 
@@ -117,7 +117,7 @@ class AddNoteViewModelTest {
 
             val stateAfterRemove = addNoteViewModel.awaitState()
 
-            assertEquals("test2", stateAfterRemove.note.childrenNotes[0].title)
+            assertEquals("test2", stateAfterRemove.notes.childrenNotes[0].title)
         }
     }
 
@@ -141,7 +141,7 @@ class AddNoteViewModelTest {
             addNoteViewModel.updateTitle(editableNote.childrenNotes[0], "New title")
 
             val stateAfterTitleChange = addNoteViewModel.awaitState()
-            assertEquals("New title", stateAfterTitleChange.note.childrenNotes[0].title)
+            assertEquals("New title", stateAfterTitleChange.notes.childrenNotes[0].title)
         }
     }
 
@@ -167,7 +167,7 @@ class AddNoteViewModelTest {
             val stateAfterTitleChange = addNoteViewModel.awaitState()
             compareEditableContentInfoItemContentExceptId(
                 EditableContentInfoItem(),
-                stateAfterTitleChange.note.childrenNotes[0].contentInfos[0]
+                stateAfterTitleChange.notes.childrenNotes[0].contentInfos[0]
             )
         }
     }
@@ -195,11 +195,11 @@ class AddNoteViewModelTest {
             val stateAfterTitleChange = addNoteViewModel.awaitState()
             compareEditableContentInfoItemContentExceptId(
                 EditableContentInfoItem("Changed"),
-                stateAfterTitleChange.note.contentInfos[0]
+                stateAfterTitleChange.notes.contentInfos[0]
             )
             compareEditableContentInfoItemContentExceptId(
                 EditableContentInfoItem("Not changed"),
-                stateAfterTitleChange.note.contentInfos[1]
+                stateAfterTitleChange.notes.contentInfos[1]
             )
         }
     }
@@ -227,11 +227,11 @@ class AddNoteViewModelTest {
             val stateAfterTitleChange = addNoteViewModel.awaitState()
             compareEditableContentInfoItemContentExceptId(
                 EditableContentInfoItem("Not removed"),
-                stateAfterTitleChange.note.contentInfos[0]
+                stateAfterTitleChange.notes.contentInfos[0]
             )
             compareEditableContentInfoItemContentExceptId(
                 EditableContentInfoItem("Not removed"),
-                stateAfterTitleChange.note.contentInfos[1]
+                stateAfterTitleChange.notes.contentInfos[1]
             )
         }
     }

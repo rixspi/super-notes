@@ -37,7 +37,7 @@ android {
         jvmTarget = "1.8"
         useIR = true
     }
-//
+
     composeOptions {
         kotlinCompilerExtensionVersion = Android.compose
     }
@@ -72,7 +72,6 @@ dependencies {
     implementation(project(Modules.Notes.data))
 
     implementation(Deps.mvrx)
-    implementation(Deps.mvrxCompose)
     //implementation(Deps.Kotlin.coroutinesAndroid)
 
     unitTest()

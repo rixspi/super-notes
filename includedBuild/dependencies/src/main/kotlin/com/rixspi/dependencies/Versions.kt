@@ -2,9 +2,9 @@ package com.rixspi.dependencies
 
 @Suppress("MayBeConst", "MemberNameEqualsClassName")
 object Versions {
-    const val kotlin = "1.4.30"
-    const val kotlinSerialization = "1.0.1"
-    const val coroutines = "1.4.0"
+    const val kotlin = "1.5.21"
+    const val kotlinSerialization = "1.2.2"
+    const val coroutines = "1.5.0"
 
     const val mvrx = "2.1.0"
     const val mvrxCompose = "2.1.0-alpha01"
@@ -24,8 +24,8 @@ object Versions {
 
         const val constraint = "2.0.4"
 
-        const val compose = "1.0.0-beta01"
-        const val composeNavigation = "1.0.0-alpha08"
+        const val compose = "1.0.1"
+        const val composeNavigation = "2.4.0-alpha06"
     }
 
     object Hilt {
