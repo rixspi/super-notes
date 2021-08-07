@@ -14,7 +14,8 @@ class NotesHandler {
     private var flatten: List<EditableNoteItem2> = emptyList()
 
     fun appendNote(note: EditableNoteItem2) {
-        notes[note.id] = note
+        val parent = notes[note.parentId]
+        notes[note.id] = note.copy(depth = parent?.depth ?: 0 + 1)
 
         children.getOrPut(note.parentId ?: ROOT) { LinkedList() }.apply { add(note.id, tail) }
 

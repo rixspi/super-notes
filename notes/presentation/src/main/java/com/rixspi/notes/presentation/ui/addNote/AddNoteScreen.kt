@@ -37,7 +37,6 @@ fun AddNoteScreen(
     val viewModel: AddNoteViewModel = mavericksViewModel()
     val state = viewModel.collectAsState()
 
-    val note = state.value.notes
 
     if (state.value.added) {
         noteAdded()
@@ -110,11 +109,17 @@ fun NoteEditor(
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         notes.forEach { note ->
             item {
-                TextInput(label = "Title", text = note.title, onFocusChange = {
-                    if (it) {
-                        updateCurrentFocusNote(note.id)
-                    }
-                }) {
+                TextInput(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = note.depth.dp),
+                    label = "Title",
+                    text = note.title,
+                    onFocusChange = {
+                        if (it) {
+                            updateCurrentFocusNote(note.id)
+                        }
+                    }) {
                     updateTitle(note.id, it)
                 }
             }
