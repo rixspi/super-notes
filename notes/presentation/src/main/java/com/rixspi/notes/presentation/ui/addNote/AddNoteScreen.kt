@@ -1,5 +1,6 @@
 package com.rixspi.notes.presentation.ui.addNote
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
@@ -111,8 +113,9 @@ fun NoteEditor(
             item {
                 TextInput(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = note.depth.dp),
+                        .background(MaterialTheme.colors.secondary)
+                        .padding(start = note.depth.dp * 4)
+                        .background(MaterialTheme.colors.background),
                     label = "Title",
                     text = note.title,
                     onFocusChange = {
@@ -177,6 +180,14 @@ fun NoteScreenPreview() {
         addContent = { },
         setActiveNote = {},
         updateTitle = { _, _ -> },
-        state = AddNoteViewState2(activeNote = "1")
+        state = AddNoteViewState2(
+            notes = listOf(
+                EditableNoteItem2(depth = 0),
+                EditableNoteItem2(depth = 1),
+                EditableNoteItem2(depth = 2),
+                EditableNoteItem2(depth = 3),
+            ),
+            activeNote = "1"
+        )
     )
 }

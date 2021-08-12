@@ -15,11 +15,12 @@ class NotesHandler {
 
     fun appendNote(note: EditableNoteItem2) {
         val parent = notes[note.parentId]
-        notes[note.id] = note.copy(depth = parent?.depth ?: 0 + 1)
+        val depthNew = parent?.depth ?: 0 + 1
+        notes[note.id] = note.copy(depth = depthNew)
 
         children.getOrPut(note.parentId ?: ROOT) { LinkedList() }.apply { add(note.id, tail) }
 
-        depth.getOrPut(note.depth) { LinkedList() }.apply { add(note.id, tail) }
+        depth.getOrPut(depthNew) { LinkedList() }.apply { add(note.id, tail) }
 
         // This pretty much defies the idea of having fast operations :D
         flatten = flattenNotes()
@@ -49,11 +50,10 @@ class NotesHandler {
 
     fun getOrderedList(): List<EditableNoteItem2> = flatten.map {
         val contents = it.contentInfos.map { content -> content.copy() }
-
-        //it.copy(contentInfos = contents.toMutableList())
-        it.copy()
+        it.copy(contentInfos = contents.toMutableList())
     }.toMutableList()
 
+    // After adding a note on depth 1 no notes are retrieved
     private fun flattenNotes(): List<EditableNoteItem2> {
         val notesFlat = mutableListOf<EditableNoteItem2>()
         depth[0]
