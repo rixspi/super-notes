@@ -15,7 +15,7 @@ class NotesHandler {
 
     fun appendNote(note: EditableNoteItem2) {
         val parent = notes[note.parentId]
-        val depthNew = parent?.depth ?: 0 + 1
+        val depthNew = (parent?.depth ?: 0) + 1
         notes[note.id] = note.copy(depth = depthNew)
 
         children.getOrPut(note.parentId ?: ROOT) { LinkedList() }.apply { add(note.id, tail) }
@@ -53,10 +53,9 @@ class NotesHandler {
         it.copy(contentInfos = contents.toMutableList())
     }.toMutableList()
 
-    // After adding a note on depth 1 no notes are retrieved
     private fun flattenNotes(): List<EditableNoteItem2> {
         val notesFlat = mutableListOf<EditableNoteItem2>()
-        depth[0]
+        depth[1]
             ?.getAll()
             ?.forEach { noteId ->
                 notesFlat.add(notes[noteId]!!)
@@ -65,14 +64,14 @@ class NotesHandler {
         return notesFlat
     }
 
-    private fun getDescendants(noteId: String, descendants: List<String> = emptyList()): List<String> {
-        val descendantsMutable = descendants.toMutableList()
+    private fun getDescendants(noteId: String): List<String> {
+        val descendantsMutable = mutableListOf<String>()
         children[noteId]
             ?.getAll()
             ?.forEach {
                 descendantsMutable.add(it)
-                getDescendants(it, descendantsMutable)
+                descendantsMutable.addAll(getDescendants(it))
             }
-        return descendants
+        return descendantsMutable.toList()
     }
 }
