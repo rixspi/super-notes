@@ -48,9 +48,11 @@ class AddNoteViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeNote(noteId: String) {
-        notesHandler.removeNote(noteId)
-        updateNotes()
+    fun removeNote(noteId: String = String.empty) {
+        withState { state ->
+            notesHandler.removeNote(state.activeNote)
+            updateNotes()
+        }
     }
 
     fun updateTitle(noteId: String, title: String) {

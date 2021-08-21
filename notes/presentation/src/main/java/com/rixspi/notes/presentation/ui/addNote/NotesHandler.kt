@@ -11,31 +11,32 @@ class NotesHandler {
 
     private val notes: MutableMap<String, EditableNoteItem2> = mutableMapOf()
     private val children: MutableMap<String, LinkedList> = mutableMapOf()
-    private val depth: MutableMap<Int, LinkedList> = mutableMapOf()
-    private var flatten: List<EditableNoteItem2> = emptyList()
+    // TODO Move contentInfos from notesList and store them in one hash map, then the notesOrder can become one place
+    //  to store ordering, it will make removing contentINfos easier as right now it has to be implemented differently
+    private val notesOrder = LinkedList()
 
     fun appendNote(note: EditableNoteItem2) {
         val parent = notes[note.parentId]
-        val depthNew = (parent?.depth ?: 0) + 1
+        val depthNew = (parent?.depth ?: -1) + 1
         notes[note.id] = note.copy(depth = depthNew)
 
+        notesOrder.add(note.id, parent?.id)
+
         children.getOrPut(note.parentId ?: ROOT) { LinkedList() }.apply { add(note.id, tail) }
-
-        depth.getOrPut(depthNew) { LinkedList() }.apply { add(note.id, tail) }
-
-        // This pretty much defies the idea of having fast operations :D
-        flatten = flattenNotes()
     }
 
     fun removeNote(noteId: String) {
+        notesOrder.remove(noteId)
+        getDescendants(noteId).forEach {
+            notesOrder.remove(it)
+            notes.remove(it)
+        }
+
         notes.remove(noteId)
-        children.remove(noteId)
-        flatten = flattenNotes()
     }
 
     fun setTitle(noteId: String, title: String) {
         notes[noteId] = notes[noteId]?.copy(title = title)!!
-        flatten = flattenNotes()
     }
 
     fun addContentInfo(noteId: String, contentInfoItemId: String) {
@@ -46,25 +47,12 @@ class NotesHandler {
                 contentInfos.toMutableList().apply { add(EditableContentInfoItem(id = contentInfoItemId)) }
             notes[noteId] = note.copy(contentInfos = contentInfosMutable.toList())
         }
-        flatten = flattenNotes()
     }
 
-    fun getOrderedList(): List<EditableNoteItem2> = flatten.map {
+    fun getOrderedList(): List<EditableNoteItem2> = notesOrder.getAll().map { notes[it]!! }.map {
         val contents = it.contentInfos.map { content -> content.copy() }
         it.copy(contentInfos = contents.toMutableList())
     }.toMutableList()
-
-    private fun flattenNotes(): List<EditableNoteItem2> {
-        val notesFlat = mutableListOf<EditableNoteItem2>()
-        depth[1]
-            ?.getAll()
-            ?.forEach { noteId ->
-                notesFlat.add(notes[noteId]!!)
-                notesFlat.addAll(getDescendants(noteId).mapNotNull { notes[it] })
-            }
-
-        return notesFlat
-    }
 
     private fun getDescendants(noteId: String): List<String> {
         val nodesToVisit = Stack<String>().apply {

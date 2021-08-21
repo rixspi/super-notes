@@ -49,6 +49,7 @@ fun AddNoteScreen(
     NoteView(
         createNote = { viewModel.createNote() },
         addNote = { viewModel.addNoteTemp() },
+        removeNote = { viewModel.removeNote() },
         addContent = { viewModel.addContentTemp() },
         setActiveNote = { viewModel.setActiveNote(it) },
         updateTitle = { id, title -> viewModel.updateTitle(id, title) },
@@ -60,6 +61,7 @@ fun AddNoteScreen(
 private fun NoteView(
     createNote: () -> Unit,
     addNote: () -> Unit,
+    removeNote: () -> Unit,
     addContent: () -> Unit,
     setActiveNote: (String) -> Unit,
     updateTitle: (String, String) -> Unit,
@@ -91,6 +93,11 @@ private fun NoteView(
                         addContent()
                     }) {
                         Text(text = "Text")
+                    }
+                    Button(onClick = {
+                        removeNote()
+                    }) {
+                        Text(text = "DELETE")
                     }
                 }
             }
@@ -184,6 +191,7 @@ fun NoteScreenPreview() {
     NoteView(
         createNote = { },
         addNote = { },
+        removeNote = {},
         addContent = { },
         setActiveNote = {},
         updateTitle = { _, _ -> },
