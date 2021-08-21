@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -18,6 +19,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.focus.onFocusChanged
@@ -94,7 +96,7 @@ private fun NoteView(
             }
         }
     ) {
-        Column {
+        Column(Modifier.padding(it)) {
             NoteEditor(state.notes, updateCurrentFocusNote = { setActiveNote(it) }) { noteId, title ->
                 updateTitle(noteId, title)
             }
@@ -108,6 +110,11 @@ fun NoteEditor(
     updateCurrentFocusNote: (String) -> Unit,
     updateTitle: (String, String) -> Unit
 ) {
+    // TODO Scroll to the added element
+    //  probably I need to diff the notes list in the view model and send the updated index here
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         notes.forEach { note ->
             item {

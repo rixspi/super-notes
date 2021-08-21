@@ -2,6 +2,7 @@ package com.rixspi.notes.presentation.ui.addNote
 
 import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem2
+import java.util.Stack
 
 class NotesHandler {
     companion object {
@@ -61,17 +62,21 @@ class NotesHandler {
                 notesFlat.add(notes[noteId]!!)
                 notesFlat.addAll(getDescendants(noteId).mapNotNull { notes[it] })
             }
+
         return notesFlat
     }
 
     private fun getDescendants(noteId: String): List<String> {
-        val descendantsMutable = mutableListOf<String>()
-        children[noteId]
-            ?.getAll()
-            ?.forEach {
-                descendantsMutable.add(it)
-                descendantsMutable.addAll(getDescendants(it))
-            }
-        return descendantsMutable.toList()
+        val nodesToVisit = Stack<String>().apply {
+            addAll(children[noteId]?.getAll() ?: emptyList())
+        }
+
+        val descendants = mutableListOf<String>()
+        while (nodesToVisit.isNotEmpty()) {
+            val firstNode = nodesToVisit.pop()
+            nodesToVisit.addAll(children[firstNode]?.getAll() ?: emptyList())
+            descendants.add(firstNode)
+        }
+        return descendants
     }
 }
