@@ -3,8 +3,6 @@ package com.rixspi.notes.presentation.ui.addNote
 import com.airbnb.mvrx.Mavericks
 import com.rixspi.common.domain.interactors.CreateNote
 import com.rixspi.domain.util.empty
-import com.rixspi.notes.presentation.mapper.toNote
-import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.ui.MainCoroutineRule
 import io.mockk.coVerify

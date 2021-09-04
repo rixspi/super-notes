@@ -1,20 +1,20 @@
 package com.rixspi.data.mapper
 
-import com.rixspi.common.domain.model.ContentInfo
 import com.rixspi.common.domain.model.Note
-import com.rixspi.data.model.ContentInfoDto
 import com.rixspi.data.model.NoteDto
+import com.rixspi.domain.serialization.MapInput
+import com.rixspi.domain.serialization.MapOutput
+import kotlinx.serialization.InternalSerializationApi
 
+@OptIn(InternalSerializationApi::class)
 fun mapNoteDto(
-    input: NoteDto,
-    contentInfoMapper: (List<ContentInfoDto>) -> List<ContentInfo>
+    input: NoteDto
 ): Note = with(input) {
-    Note(
-        id = id,
-        backgroundColor = backgroundColor,
-        backgroundImage = backgroundImage,
-        title = title,
-        childrenNotes = childrenNotes.map { mapNoteDto(it, contentInfoMapper) },
-        contentInfos = contentInfoMapper(contentInfos)
-    )
+    // save
+    val out = MapOutput()
+    out.encodeSerializableValue(NoteDto.serializer(), input)
+    // load
+    val inp = MapInput(out.map)
+    val other = inp.decodeSerializableValue(Note.serializer())
+    return other
 }

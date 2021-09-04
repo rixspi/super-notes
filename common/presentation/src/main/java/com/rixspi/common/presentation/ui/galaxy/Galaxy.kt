@@ -13,6 +13,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -104,7 +106,7 @@ fun Galaxy(
     )
 
     Canvas(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colors.background),
         onDraw = {
             drawGalaxy(
                 planetRandomizers = planetRandomizers,

@@ -31,7 +31,7 @@ import com.rixspi.common.presentation.ui.collectAsState
 import com.rixspi.common.presentation.ui.mavericksViewModel
 import com.rixspi.common.presentation.ui.styling.shapes
 import com.rixspi.domain.util.empty
-import com.rixspi.notes.presentation.model.EditableNoteItem2
+import com.rixspi.notes.presentation.model.EditableNoteItem
 import com.rixspi.notes.presentation.ui.notesList.FabButtonView
 
 @Composable
@@ -50,7 +50,7 @@ fun AddNoteScreen(
         createNote = { viewModel.createNote() },
         addNote = { viewModel.addNoteTemp() },
         removeNote = { viewModel.removeNote() },
-        addContent = { viewModel.addContentTemp() },
+        addContent = { viewModel.addNoteTemp() },
         setActiveNote = { viewModel.setActiveNote(it) },
         updateTitle = { id, title -> viewModel.updateTitle(id, title) },
         state = state.value
@@ -65,7 +65,7 @@ private fun NoteView(
     addContent: () -> Unit,
     setActiveNote: (String) -> Unit,
     updateTitle: (String, String) -> Unit,
-    state: AddNoteViewState2
+    state: AddNoteViewState
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scaffoldState = rememberScaffoldState(snackbarHostState = snackbarHostState)
@@ -113,7 +113,7 @@ private fun NoteView(
 
 @Composable
 fun NoteEditor(
-    notes: List<EditableNoteItem2>,
+    notes: List<EditableNoteItem>,
     updateCurrentFocusNote: (String) -> Unit,
     updateTitle: (String, String) -> Unit
 ) {
@@ -125,28 +125,35 @@ fun NoteEditor(
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         notes.forEach { note ->
             item {
-                TextInput(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.secondary)
-                        .padding(start = note.depth.dp * 4)
-                        .background(MaterialTheme.colors.background),
-                    label = "Title",
-                    text = note.title,
-                    onFocusChange = {
-                        if (it) {
-                            updateCurrentFocusNote(note.id)
-                        }
-                    }) {
-                    updateTitle(note.id, it)
-                }
-            }
-            note.contentInfos.forEach { content ->
-                item {
-                    TextInput(label = "Content", text = content.text ?: String.empty, onFocusChange = {
-                        if (it) {
-                            updateCurrentFocusNote(note.id)
-                        }
-                    })
+                Column {
+                    TextInput(
+                        modifier = Modifier
+                            .background(MaterialTheme.colors.secondary)
+                            .padding(start = note.depth.dp * 4)
+                            .background(MaterialTheme.colors.background),
+                        label = "Content",
+                        text = note.text ?: String.empty,
+                        onFocusChange = {
+                            if (it) {
+                                updateCurrentFocusNote(note.id)
+                            }
+                        }) {
+                        //updateTitle(note.id, it)
+                    }
+                    TextInput(
+                        modifier = Modifier
+                            .background(MaterialTheme.colors.secondary)
+                            .padding(start = note.depth.dp * 4)
+                            .background(MaterialTheme.colors.background),
+                        label = "Title",
+                        text = note.title,
+                        onFocusChange = {
+                            if (it) {
+                                updateCurrentFocusNote(note.id)
+                            }
+                        }) {
+                        updateTitle(note.id, it)
+                    }
                 }
             }
         }
@@ -195,12 +202,12 @@ fun NoteScreenPreview() {
         addContent = { },
         setActiveNote = {},
         updateTitle = { _, _ -> },
-        state = AddNoteViewState2(
+        state = AddNoteViewState(
             notes = listOf(
-                EditableNoteItem2(depth = 0),
-                EditableNoteItem2(depth = 1),
-                EditableNoteItem2(depth = 2),
-                EditableNoteItem2(depth = 3),
+                EditableNoteItem(depth = 0),
+                EditableNoteItem(depth = 1),
+                EditableNoteItem(depth = 2),
+                EditableNoteItem(depth = 3),
             ),
             activeNote = "1"
         )

@@ -1,17 +1,16 @@
 package com.rixspi.notes.presentation.ui.addNote
 
 import com.rixspi.notes.presentation.model.EditableNoteItem
-import com.rixspi.notes.presentation.model.EditableNoteItem2
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 class AddNoteViewStateTest2 {
-    private lateinit var addNoteViewState: AddNoteViewState2
+    private lateinit var addNoteViewState: AddNoteViewState
 
     @Before
     fun setup() {
-        addNoteViewState = AddNoteViewState2()
+        addNoteViewState = AddNoteViewState()
     }
 
     @Test
@@ -23,8 +22,8 @@ class AddNoteViewStateTest2 {
 
     @Test
     fun `setTitle sets the title on the specified note`() {
-        val childNote1 = EditableNoteItem2()
-        val childNote2 = EditableNoteItem2()
+        val childNote1 = EditableNoteItem()
+        val childNote2 = EditableNoteItem()
     }
 
     @Test

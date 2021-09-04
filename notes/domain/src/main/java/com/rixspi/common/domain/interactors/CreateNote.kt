@@ -13,9 +13,11 @@ class CreateNote(
 ) : SuspendUseCase<CreateNote.Params, String>(
     coroutineDispatcher
 ) {
-    data class Params(val note: Note)
+    data class Params(val notes: List<Note>)
 
     override suspend fun run(parameters: Params): Result<String> {
-        return noteReader.createNote(parameters.note)
+        val descendants = parameters.notes.subList(1, parameters.notes.size)
+        val note = parameters.notes.first().copy(childrenNotes = descendants)
+        return noteReader.createNote(note)
     }
 }

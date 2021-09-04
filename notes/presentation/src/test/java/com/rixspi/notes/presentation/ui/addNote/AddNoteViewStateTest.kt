@@ -1,6 +1,5 @@
 package com.rixspi.notes.presentation.ui.addNote
 
-import com.rixspi.notes.presentation.model.EditableContentInfoItem
 import com.rixspi.notes.presentation.model.EditableNoteItem
 import java.util.UUID
 import org.junit.Assert.assertEquals

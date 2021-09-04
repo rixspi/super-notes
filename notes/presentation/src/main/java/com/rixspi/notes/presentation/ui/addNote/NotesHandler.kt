@@ -1,7 +1,6 @@
 package com.rixspi.notes.presentation.ui.addNote
 
-import com.rixspi.notes.presentation.model.EditableContentInfoItem
-import com.rixspi.notes.presentation.model.EditableNoteItem2
+import com.rixspi.notes.presentation.model.EditableNoteItem
 import java.util.Stack
 
 class NotesHandler {
@@ -9,13 +8,13 @@ class NotesHandler {
         private const val ROOT = "ROOT"
     }
 
-    private val notes: MutableMap<String, EditableNoteItem2> = mutableMapOf()
+    private val notes: MutableMap<String, EditableNoteItem> = mutableMapOf()
     private val children: MutableMap<String, LinkedList> = mutableMapOf()
     // TODO Move contentInfos from notesList and store them in one hash map, then the notesOrder can become one place
     //  to store ordering, it will make removing contentINfos easier as right now it has to be implemented differently
     private val notesOrder = LinkedList()
 
-    fun appendNote(note: EditableNoteItem2) {
+    fun appendNote(note: EditableNoteItem) {
         val parent = notes[note.parentId]
         val depthNew = (parent?.depth ?: -1) + 1
         notes[note.id] = note.copy(depth = depthNew)
@@ -39,20 +38,7 @@ class NotesHandler {
         notes[noteId] = notes[noteId]?.copy(title = title)!!
     }
 
-    fun addContentInfo(noteId: String, contentInfoItemId: String) {
-        val note = notes[noteId] ?: return
-        val contentInfos = note.contentInfos
-        if (contentInfos.firstOrNull { it.id == contentInfoItemId } == null) {
-            val contentInfosMutable =
-                contentInfos.toMutableList().apply { add(EditableContentInfoItem(id = contentInfoItemId)) }
-            notes[noteId] = note.copy(contentInfos = contentInfosMutable.toList())
-        }
-    }
-
-    fun getOrderedList(): List<EditableNoteItem2> = notesOrder.getAll().map { notes[it]!! }.map {
-        val contents = it.contentInfos.map { content -> content.copy() }
-        it.copy(contentInfos = contents.toMutableList())
-    }.toMutableList()
+    fun getOrderedList(): List<EditableNoteItem> = notesOrder.getAll().map { notes[it]!! }.toMutableList()
 
     private fun getDescendants(noteId: String): List<String> {
         val nodesToVisit = Stack<String>().apply {

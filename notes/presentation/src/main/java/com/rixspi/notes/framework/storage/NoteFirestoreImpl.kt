@@ -23,7 +23,7 @@ class NoteFirestoreImpl(
     override fun getNotes(): Flow<Result<List<NoteDto>>> = callbackFlow {
         val subscription = notes.addSnapshotListener { value, e ->
             e?.let {
-                offer(Result.Failure(it.toError()))
+                trySend(Result.Failure(it.toError())).isSuccess
                 Log.e("Firebase error", it.localizedMessage ?: String.empty)
                 return@addSnapshotListener
             }
@@ -31,9 +31,9 @@ class NoteFirestoreImpl(
                 val notes = value.documents.mapNotNull {
                     it.toObject(NoteDto::class.java)?.copy(id = it.id)
                 }
-                offer(Result.Success(notes))
+                trySend(Result.Success(notes))
             } else {
-                offer(Result.Success(emptyList<NoteDto>()))
+                trySend(Result.Success(emptyList<NoteDto>()))
             }
         }
         awaitClose { subscription.remove() }

@@ -5,9 +5,10 @@ import com.rixspi.notes.presentation.model.EditableNoteItem
 
 fun EditableNoteItem.toNote(): Note = Note(
     id = id,
+    parentId = parentId,
+    depth = depth,
     backgroundColor = backgroundColor,
     backgroundImage = backgroundImage,
     title = title,
-    childrenNotes = childrenNotes.map { it.toNote() },
-    contentInfos = contentInfos.map { it.toContentInfo() }
+    childrenNotes = emptyList(),
 )

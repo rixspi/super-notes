@@ -1,12 +1,12 @@
 package com.rixspi.notes.presentation.ui.addNote
 
-import com.rixspi.notes.presentation.model.EditableNoteItem2
+import com.rixspi.notes.presentation.model.EditableNoteItem
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class NotesHandlerTest {
 
-    private var notes: List<EditableNoteItem2> = emptyList()
+    private var notes: List<EditableNoteItem> = emptyList()
     private val notesHandler = NotesHandler {
         notes = it
     }
@@ -14,7 +14,7 @@ class NotesHandlerTest {
     @Test
     fun `appendNote should add note at the last position`() {
         val parentId = "parent"
-        val note = EditableNoteItem2(parentId = parentId)
+        val note = EditableNoteItem(parentId = parentId)
 
         notesHandler.appendNote(note)
 
@@ -26,9 +26,9 @@ class NotesHandlerTest {
     @Test
     fun `appendNote should set proper positions`() {
         val parentId = "parent"
-        val note = EditableNoteItem2(parentId = parentId)
-        val note2 = EditableNoteItem2(parentId = parentId)
-        val note3 = EditableNoteItem2(parentId = parentId)
+        val note = EditableNoteItem(parentId = parentId)
+        val note2 = EditableNoteItem(parentId = parentId)
+        val note3 = EditableNoteItem(parentId = parentId)
 
         notesHandler.appendNote(note)
         notesHandler.appendNote(note2)
