@@ -15,13 +15,13 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.5'  // Google Services plugin
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.37'
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.16.0"
+    id "io.gitlab.arturbosch.detekt" version "1.18.1"
 }
 
 repositories {
@@ -75,7 +75,7 @@ tasks.register("detektAll", io.gitlab.arturbosch.detekt.Detekt) {
 }
 
 dependencies {
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.18.1"
 }
 apply from: file('unit-tests-kotlin-modules.gradle')
 
